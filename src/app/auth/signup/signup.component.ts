@@ -12,6 +12,6 @@ export class SignupComponent {
 
   onSubmit(form: NgForm) {
     console.log(form.value);
-    this.asc.login();
+    // this.asc.login();
   }
 }

@@ -1,4 +1,7 @@
-<div class="login-container">
+<div style="text-align: center">
+  <img src="assets/images/spinner.gif" alt="spinner" *ngIf="isLoading" />
+</div>
+<div class="login-container" *ngIf="!isLoading">
   <h2>تسجيل الدخول</h2>
   <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
     <input
@@ -21,6 +24,10 @@
     />
     <p class="error" *ngIf="authForm.invalid && authForm.touched">
       الرجاء إدخال بيانات صحيحة
+    </p>
+
+    <p class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
     </p>
     <a routerLink="/forget-password"> نسيت كلمة المرور؟ </a>
     <button type="submit" [disabled]="!authForm.valid">الاستمرار</button>

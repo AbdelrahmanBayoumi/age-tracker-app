@@ -58,15 +58,17 @@ main form {
 
 a {
   text-decoration: none;
-  color: #3f51b5;
+  color: #000;
 }
 
 .has-acc {
   font-weight: bold;
+  color: #3f51b5;
   font-size: 1.1rem;
 }
 
 .new-acc {
+  color: #3f51b5;
   font-weight: bold;
   font-size: 1.1rem;
 }

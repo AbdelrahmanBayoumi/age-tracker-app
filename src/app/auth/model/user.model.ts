@@ -1,23 +1,15 @@
 export type Tokens = {
-  accessToken: string;
-  refreshToken: string;
+  access_token: string;
+  refresh_token: string;
 };
 
 export class User {
   constructor(
-    public id: string,
+    public id: number,
     public email: string,
-    public name: string,
-    public brithday: string,
+    public fullName: string,
+    public birthday: string,
     public isVerified: boolean,
-    private _token: Tokens,
-    private _tokenExpirationDate: Date
+    public tokens: Tokens
   ) {}
-
-  get token() {
-    if (!this._tokenExpirationDate || new Date() > this._tokenExpirationDate) {
-      return null;
-    }
-    return this._token;
-  }
 }

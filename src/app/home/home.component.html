@@ -10,5 +10,10 @@
 
 <div style="text-align: center" *ngIf="isLoggedIn">
   <br />
-  <a (click)="logout()">Logout</a>
+  <p>
+    {{ userData }}
+  </p>
+  <p>isLoggedIn: {{ isLoggedIn }}</p>
+  <br />
+  <a (click)="logout()" style="cursor: pointer; color: blue;">Logout</a>
 </div>

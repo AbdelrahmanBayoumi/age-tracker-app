@@ -12,6 +12,6 @@ export class LoginComponent {
   constructor() {}
 
   onSubmit(form: NgForm) {
-    console.log('Login');
+    console.log(form.value);
   }
 }

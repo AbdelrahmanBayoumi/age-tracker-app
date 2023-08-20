@@ -40,7 +40,8 @@ form {
 
 form input[type="text"],
 form input[type="password"],
-form input[type="email"] {
+form input[type="email"],
+form input[type="date"] {
   min-width: 240px;
   width: 300px;
   width: 100%;
@@ -70,5 +71,15 @@ form button {
 }
 
 form button:hover {
-  background-color: var(--dark-primary);
+  background-color: #455f88;
+}
+
+form button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+form .error {
+  color: red;
+  font-size: 0.9rem;
 }

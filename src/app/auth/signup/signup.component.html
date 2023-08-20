@@ -1,1 +1,52 @@
-<p>signup works!</p>
+<header>
+  <img src="assets/images/Notification_Bell_Calendar.svg" alt="logo" />
+  <h1>{{ appName }}</h1>
+</header>
+<div class="main-container">
+  <main>
+    <h2>سجل الآن</h2>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+      <input
+        type="text"
+        name="fullName"
+        id="fullName"
+        placeholder="Name"
+        ngModel
+        required
+      />
+      <input
+        type="date"
+        name="birthdate"
+        id="birthdate"
+        placeholder="Birth Date"
+        ngModel
+        required
+      />
+      <input
+        type="text"
+        name="email"
+        id="email"
+        placeholder="Email"
+        ngModel
+        required
+        email
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        ngModel
+        required
+        minlength="6"
+      />
+      <p class="error" *ngIf="authForm.invalid && authForm.touched" dir="auto">
+        الرجاء إدخال بيانات صحيحة
+      </p>
+      <a routerLink="/forget-password"> نسيت كلمة المرور؟ </a>
+      <button type="submit" [disabled]="!authForm.valid">الاستمرار</button>
+    </form>
+
+    <p>مُسجل بالفعل؟ <a routerLink="/login" class="has-acc">تسجيل الدخول</a></p>
+  </main>
+</div>

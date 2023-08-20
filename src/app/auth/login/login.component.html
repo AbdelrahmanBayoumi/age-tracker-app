@@ -24,10 +24,13 @@
         required
         minlength="6"
       />
-      <span> نسيت كلمة المرور؟ </span>
-      <button type="submit">الاستمرار</button>
+      <p class="error" *ngIf="authForm.invalid && authForm.touched">
+        الرجاء إدخال بيانات صحيحة
+      </p>
+      <a routerLink="/forget-password"> نسيت كلمة المرور؟ </a>
+      <button type="submit" [disabled]="!authForm.valid">الاستمرار</button>
     </form>
 
-    <p>مستخدم جديد؟ <a routerLink="/signup">سجل الآن</a></p>
+    <p>مستخدم جديد؟ <a routerLink="/signup" class="new-acc">إنشاء حساب</a></p>
   </main>
 </div>

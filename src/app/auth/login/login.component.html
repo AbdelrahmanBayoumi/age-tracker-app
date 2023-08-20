@@ -1,0 +1,33 @@
+<header>
+  <img src="assets/images/Notification_Bell_Calendar.svg" alt="logo" />
+  <h1>{{ appName }}</h1>
+</header>
+<div class="main-container">
+  <main>
+    <h2>تسجيل الدخول</h2>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+      <input
+        type="text"
+        name="email"
+        id="email"
+        placeholder="Email"
+        ngModel
+        required
+        email
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Password"
+        ngModel
+        required
+        minlength="6"
+      />
+      <span> نسيت كلمة المرور؟ </span>
+      <button type="submit">الاستمرار</button>
+    </form>
+
+    <p>مستخدم جديد؟ <a routerLink="/signup">سجل الآن</a></p>
+  </main>
+</div>

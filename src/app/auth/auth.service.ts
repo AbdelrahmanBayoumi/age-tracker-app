@@ -1,15 +1,22 @@
+import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  isLoggedIn = true;
+  isLoading = false;
+  isLoggedIn = false;
 
-  constructor() {}
+  constructor(private route: Router) {}
 
   login() {
-    this.isLoggedIn = true;
+    this.isLoading = true;
+    setTimeout(() => {
+      this.isLoading = false;
+      this.isLoggedIn = true;
+      this.route.navigate(['/home']);
+    }, 0);
   }
 
   logout() {

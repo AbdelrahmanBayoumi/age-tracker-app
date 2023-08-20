@@ -1,9 +1,14 @@
 <h1 style="background-color: black; color: white">Home</h1>
 
-<div style="text-align: center">
+<div style="text-align: center" *ngIf="!isLoggedIn">
   <br />
   <a routerLink="/auth/login">Login</a>
   <br />
   <br />
   <a routerLink="/auth/signup">Signup</a>
+</div>
+
+<div style="text-align: center" *ngIf="isLoggedIn">
+  <br />
+  <a (click)="logout()">Logout</a>
 </div>

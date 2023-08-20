@@ -8,9 +8,10 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['../auth.component.css', './signup.component.css'],
 })
 export class SignupComponent {
-  constructor() {}
+  constructor(private asc: AuthService) {}
 
   onSubmit(form: NgForm) {
     console.log(form.value);
+    this.asc.login();
   }
 }

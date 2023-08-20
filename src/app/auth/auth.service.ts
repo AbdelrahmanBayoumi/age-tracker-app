@@ -16,7 +16,7 @@ export class AuthService {
       this.isLoading = false;
       this.isLoggedIn = true;
       this.route.navigate(['/home']);
-    }, 0);
+    }, 2000);
   }
 
   logout() {

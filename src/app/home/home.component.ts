@@ -1,4 +1,3 @@
-import { logout } from './../auth/store/auth.actions';
 import { Component } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 

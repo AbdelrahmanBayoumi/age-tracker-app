@@ -1,4 +1,7 @@
-<div class="signup-container">
+<div style="text-align: center">
+  <img src="assets/images/spinner.gif" alt="spinner" *ngIf="isLoading" />
+</div>
+<div class="signup-container" *ngIf="!isLoading">
   <h2>سجل الآن</h2>
   <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
     <input
@@ -37,6 +40,9 @@
     />
     <p class="error" *ngIf="authForm.invalid && authForm.touched" dir="auto">
       الرجاء إدخال بيانات صحيحة
+    </p>
+    <p class="error" *ngIf="errorMessage">
+      {{ errorMessage }}
     </p>
     <button type="submit" [disabled]="!authForm.valid">الاستمرار</button>
   </form>

@@ -4,5 +4,5 @@
 
 export const environment = {
   production: false,
-  firebaseAPIKey: "AIzaSyCX6Y9J_z7qMbQzGjNXAs1Io8SoZO1WgPk",
+  apiUrl: 'https://birthday-database.azurewebsites.net',
 };

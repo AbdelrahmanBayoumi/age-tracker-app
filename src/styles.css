@@ -92,3 +92,33 @@ form .error {
   transition: all 0.3s ease-in-out;
 }
 
+/* ---- scrollbar ---- */
+body {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: #888888 #f2f2f2; /* For Firefox */
+}
+
+/* Customize the scrollbar track */
+body::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+}
+
+body::-webkit-scrollbar-track {
+  background: #f2f2f2; /* Track background color */
+}
+
+/* Customize the scrollbar thumb (the draggable part) */
+body::-webkit-scrollbar-thumb {
+  background: #888888; /* Thumb color */
+  border-radius: 5px; /* Rounded corners */
+}
+
+/* On hover, style the thumb */
+body::-webkit-scrollbar-thumb:hover {
+  background: #555555; /* Thumb color on hover */
+}
+
+/* If you want to customize the scrollbar buttons (arrows) */
+body::-webkit-scrollbar-button {
+  display: none; /* Hide scrollbar buttons */
+}

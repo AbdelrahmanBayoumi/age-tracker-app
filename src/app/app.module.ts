@@ -11,13 +11,19 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { HorizontalScrollDirective } from './horizontal-scroll.directive';
 import { RelationshipToggleComponent } from './home/relationshop-toggle/relationshop-toggle.component';
+import { BirthdayListCompnent } from './home/birthday-list/birthday-list.component';
+import { BirthdayItemCompnent } from './home/birthday-list/birthday-item/birthday-item.component';
+import { DateFormatPipe } from './date-format.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
     HorizontalScrollDirective,
     RelationshipToggleComponent,
+    BirthdayListCompnent,
+    BirthdayItemCompnent,
     HomeComponent,
+    DateFormatPipe,
   ],
   imports: [
     BrowserModule,

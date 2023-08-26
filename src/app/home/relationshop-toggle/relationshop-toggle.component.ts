@@ -17,10 +17,10 @@ export class RelationshipToggleComponent implements OnInit, OnDestroy {
   selectedRelation: string = '-1';
   relationships: Set<string> = new Set<string>();
 
-  constructor(private birhtdayService: BirthdayService) {}
+  constructor(private birthdayService: BirthdayService) {}
 
   ngOnInit(): void {
-    this.relationships = this.birhtdayService.getRelationships();
+    this.relationships = this.birthdayService.getRelationships();
   }
 
   ngOnDestroy(): void {}

@@ -1,0 +1,23 @@
+<div class="birthday-group">
+  <h2>{{ birthdays.month | dateFormat }}</h2>
+  <div class="birthday-item" *ngFor="let birthday of birthdays.birthdays">
+    <div class="birthday-item__image-container">
+      <img
+        class="birthday-item__image"
+        src="https://picsum.photos/200/300"
+        alt="Birthday person"
+      />
+    </div>
+    <div class="birthday-item__info">
+      <h3 class="birthday-item__name" dir="auto">{{ "عبدالرحمن بيومي" }}</h3>
+      <div class="birthday-item__age" dir="auto">
+        {{ "25/08 - 28 سنة" }}
+      </div>
+    </div>
+    <div class="days-remaining" dir="auto">
+      <p>36</p>
+      <p>يوماً</p>
+    </div>
+  </div>
+</div>
+<hr />

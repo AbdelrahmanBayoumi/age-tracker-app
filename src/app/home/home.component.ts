@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
-import { Subscription, map, take } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  appName = 'متتبع الأعمار';
   private userSub: Subscription | null = null;
   userData: string = '';
   isLoggedIn = false;
@@ -24,6 +25,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.isLoggedIn = !!user;
       }
     });
+    // TODO: handle if the account is unverified
   }
 
   ngOnDestroy(): void {
@@ -34,5 +36,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/auth']);
     });
+  }
+
+  onChooseRelation() {
+    console.log('onChooseRelation');
   }
 }

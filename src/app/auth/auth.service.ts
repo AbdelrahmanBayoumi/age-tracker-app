@@ -1,5 +1,4 @@
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import {
   BehaviorSubject,
@@ -7,7 +6,6 @@ import {
   Subject,
   catchError,
   map,
-  of,
   switchMap,
   tap,
   throwError,

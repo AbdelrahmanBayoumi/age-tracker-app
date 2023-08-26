@@ -1,0 +1,96 @@
+header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--dark-hover);
+  padding: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+}
+
+header h1 {
+  color: white;
+  font-size: 1.5rem;
+}
+
+footer {
+  border-radius: 20px 20px 0px 0px;
+  background: #fff;
+  box-shadow: 0px 0px 7px 3px rgba(0, 0, 0, 0.25);
+  padding: 0px 20px;
+
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
+
+  /* fix the postition to the bottom */
+  margin-top: 30px;
+  position: sticky;
+  bottom: 0;
+}
+
+footer button:not(.add-event-btn) {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  padding: 0px 10px;
+  cursor: pointer;
+  height: 40px;
+}
+
+footer button img {
+  width: 100%;
+}
+
+.add-event-btn {
+  position: relative;
+  top: -20px;
+  background: var(--dark-primary, #33485d);
+  border-radius: 50%;
+  width: 73px;
+  height: 73px;
+  padding: 3px;
+  cursor: pointer;
+  padding: 10px;
+  border: white 3px solid;
+}
+
+.relationship-box {
+  display: flex;
+  /* justify-content: center; */
+  overflow-x: auto;
+  white-space: nowrap;
+
+  gap: 15px;
+  padding: 15px;
+
+  /* Hide the scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.relationship-box::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar in Chrome and Safari */
+}
+
+.relation-btn {
+  background-color: transparent;
+  border: gray 1px solid;
+  border-radius: 20px;
+  font-size: 20px;
+  color: gray;
+  cursor: pointer;
+  min-width: 120px;
+  /* disable select text */
+  user-select: none;
+}
+
+.relation-btn-selected {
+  background-color: var(--light-blue);
+  border: var(--light-blue) 1px solid;
+  color: white;
+}

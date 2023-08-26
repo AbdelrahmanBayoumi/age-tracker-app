@@ -9,9 +9,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { HomeComponent } from './home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
+import { HorizontalScrollDirective } from './horizontal-scroll.directive';
 
 @NgModule({
-  declarations: [AppComponent, HomeComponent],
+  declarations: [AppComponent, HorizontalScrollDirective, HomeComponent],
   imports: [
     BrowserModule,
     FormsModule,

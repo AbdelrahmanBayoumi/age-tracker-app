@@ -8,6 +8,15 @@
   text-align: center;
 }
 
+/* draw a line after the content as hr but not the last one */
+.birthday-group::after {
+  content: "";
+  display: block;
+  height: 1px;
+  background-color: #ccc;
+  margin-top: 5px;
+}
+
 .birthday-item {
   padding: 10px;
   background-color: #fff;

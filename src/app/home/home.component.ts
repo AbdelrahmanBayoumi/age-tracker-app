@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { BirthdayService } from '../birthday/birthday.service';
 
 @Component({
   selector: 'app-home',

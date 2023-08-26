@@ -24,7 +24,7 @@
   color: gray;
   cursor: pointer;
   min-width: 120px;
-  /* disable select text */
+  padding: 2px;
   user-select: none;
 }
 

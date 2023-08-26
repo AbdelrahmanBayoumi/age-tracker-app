@@ -8,7 +8,7 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
   styleUrls: ['./birthday-item.component.css'],
 })
 export class BirthdayItemCompnent implements OnInit, OnDestroy {
-  @Input() birthdays: { month: string; birthdays: Birthday[] } = {
+  @Input() birthdaysGroup: { month: string; birthdays: Birthday[] } = {
     month: '',
     birthdays: [],
   };
@@ -16,8 +16,8 @@ export class BirthdayItemCompnent implements OnInit, OnDestroy {
   constructor(private birthdayService: BirthdayService) {}
 
   ngOnInit(): void {
-    console.log('this.birthday', this.birthdays);
-    this.birthdays.birthdays
+    console.log('this.birthday', this.birthdaysGroup);
+    this.birthdaysGroup.birthdays
   }
 
   ngOnDestroy(): void {}

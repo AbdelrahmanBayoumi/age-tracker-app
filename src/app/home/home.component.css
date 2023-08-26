@@ -27,10 +27,9 @@ footer {
   justify-content: space-between;
   align-items: center;
 
-  /* fix the postition to the bottom */
-  margin-top: 30px;
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  width: 100%;
 }
 
 footer button:not(.add-event-btn) {
@@ -57,6 +56,10 @@ footer button img {
   cursor: pointer;
   padding: 10px;
   border: white 3px solid;
+}
+
+main{
+  padding-bottom: 100px;
 }
 
 .relationship-box {

@@ -6,99 +6,106 @@
     <img src="/assets/images/search.svg" alt="search icon" />
   </button>
 </header>
+<main>
+  <div style="text-align: center" *ngIf="!isLoggedIn">
+    <br />
+    <a routerLink="/auth/login">Login</a>
+    <br />
+    <br />
+    <a routerLink="/auth/signup">Signup</a>
+  </div>
 
-<div style="text-align: center" *ngIf="!isLoggedIn">
-  <br />
-  <a routerLink="/auth/login">Login</a>
-  <br />
-  <br />
-  <a routerLink="/auth/signup">Signup</a>
-</div>
+  <div style="text-align: center" *ngIf="isLoggedIn">
+    <br />
+    <p>
+      {{ userData }}
+    </p>
+    <p>isLoggedIn: {{ isLoggedIn }}</p>
+    <br />
+    <a (click)="logout()" style="cursor: pointer; color: blue">Logout</a>
+  </div>
 
-<div style="text-align: center" *ngIf="isLoggedIn">
-  <br />
+  <div class="relationship-box" appHorizontalScroll>
+    <button
+      class="relation-btn relation-btn-selected"
+      (click)="onChooseRelation()"
+    >
+      الكل
+    </button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
+    <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
+  </div>
+
+  <!-- create section that has 10 boxs bellow each others -->
   <p>
-    {{ userData }}
+    Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis
+    adipisci esse praesentium veniam? Aliquid pariatur maiores provident.
+    Eveniet, tempore provident distinctio rem earum molestias assumenda, amet
+    ipsa non at odit. Maiores facilis blanditiis repudiandae cum! Facere nihil
+    aperiam temporibus aliquid voluptatem ipsum dolor sequi unde asperiores fuga
+    itaque magni, tempore voluptate necessitatibus nesciunt esse tenetur dolores
+    cumque. Quam atque unde dicta facere facilis ex totam ab, laudantium quia
+    quidem ipsa perspiciatis autem aliquam doloremque. Quis facere libero
+    beatae, ex magnam harum accusantium debitis officiis, eaque nostrum quidem
+    accusamus odio perferendis ut, porro eveniet atque itaque nulla vel quisquam
+    excepturi iste inventore! Deserunt, sunt dolore quasi iure quia distinctio
+    sapiente maxime, similique quibusdam rem eligendi minima doloribus dolorem
+    quo blanditiis magnam sit, saepe in sequi ad nulla. Aliquid quisquam, ea
+    totam laborum minima explicabo consectetur non? Deserunt distinctio aut
+    incidunt eos blanditiis veritatis. Corporis officia iure pariatur facere
+    magni incidunt error autem, dignissimos sit. Perspiciatis quos alias ex
+    quaerat, tempore libero molestiae numquam quas rerum ipsum ipsa hic
+    reprehenderit vero earum totam quidem accusantium repudiandae inventore
+    architecto temporibus. Esse, aut possimus aspernatur fugit tenetur magni
+    sunt in ea aliquid cum commodi. Omnis nobis amet dolorem obcaecati eligendi
+    praesentium quas ea quidem. Ut aliquid quas aspernatur rerum facilis odit
+    blanditiis saepe quam eius ratione ad, sed hic deleniti ipsa aperiam porro,
+    nulla placeat iusto voluptates recusandae dolores fuga voluptatibus, quidem
+    sint? Necessitatibus consectetur assumenda fugit dicta ducimus amet aut sed,
+    nisi vel voluptatibus ipsa suscipit voluptatem voluptas repellendus dolorem
+    reiciendis? Tenetur, provident eius. Facilis amet facere unde eligendi
+    accusamus sed in? Minus necessitatibus laudantium officia natus nihil facere
+    aliquid, omnis itaque beatae quas optio illo aliquam dignissimos in
+    blanditiis similique, magnam libero ipsum harum, laboriosam repellendus
+    rerum dolorum quis? Velit magni, nostrum consequatur earum totam laborum
+    impedit quod. Atque nobis repellendus tempore reiciendis provident id
+    reprehenderit vel, illo dolor corporis aspernatur, nisi esse? Incidunt eius
+    iure velit labore error nam suscipit est. Rem id vero non corrupti possimus
+    consectetur quaerat modi veritatis culpa et, eos beatae sapiente hic ab
+    dolorum necessitatibus odit totam fuga quibusdam tempora sit aspernatur a
+    error explicabo. Quidem, repudiandae rem praesentium mollitia facere
+    reprehenderit est necessitatibus, dicta velit nesciunt minima. Temporibus
+    quas quos saepe itaque consequuntur vitae laboriosam. Ipsum doloribus
+    repellendus asperiores, harum sed placeat, et modi odit eveniet molestias
+    beatae, debitis repudiandae laborum excepturi fugit! Assumenda dolorum
+    eligendi optio, delectus quis sunt! Delectus provident vero ipsa sit totam
+    ea quasi laboriosam optio dignissimos facilis magni eligendi aperiam
+    corporis officia animi, eius in doloribus ipsam aut molestiae, doloremque
+    quos! Fugiat nemo quidem molestiae ab eos voluptate porro voluptates ratione
+    corrupti consequatur quam, velit in reprehenderit nobis itaque minus
+    veritatis quas quae nesciunt! Aut aliquam exercitationem totam quas eligendi
+    velit officia quisquam non necessitatibus perferendis, temporibus quaerat
+    cupiditate minima repudiandae eaque, ex, voluptatem rem. Perspiciatis iusto
+    eius laudantium! Quam sequi ex autem! Ratione sunt tempora autem excepturi,
+    voluptates eaque porro qui commodi illo expedita nesciunt, cumque quia
+    deleniti eius, esse atque harum dolorem ducimus voluptate earum. Quia, omnis
+    temporibus.
   </p>
-  <p>isLoggedIn: {{ isLoggedIn }}</p>
-  <br />
-  <a (click)="logout()" style="cursor: pointer; color: blue">Logout</a>
-</div>
-
-<div class="relationship-box" appHorizontalScroll>
-  <button class="relation-btn relation-btn-selected" (click)="onChooseRelation()">الكل</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأصدقاء</button>
-  <button class="relation-btn" (click)="onChooseRelation()">الأسرة</button>
-
-</div>
-
-<!-- create section that has 10 boxs bellow each others -->
-<p>
-  Lorem ipsum dolor sit amet consectetur, adipisicing elit. Blanditiis adipisci
-  esse praesentium veniam? Aliquid pariatur maiores provident. Eveniet, tempore
-  provident distinctio rem earum molestias assumenda, amet ipsa non at odit.
-  Maiores facilis blanditiis repudiandae cum! Facere nihil aperiam temporibus
-  aliquid voluptatem ipsum dolor sequi unde asperiores fuga itaque magni,
-  tempore voluptate necessitatibus nesciunt esse tenetur dolores cumque. Quam
-  atque unde dicta facere facilis ex totam ab, laudantium quia quidem ipsa
-  perspiciatis autem aliquam doloremque. Quis facere libero beatae, ex magnam
-  harum accusantium debitis officiis, eaque nostrum quidem accusamus odio
-  perferendis ut, porro eveniet atque itaque nulla vel quisquam excepturi iste
-  inventore! Deserunt, sunt dolore quasi iure quia distinctio sapiente maxime,
-  similique quibusdam rem eligendi minima doloribus dolorem quo blanditiis
-  magnam sit, saepe in sequi ad nulla. Aliquid quisquam, ea totam laborum minima
-  explicabo consectetur non? Deserunt distinctio aut incidunt eos blanditiis
-  veritatis. Corporis officia iure pariatur facere magni incidunt error autem,
-  dignissimos sit. Perspiciatis quos alias ex quaerat, tempore libero molestiae
-  numquam quas rerum ipsum ipsa hic reprehenderit vero earum totam quidem
-  accusantium repudiandae inventore architecto temporibus. Esse, aut possimus
-  aspernatur fugit tenetur magni sunt in ea aliquid cum commodi. Omnis nobis
-  amet dolorem obcaecati eligendi praesentium quas ea quidem. Ut aliquid quas
-  aspernatur rerum facilis odit blanditiis saepe quam eius ratione ad, sed hic
-  deleniti ipsa aperiam porro, nulla placeat iusto voluptates recusandae dolores
-  fuga voluptatibus, quidem sint? Necessitatibus consectetur assumenda fugit
-  dicta ducimus amet aut sed, nisi vel voluptatibus ipsa suscipit voluptatem
-  voluptas repellendus dolorem reiciendis? Tenetur, provident eius. Facilis amet
-  facere unde eligendi accusamus sed in? Minus necessitatibus laudantium officia
-  natus nihil facere aliquid, omnis itaque beatae quas optio illo aliquam
-  dignissimos in blanditiis similique, magnam libero ipsum harum, laboriosam
-  repellendus rerum dolorum quis? Velit magni, nostrum consequatur earum totam
-  laborum impedit quod. Atque nobis repellendus tempore reiciendis provident id
-  reprehenderit vel, illo dolor corporis aspernatur, nisi esse? Incidunt eius
-  iure velit labore error nam suscipit est. Rem id vero non corrupti possimus
-  consectetur quaerat modi veritatis culpa et, eos beatae sapiente hic ab
-  dolorum necessitatibus odit totam fuga quibusdam tempora sit aspernatur a
-  error explicabo. Quidem, repudiandae rem praesentium mollitia facere
-  reprehenderit est necessitatibus, dicta velit nesciunt minima. Temporibus quas
-  quos saepe itaque consequuntur vitae laboriosam. Ipsum doloribus repellendus
-  asperiores, harum sed placeat, et modi odit eveniet molestias beatae, debitis
-  repudiandae laborum excepturi fugit! Assumenda dolorum eligendi optio,
-  delectus quis sunt! Delectus provident vero ipsa sit totam ea quasi laboriosam
-  optio dignissimos facilis magni eligendi aperiam corporis officia animi, eius
-  in doloribus ipsam aut molestiae, doloremque quos! Fugiat nemo quidem
-  molestiae ab eos voluptate porro voluptates ratione corrupti consequatur quam,
-  velit in reprehenderit nobis itaque minus veritatis quas quae nesciunt! Aut
-  aliquam exercitationem totam quas eligendi velit officia quisquam non
-  necessitatibus perferendis, temporibus quaerat cupiditate minima repudiandae
-  eaque, ex, voluptatem rem. Perspiciatis iusto eius laudantium! Quam sequi ex
-  autem! Ratione sunt tempora autem excepturi, voluptates eaque porro qui
-  commodi illo expedita nesciunt, cumque quia deleniti eius, esse atque harum
-  dolorem ducimus voluptate earum. Quia, omnis temporibus.
-</p>
+</main>
 
 <footer>
   <button>

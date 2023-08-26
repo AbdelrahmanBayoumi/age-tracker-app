@@ -4,5 +4,5 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://birthday-database.azurewebsites.net',
+  apiUrl: 'http://localhost:3333',
 };

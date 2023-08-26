@@ -1,0 +1,17 @@
+<div class="relationship-box" appHorizontalScroll #dd>
+  <button
+    class="relation-btn relation-btn-all"
+    [class.relation-btn-selected]="selectedRelation === '-1'"
+    (click)="onChooseRelation('-1', -1)"
+  >
+    All
+  </button>
+  <button
+    class="relation-btn"
+    (click)="onChooseRelation(relationship, i)"
+    *ngFor="let relationship of relationships; let i = index"
+    [class.relation-btn-selected]="selectedRelation === relationship"
+  >
+    {{ relationship }}
+  </button>
+</div>

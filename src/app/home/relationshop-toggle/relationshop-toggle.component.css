@@ -1,0 +1,41 @@
+.relationship-box {
+  display: flex;
+  /* justify-content: center; */
+  overflow-x: auto;
+  white-space: nowrap;
+
+  gap: 15px;
+  padding: 15px;
+
+  /* Hide the scrollbar */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+
+.relationship-box::-webkit-scrollbar {
+  display: none; /* Hide the scrollbar in Chrome and Safari */
+}
+
+.relation-btn {
+  background-color: transparent;
+  border: gray 1px solid;
+  border-radius: 20px;
+  font-size: 20px;
+  color: gray;
+  cursor: pointer;
+  min-width: 120px;
+  /* disable select text */
+  user-select: none;
+}
+
+.relation-btn-all {
+  border-color: var(--light-blue);
+  color: var(--light-blue);
+  font-weight: bold;
+}
+
+.relation-btn-selected {
+  background-color: var(--light-blue);
+  border: var(--light-blue) 1px solid;
+  color: white;
+}

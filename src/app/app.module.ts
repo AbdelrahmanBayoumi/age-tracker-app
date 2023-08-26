@@ -10,9 +10,15 @@ import { HomeComponent } from './home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-interceptor.service';
 import { HorizontalScrollDirective } from './horizontal-scroll.directive';
+import { RelationshipToggleComponent } from './home/relationshop-toggle/relationshop-toggle.component';
 
 @NgModule({
-  declarations: [AppComponent, HorizontalScrollDirective, HomeComponent],
+  declarations: [
+    AppComponent,
+    HorizontalScrollDirective,
+    RelationshipToggleComponent,
+    HomeComponent,
+  ],
   imports: [
     BrowserModule,
     FormsModule,

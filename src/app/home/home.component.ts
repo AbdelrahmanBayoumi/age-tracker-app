@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { BirthdayService } from '../birthday/birthday.service';
 
 @Component({
   selector: 'app-home',
@@ -36,9 +37,5 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/auth']);
     });
-  }
-
-  onChooseRelation() {
-    console.log('onChooseRelation');
   }
 }

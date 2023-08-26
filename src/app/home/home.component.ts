@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       if (!user) {
         this.router.navigate(['/auth']);
       } else {
-        this.userData = JSON.stringify(user);
+        this.userData = JSON.stringify(user.email);
         this.isLoggedIn = !!user;
       }
     });

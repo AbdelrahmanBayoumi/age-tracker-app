@@ -104,25 +104,25 @@ main {
 .drawer__links {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 }
-.drawer__links button:first-child {
-  background: var(--dark-primary);
+
+.drawer__links button {
   border-radius: 10px;
   color: #fff;
   border: none;
   cursor: pointer;
   font-size: 1.5rem;
+  min-height: 40px;
+}
+
+
+.drawer__links button:first-child {
+  background: var(--dark-primary);
 }
 
 .drawer__links button:last-child {
-  border-radius: 10px;
   background-color: transparent;
-  color: #fff;
-  cursor: pointer;
-
-  font-size: 1.5rem;
-  font-weight: bold;
   border: 3px solid var(--dark-primary);
 }
 

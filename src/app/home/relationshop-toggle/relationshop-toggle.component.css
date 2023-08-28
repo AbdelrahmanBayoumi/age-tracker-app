@@ -26,10 +26,6 @@
   min-width: 120px;
   padding: 2px;
   user-select: none;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .relation-btn-all {

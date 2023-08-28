@@ -8,6 +8,7 @@ import {
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 @Component({
   selector: 'app-home',
@@ -18,7 +19,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer: ElementRef | undefined;
   private userSub: Subscription | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private viewportScroller: ViewportScroller,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {
@@ -45,5 +50,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onOpenDrawer() {
     this.drawer?.nativeElement.classList.add('drawer-open');
+  }
+
+  scrollToTop() {
+    this.viewportScroller.scrollToPosition([0, 0]);
   }
 }

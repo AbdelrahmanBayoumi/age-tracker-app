@@ -3,15 +3,11 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
-  HttpParams,
 } from '@angular/common/http';
-import { take, exhaustMap } from 'rxjs/operators';
-
-import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+  constructor() {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // check if access_token is in localStorage

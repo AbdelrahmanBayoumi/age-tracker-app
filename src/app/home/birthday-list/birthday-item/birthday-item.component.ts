@@ -1,5 +1,4 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { BirthdayService } from 'src/app/birthday/birthday.service';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 
 @Component({
@@ -13,12 +12,9 @@ export class BirthdayItemCompnent implements OnInit, OnDestroy {
     birthdays: [],
   };
 
-  constructor(private birthdayService: BirthdayService) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    console.log('this.birthday', this.birthdaysGroup);
-    this.birthdaysGroup.birthdays
-  }
+  ngOnInit(): void {}
 
   ngOnDestroy(): void {}
 }

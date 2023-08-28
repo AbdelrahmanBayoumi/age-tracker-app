@@ -35,10 +35,12 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
     if (this.authForm) {
       setTimeout(() => {
         if (this.authForm) {
-          this.authForm.setValue({
-            email: 'test@example.com',
-            password: '123456',
-          });
+          try {
+            this.authForm.setValue({
+              email: 'test@example.com',
+              password: '123456',
+            });
+          } catch (error) {}
         }
       });
     } else {

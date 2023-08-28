@@ -1,5 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BirthdayService } from 'src/app/birthday/birthday.service';
+import { Store } from '@ngrx/store';
+import { BirthdayService } from '../../birthday/birthday.service';
+import * as fromApp from '../../store/app.reducer';
+import * as BirthdayActions from '../../birthday/store/birthday.actions';
+import { map } from 'rxjs';
+import { Birthday } from '../../birthday/model/birthday.model';
 
 @Component({
   selector: 'app-birthday-list',
@@ -8,14 +13,34 @@ import { BirthdayService } from 'src/app/birthday/birthday.service';
 })
 export class BirthdayListCompnent implements OnInit, OnDestroy {
   birthdays: any = [];
-  constructor(private birthdayService: BirthdayService) {}
+  constructor(
+    private birthdayService: BirthdayService,
+    private store: Store<fromApp.AppState>
+  ) {}
 
   ngOnInit(): void {
-    this.birthdays = this.birthdayService.getNextBirthdays(
-      this.birthdayService.birthdays
-    );
+    this.store.dispatch(BirthdayActions.fetchBirthdays());
 
-    console.log('this.birthdays', this.birthdays);
+    this.store
+      .select('birthdays')
+      .pipe(
+        map((birthdayState) => {
+          // filter by relationship
+          if (birthdayState.relationshipSelected !== '-1') {
+            return birthdayState.birthdays.filter((birthday: Birthday) => {
+              return (
+                birthday.relationship === birthdayState.relationshipSelected
+              );
+            });
+          } else {
+            return birthdayState.birthdays;
+          }
+        })
+      )
+      .subscribe((birthdays: Birthday[]) => {
+        console.log('birthdays', birthdays);
+        this.birthdays = this.birthdayService.getNextBirthdays(birthdays);
+      });
   }
   ngOnDestroy(): void {}
 }

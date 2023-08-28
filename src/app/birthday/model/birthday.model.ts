@@ -1,11 +1,20 @@
 export class Birthday {
+  public birthDate: Date;
+  public birthDateStr: string;
   constructor(
     public id: number,
     public name: string,
-    public birthDate: string | Date,
+    public birthday: string | Date,
     public relationship: string,
-    public notes: string
-  ) {}
+    public notes?: string
+  ) {
+    this.birthDate = new Date(birthday);
+    this.birthDateStr = this.birthday.toString();
+  }
+
+  setBirthdate(value: Date) {
+    this.birthDate = value;
+  }
 
   // return age and birth date in a string like: 30 years old (01-15)
   getAgeAndBirthDate(): string {
@@ -35,5 +44,13 @@ export class Birthday {
     const daysUntilNextBirthday = Math.ceil(timeDiff / (1000 * 60 * 60 * 24));
 
     return daysUntilNextBirthday;
+  }
+
+  update(newBirthday: Birthday): Birthday {
+    this.name = newBirthday.name;
+    this.birthDate = newBirthday.birthDate;
+    this.relationship = newBirthday.relationship;
+    this.notes = newBirthday.notes;
+    return this;
   }
 }

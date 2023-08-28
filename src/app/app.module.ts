@@ -14,6 +14,11 @@ import { RelationshipToggleComponent } from './home/relationshop-toggle/relation
 import { BirthdayListCompnent } from './home/birthday-list/birthday-list.component';
 import { BirthdayItemCompnent } from './home/birthday-list/birthday-item/birthday-item.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
+import { BirthdayEffects } from './birthday/store/birthday.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import * as fromApp from './store/app.reducer';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -30,8 +35,10 @@ import { DateFormatPipe } from './pipes/date-format.pipe';
     FormsModule,
     AppRoutingModule,
     HttpClientModule,
-    StoreModule.forRoot({}, {}),
-    EffectsModule.forRoot([]),
+    StoreModule.forRoot(fromApp.appReducer),
+    EffectsModule.forRoot([BirthdayEffects]),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    // StoreRouterConnectingModule.forRoot(),
   ],
   providers: [
     {

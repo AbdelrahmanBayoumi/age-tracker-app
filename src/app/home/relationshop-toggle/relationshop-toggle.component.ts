@@ -1,12 +1,8 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  QueryList,
-  ViewChildren,
-} from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BirthdayService } from 'src/app/birthday/birthday.service';
+import * as fromApp from '../../store/app.reducer';
+import { Store } from '@ngrx/store';
+import * as BirthdayActions from '../../birthday/store/birthday.actions';
 
 @Component({
   selector: 'app-relationship-toggle',
@@ -16,14 +12,24 @@ import { BirthdayService } from 'src/app/birthday/birthday.service';
 export class RelationshipToggleComponent implements OnInit, OnDestroy {
   selectedRelation: string = '-1';
   relationships: Set<string> = new Set<string>();
+  relationSub: any;
 
-  constructor(private birthdayService: BirthdayService) {}
+  constructor(
+    private birthdayService: BirthdayService,
+    private store: Store<fromApp.AppState>
+  ) {}
 
   ngOnInit(): void {
-    this.relationships = this.birthdayService.getRelationships();
+    this.relationSub = this.birthdayService
+      .getRelationships()
+      .subscribe((relationships) => {
+        this.relationships = relationships;
+      });
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.relationSub.unsubscribe();
+  }
 
   onChooseRelation(relationship: string, index: number) {
     if (relationship === this.selectedRelation) {
@@ -31,5 +37,6 @@ export class RelationshipToggleComponent implements OnInit, OnDestroy {
     }
     console.log('onChooseRelation:', relationship);
     this.selectedRelation = relationship;
+    this.store.dispatch(BirthdayActions.filterByRelationship({ relationship }));
   }
 }

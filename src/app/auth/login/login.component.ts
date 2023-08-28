@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { User } from '../model/user.model';
@@ -9,7 +15,9 @@ import { Router } from '@angular/router';
   templateUrl: './login.component.html',
   styleUrls: ['../auth.component.css', './login.component.css'],
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
+  @ViewChild('authForm') authForm!: NgForm;
+
   errorMessage: string = '';
   isLoading: boolean = false;
   private loadingSub: any;
@@ -21,6 +29,20 @@ export class LoginComponent implements OnInit, OnDestroy {
     this.loadingSub = this.authService.isLoading.subscribe((isLoading) => {
       this.isLoading = isLoading;
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.authForm) {
+      setTimeout(() => {
+        if (this.authForm) {
+          this.authForm.setValue({
+            email: 'test@example.com',
+            password: '123456',
+          });
+        }
+      });
+    } else {
+    }
   }
 
   ngOnDestroy(): void {

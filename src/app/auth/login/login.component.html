@@ -2,7 +2,7 @@
   <img src="assets/images/spinner.gif" alt="spinner" *ngIf="isLoading" />
 </div>
 <div class="login-container" *ngIf="!isLoading">
-  <h2>تسجيل الدخول</h2>
+  <h2>Login</h2>
   <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
     <input
       type="text"
@@ -23,17 +23,17 @@
       minlength="6"
     />
     <p class="error" *ngIf="authForm.invalid && authForm.touched">
-      الرجاء إدخال بيانات صحيحة
+      Please enter valid data
     </p>
 
     <p class="error" *ngIf="errorMessage">
       {{ errorMessage }}
     </p>
-    <a routerLink="/forget-password"> نسيت كلمة المرور؟ </a>
+    <a routerLink="/forget-password"> Forgot your password?</a>
     <button type="submit" [disabled]="!authForm.valid">الاستمرار</button>
   </form>
 
   <p>
-    مستخدم جديد؟ <a routerLink="/auth/signup" class="new-acc">إنشاء حساب</a>
+    New user? <a routerLink="/auth/signup" class="new-acc">Create Account</a>
   </p>
 </div>

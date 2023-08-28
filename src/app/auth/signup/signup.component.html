@@ -2,7 +2,7 @@
   <img src="assets/images/spinner.gif" alt="spinner" *ngIf="isLoading" />
 </div>
 <div class="signup-container" *ngIf="!isLoading">
-  <h2>سجل الآن</h2>
+  <h2>Signup now!</h2>
   <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
     <input
       type="text"
@@ -39,15 +39,15 @@
       minlength="6"
     />
     <p class="error" *ngIf="authForm.invalid && authForm.touched" dir="auto">
-      الرجاء إدخال بيانات صحيحة
+      Please enter valid data
     </p>
     <p class="error" *ngIf="errorMessage">
       {{ errorMessage }}
     </p>
-    <button type="submit" [disabled]="!authForm.valid">الاستمرار</button>
+    <button type="submit" [disabled]="!authForm.valid">Continue</button>
   </form>
 
   <p>
-    مُسجل بالفعل؟ <a routerLink="/auth/login" class="has-acc">تسجيل الدخول</a>
+    Already registered? <a routerLink="/auth/login" class="has-acc">Login</a>
   </p>
 </div>

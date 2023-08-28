@@ -1,30 +1,12 @@
 <header>
   <h1 dir="auto">
-    {{ appName }}
+    <img src="/assets/images/logo.svg" alt="logo" />
   </h1>
   <button class="dark-icon-btn">
     <img src="/assets/images/search.svg" alt="search icon" />
   </button>
 </header>
 <main>
-  <div style="text-align: center" *ngIf="!isLoggedIn">
-    <br />
-    <a routerLink="/auth/login">Login</a>
-    <br />
-    <br />
-    <a routerLink="/auth/signup">Signup</a>
-  </div>
-
-  <div style="text-align: center; width: 50%;" *ngIf="isLoggedIn">
-    <br />
-    <p>
-      {{ userData }}
-    </p>
-    <p>isLoggedIn: {{ isLoggedIn }}</p>
-    <br />
-    <a (click)="logout()" style="cursor: pointer; color: blue">Logout</a>
-  </div>
-
   <app-relationship-toggle></app-relationship-toggle>
 
   <app-birthday-list></app-birthday-list>
@@ -39,7 +21,33 @@
     <img src="/assets/images/calendar-add.svg" alt="add birthday" />
   </button>
 
-  <button>
+  <button (click)="onOpenDrawer()">
     <img src="/assets/images/bars.svg" alt="bars icon" />
   </button>
 </footer>
+
+<div class="drawer" #drawer>
+  <div>
+    <button class="dark-icon-btn" (click)="onCloseDrawer()">X</button>
+  </div>
+  <div class="drawer__about">
+    <img
+      src="assets/images/Notification_Bell_Calendar.svg"
+      alt="logo"
+      class="logo-img"
+    />
+    <h1>
+      <img src="/assets/images/logo.svg" alt="logo" class="logo-text" />
+    </h1>
+    <p>
+      is a flexible tool that helps users keep track of important birthdays,
+      including those of their loved ones. It features real-time age display in
+      Hijri and Georgian calendars.
+    </p>
+  </div>
+  <hr />
+  <div class="drawer__links">
+    <button rout>Settings ⚙️</button>
+    <button (click)="logout()">Logout</button>
+  </div>
+</div>

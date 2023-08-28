@@ -8,7 +8,8 @@
   text-align: center;
 }
 
-/* draw a line after the content as hr but not the last one */
+/* draw a line after the content but not the last one */
+/* .birthday-group:not(:last-of-type):after { */
 .birthday-group::after {
   content: "";
   display: block;
@@ -16,6 +17,10 @@
   background-color: #ccc;
   margin-top: 5px;
 }
+
+/* .birthday-group::after:last-child {
+  display: none;
+} */
 
 .birthday-item {
   cursor: pointer;
@@ -25,7 +30,7 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
 
   display: flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   gap: 20px;
   align-items: center;
 }

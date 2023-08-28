@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnDestroy, OnInit {
-  appName = 'متتبع الأعمار';
   private userSub: Subscription | undefined;
 
   constructor(private authService: AuthService, private router: Router) {}

@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -9,10 +15,8 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  appName = 'متتبع الأعمار';
+  @ViewChild('drawer') drawer: ElementRef | undefined;
   private userSub: Subscription | null = null;
-  userData: string = '';
-  isLoggedIn = false;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -20,9 +24,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe((user) => {
       if (!user) {
         this.router.navigate(['/auth']);
-      } else {
-        this.userData = JSON.stringify(user.email);
-        this.isLoggedIn = !!user;
       }
     });
     // TODO: handle if the account is unverified
@@ -36,5 +37,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authService.logout().subscribe(() => {
       this.router.navigate(['/auth']);
     });
+  }
+
+  onCloseDrawer() {
+    this.drawer?.nativeElement.classList.remove('drawer-open');
+  }
+
+  onOpenDrawer() {
+    this.drawer?.nativeElement.classList.add('drawer-open');
   }
 }

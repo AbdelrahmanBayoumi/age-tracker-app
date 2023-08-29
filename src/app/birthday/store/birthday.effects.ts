@@ -1,22 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Actions, ofType, createEffect } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
 import { HttpClient } from '@angular/common/http';
-import { switchMap, map, withLatestFrom } from 'rxjs/operators';
+import { switchMap, map, catchError } from 'rxjs/operators';
 
 import * as BirthdaysActions from './birthday.actions';
 import { Birthday } from '../model/birthday.model';
-import * as fromApp from '../../store/app.reducer';
 import { environment } from 'src/environments/environment';
+import { of } from 'rxjs';
 
 @Injectable()
 export class BirthdayEffects {
+  private readonly END_POINT = '/birthday';
   // handle fetch birthdays
   fetchBirthdays = createEffect(() =>
     this.actions$.pipe(
       ofType(BirthdaysActions.fetchBirthdays),
       switchMap(() => {
-        return this.http.get<Birthday[]>(environment.apiUrl + '/birthday');
+        return this.http.get<Birthday[]>(environment.apiUrl + this.END_POINT);
       }),
       map((birthdays) => {
         return birthdays.map((birthday) => {
@@ -42,6 +42,26 @@ export class BirthdayEffects {
     )
   );
 
+  addBirthday = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BirthdaysActions.addBirthday),
+      switchMap((action) => {
+        console.log(action.birthday);
+
+        return this.http.post<Birthday>(
+          environment.apiUrl + this.END_POINT,
+          action.birthday
+        );
+      }),
+      map(() => {
+        return BirthdaysActions.birthdaySuccess();
+      }),
+      catchError((_error) => {
+        return of(BirthdaysActions.addBirthdayFailed());
+      })
+    )
+  );
+
   // storeBirthdays = createEffect(
   //   () =>
   //     this.actions$.pipe(
@@ -57,9 +77,5 @@ export class BirthdayEffects {
   //   { dispatch: false }
   // );
 
-  constructor(
-    private actions$: Actions,
-    private http: HttpClient,
-    private store: Store<fromApp.AppState>
-  ) {}
+  constructor(private actions$: Actions, private http: HttpClient) {}
 }

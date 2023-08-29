@@ -102,6 +102,12 @@ export class AuthService {
     );
   }
 
+  sendVerificationEmail() {
+    return this.http.post(environment.apiUrl + '/auth/resend-verification', {
+      email: this.user.value?.email,
+    });
+  }
+
   autoLogin() {
     // get access and refresh tokens from localStorage
     const access_token = localStorage.getItem('access_token');
@@ -113,11 +119,7 @@ export class AuthService {
     return this.checkToken(access_token);
   }
 
-  sendVerificationEmail() {
-    return this.http.post(environment.apiUrl + '/auth/resend-verification', {
-      email: this.user.value?.email,
-    });
-  }
+
 
   private checkToken(accessToken: string): Observable<User> {
     return this.http

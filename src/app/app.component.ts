@@ -11,18 +11,13 @@ import { Subscription } from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
   private userSub: Subscription | undefined;
 
-  ngOnDestroy(): void {
-    this.userSub?.unsubscribe();
-  }
-
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userSub = this.authService.autoLogin()?.subscribe((user) => {
-      if (user) {
-        // nvaigate to home page
-        this.router.navigate(['/']);
-      }
-    });
+    this.userSub = this.authService.autoLogin()?.subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.userSub?.unsubscribe();
   }
 }

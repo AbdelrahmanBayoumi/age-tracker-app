@@ -34,9 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {
-      if (!user) {
-        this.router.navigate(['/auth']);
-      } else {
+      if (user) {
         this.userVerified = user.isVerified;
       }
     });
@@ -86,5 +84,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.startSearch = false;
     this.searchQuery = '';
     this.store.dispatch(BirthdayActions.searchByName({ name: '' }));
+  }
+
+  onAddBirthday() {
+    this.router.navigate(['/add-birthday']);
   }
 }

@@ -3,7 +3,9 @@ import {
   HttpInterceptor,
   HttpRequest,
   HttpHandler,
+  HttpResponse,
 } from '@angular/common/http';
+import { tap } from 'rxjs';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {

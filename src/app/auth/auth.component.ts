@@ -14,9 +14,8 @@ export class AuthComponent implements OnDestroy, OnInit {
   constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userSub = this.authService.autoLogin()?.subscribe((user) => {
+    this.userSub = this.authService.user.subscribe((user) => {
       if (user) {
-        // nvaigate to home page
         this.router.navigate(['/']);
       }
     });

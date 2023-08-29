@@ -27,7 +27,18 @@ export const filterByRelationship = createAction(
 
 export const addBirthday = createAction(
   '[Birthday] Add Birthday',
-  props<{ birthday: Birthday }>()
+  props<{
+    birthday: {
+      name: string;
+      birthday: string;
+      relationship: string;
+    };
+  }>()
+);
+
+export const birthdaySuccess = createAction('[Birthdays] Birthday Updated Sccess');
+export const addBirthdayFailed = createAction(
+  '[Birthdays] Add Birthday Failed'
 );
 
 export const updateBirthday = createAction(

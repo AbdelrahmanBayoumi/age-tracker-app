@@ -1,0 +1,49 @@
+<header>
+  <h1>Add Birthday</h1>
+  <button class="dark-icon-btn" (click)="backToHome()">
+    <img src="/assets/images/arrow.svg" alt="arrow icon" />
+  </button>
+</header>
+<div style="text-align: center" *ngIf="isLoading">
+  <img src="assets/images/spinner.gif" alt="spinner" />
+</div>
+<div *ngIf="!isLoading">
+  <main>
+    <div>
+      <form #addFrom="ngForm" (ngSubmit)="onSubmit(addFrom)">
+        <img
+          class="person-image"
+          src="assets/images/user.svg"
+          alt="Birthday person"
+        />
+        <label for="name">Name</label>
+        <input type="text" name="name" placeholder="Name" ngModel required />
+        <label for="relationship">Relationship</label>
+        <input
+          type="text"
+          name="relationship"
+          placeholder="Relationship"
+          ngModel
+          required
+        />
+        <label for="date">Birthdate</label>
+        <input
+          type="date"
+          name="birthday"
+          placeholder="Date"
+          ngModel
+          required
+        />
+
+        <p class="error" *ngIf="addFrom.invalid && addFrom.touched" dir="auto">
+          Please enter valid data
+        </p>
+        <p class="error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </p>
+
+        <button type="submit" [disabled]="!addFrom.valid">Add Birthday</button>
+      </form>
+    </div>
+  </main>
+</div>

@@ -1,6 +1,6 @@
 <div class="birthday-group">
   <h2>{{ birthdaysGroup.month | dateFormat }}</h2>
-  <div class="birthday-item" *ngFor="let birthday of birthdaysGroup.birthdays">
+  <div class="birthday-item" *ngFor="let birthday of birthdaysGroup.birthdays" (click)="onGoToDetails(birthday)">
     <div class="birthday-item__image-container">
       <!-- src="https://picsum.photos/200/300" -->
       <img

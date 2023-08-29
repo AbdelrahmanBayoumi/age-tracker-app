@@ -22,15 +22,12 @@ const initialState: State = {
 export const birthdayReducer = createReducer(
   initialState,
   on(BirthdayActions.fetchBirthdaysStart, (state, action) => {
-    console.log('fetchBirthdaysStart');
-
     return {
       ...state,
       loading: true,
     };
   }),
   on(BirthdayActions.fetchBirthdays, (state, action) => {
-    console.log('fetchBirthdays');
     return {
       ...state,
       loading: false,

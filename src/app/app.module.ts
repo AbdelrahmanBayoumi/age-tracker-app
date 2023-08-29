@@ -21,6 +21,7 @@ import * as fromApp from './store/app.reducer';
 import { environment } from 'src/environments/environment';
 import { AddBirthdayComponent } from './home/add-birthday/add-birthday.component';
 import { CheckAuthAfterRequestInterceptor } from './auth/auth-after-interceptor.service';
+import { BirthdayDetailsCompnent } from './home/birthday-list/birthday-details/birthday-details.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { CheckAuthAfterRequestInterceptor } from './auth/auth-after-interceptor.
     BirthdayItemCompnent,
     AddBirthdayComponent,
     HomeComponent,
+    BirthdayDetailsCompnent,
     DateFormatPipe,
   ],
   imports: [

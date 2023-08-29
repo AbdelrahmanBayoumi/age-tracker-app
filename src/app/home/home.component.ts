@@ -36,8 +36,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log('isLoading', this.isLoading);
-
     this.userSub = this.authService.user.subscribe((user) => {
       if (user) {
         this.userVerified = user.isVerified;
@@ -102,6 +100,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onAddBirthday() {
-    this.router.navigate(['/add-birthday']);
+    this.router.navigate(['/birthday/add-birthday']);
   }
 }

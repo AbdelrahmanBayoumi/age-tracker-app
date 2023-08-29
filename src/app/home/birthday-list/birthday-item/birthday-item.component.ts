@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 
 @Component({
@@ -12,9 +13,13 @@ export class BirthdayItemCompnent implements OnInit, OnDestroy {
     birthdays: [],
   };
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
   ngOnDestroy(): void {}
+
+  onGoToDetails(birthday: Birthday) {
+    this.router.navigate(['birthday', birthday.id]);
+  }
 }

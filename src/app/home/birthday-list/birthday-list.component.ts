@@ -1,9 +1,7 @@
-import { fetchBirthdaysStart } from './../../birthday/store/birthday.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BirthdayService } from '../../birthday/birthday.service';
 import * as fromApp from '../../store/app.reducer';
-import * as BirthdayActions from '../../birthday/store/birthday.actions';
 import { map } from 'rxjs';
 import { Birthday } from '../../birthday/model/birthday.model';
 
@@ -38,7 +36,7 @@ export class BirthdayListCompnent implements OnInit, OnDestroy {
         )
       )
       .subscribe((birthdays: Birthday[]) => {
-        console.log('birthdays', birthdays);
+        // console.log('birthdays', birthdays);
         this.birthdays = this.birthdayService.getNextBirthdays(birthdays);
       });
   }

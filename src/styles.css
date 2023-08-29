@@ -75,7 +75,7 @@ form button:disabled {
   cursor: not-allowed;
 }
 
-form .error {
+.error {
   color: red;
   font-size: 0.9rem;
 }

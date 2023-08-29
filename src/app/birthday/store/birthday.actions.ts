@@ -15,11 +15,6 @@ export const fetchBirthdaysFailed = createAction(
   '[Birthdays] Fetch Birthdays Failed'
 );
 
-// export const getBirthday = createAction(
-//   '[Birthday] Get Birthday',
-//   props<{ index: number }>()
-// );
-
 export const searchByName = createAction(
   '[Birthday] Search Birthday By Name',
   props<{ name: string }>()
@@ -48,14 +43,22 @@ export const addBirthdayFailed = createAction(
   '[Birthdays] Add Birthday Failed'
 );
 
+export const deleteBirthday = createAction(
+  '[Birthday] Delete Birthday',
+  props<{ id: number }>()
+);
+export const deleteBirthdayFailed = createAction(
+  '[Birthdays] Delete Birthday Failed'
+);
+
+// export const storeBirthdays = createAction('[Birthday] Store Birthdays');
+
+// export const getBirthday = createAction(
+//   '[Birthday] Get Birthday',
+//   props<{ index: number }>()
+// );
+
 // export const updateBirthday = createAction(
 //   '[Birthday] Update Birthday',
 //   props<{ index: number; newBirthday: Birthday }>()
 // );
-
-// export const deleteBirthday = createAction(
-//   '[Birthday] Delete Birthday',
-//   props<{ index: number }>()
-// );
-
-export const storeBirthdays = createAction('[Birthday] Store Birthdays');

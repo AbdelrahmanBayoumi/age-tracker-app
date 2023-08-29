@@ -65,5 +65,22 @@ export class BirthdayEffects {
     )
   );
 
+  deleteBirthday = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BirthdaysActions.deleteBirthday),
+      switchMap((action) => {
+        return this.http.delete<Birthday>(
+          environment.apiUrl + this.END_POINT + '/' + action.id
+        );
+      }),
+      map(() => {
+        return BirthdaysActions.fetchBirthdays();
+      }),
+      catchError((_error) => {
+        return of(BirthdaysActions.deleteBirthdayFailed());
+      })
+    )
+  );
+
   constructor(private actions$: Actions, private http: HttpClient) {}
 }

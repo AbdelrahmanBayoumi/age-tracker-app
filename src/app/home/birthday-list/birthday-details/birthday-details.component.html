@@ -1,17 +1,20 @@
-<!-- {{ birthday | json }} -->
 <header>
   <button class="dark-icon-btn close-btn" (click)="backToHome()">X</button>
   <div>
-    <button class="dark-icon-btn" (click)="onEditBirthday()">
+    <button class="dark-icon-btn" (click)="onEditBirthday()" [disabled]="isLoading">
       <img src="/assets/images/edit.svg" alt="edit icon" />
     </button>
-    <button class="dark-icon-btn" (click)="onDeleteBirthday()">
+    <button class="dark-icon-btn" (click)="onDeleteBirthday()" [disabled]="isLoading">
       <img src="/assets/images/trash.svg" alt="trash icon" />
     </button>
   </div>
 </header>
 
-<main>
+<div style="text-align: center" *ngIf="isLoading">
+  <img src="assets/images/spinner.gif" alt="spinner" />
+</div>
+
+<main *ngIf="!isLoading">
   <div class="title-box">
     <img src="/assets/images/user.svg" alt="user" class="person-image" />
 

@@ -17,6 +17,8 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   birthday: Birthday | undefined;
   id: number | undefined;
   georgianStat: GeorgianDateStatistics | undefined;
+  storeSub: any;
+  isLoading = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -53,8 +55,6 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   }
 
   async onDeleteBirthday() {
-    // => show confirm alert => delete and navigate to home after delete success
-    //
     const result = await Swal.fire({
       title: 'Delete Birthday?',
       text: 'You will not be able to recover this birthday!',
@@ -66,9 +66,22 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
       cancelButtonText: 'No, keep it',
     });
     if (result.value) {
-      await Swal.fire('Deleted!', 'Birthday has been deleted.', 'success');
-      // this.store.dispatch(new BirthdayActions.DeleteBirthday(this.id!));
-      // this.router.navigate(['/']);
+      this.store.dispatch(BirthdayActions.deleteBirthday({ id: this.id! }));
+
+      this.storeSub = this.store
+        .select('birthdays')
+        .subscribe(async (birthdaysState) => {
+          this.isLoading = birthdaysState.loading;
+
+          if (!this.isLoading) {
+            await Swal.fire(
+              'Deleted!',
+              'Birthday has been deleted.',
+              'success'
+            );
+            this.backToHome();
+          }
+        });
     }
   }
 
@@ -76,5 +89,7 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
     this.router.navigate(['/']);
   }
 
-  ngOnDestroy(): void {}
+  ngOnDestroy(): void {
+    this.storeSub?.unsubscribe();
+  }
 }

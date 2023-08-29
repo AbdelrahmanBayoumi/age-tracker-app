@@ -27,12 +27,6 @@ export const birthdayReducer = createReducer(
       loading: true,
     };
   }),
-  on(BirthdayActions.fetchBirthdays, (state, action) => {
-    return {
-      ...state,
-      loading: false,
-    };
-  }),
   on(BirthdayActions.fetchBirthdaysFailed, (state, action) => {
     return {
       ...state,
@@ -81,14 +75,20 @@ export const birthdayReducer = createReducer(
   //     birthdays: updatedBirthdays,
   //   };
   // }),
-  // on(BirthdayActions.deleteBirthday, (state, action) => {
-  //   return {
-  //     ...state,
-  //     birthdays: state.birthdays.filter((birthday, index) => {
-  //       return index !== action.index;
-  //     }),
-  //   };
-  // }),
+  on(BirthdayActions.deleteBirthday, (state, action) => {
+    return {
+      ...state,
+      errMsg: '',
+      loading: true,
+    };
+  }),
+  on(BirthdayActions.deleteBirthdayFailed, (state, action) => {
+    return {
+      ...state,
+      errMsg: 'Unable to delete birthday. Please try again later.',
+      loading: false,
+    };
+  }),
   on(BirthdayActions.searchByName, (state, action) => {
     return {
       ...state,

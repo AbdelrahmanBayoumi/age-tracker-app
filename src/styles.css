@@ -92,6 +92,11 @@ form button:disabled {
   transition: all 0.3s ease-in-out;
 }
 
+.dark-icon-btn:disabled {
+  background-color: #565656;
+  cursor: not-allowed;
+}
+
 /* ---- scrollbar ---- */
 body {
   scrollbar-width: thin; /* For Firefox */
@@ -124,6 +129,6 @@ body::-webkit-scrollbar-button {
 }
 
 /* --------- */
-.semi-bold{
+.semi-bold {
   font-weight: 500;
 }

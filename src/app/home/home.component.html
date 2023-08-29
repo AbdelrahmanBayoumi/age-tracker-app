@@ -1,10 +1,24 @@
 <header>
-  <h1 dir="auto" (click)="scrollToTop()">
-    <img src="/assets/images/logo.svg" alt="logo" />
-  </h1>
-  <button class="dark-icon-btn">
-    <img src="/assets/images/search.svg" alt="search icon" />
-  </button>
+  <div *ngIf="!startSearch">
+    <h1 dir="auto" (click)="scrollToTop()">
+      <img src="/assets/images/logo.svg" alt="logo" />
+    </h1>
+    <button class="dark-icon-btn" (click)="onStartSearch()">
+      <img src="/assets/images/search.svg" alt="search icon" />
+    </button>
+  </div>
+  <div *ngIf="startSearch">
+    <button class="dark-icon-btn cancel-search-btn" (click)="onCancelSearch()">
+      <img src="/assets/images/search.svg" alt="search icon" />
+    </button>
+    <input
+      type="text"
+      name="search"
+      placeholder="Name"
+      [(ngModel)]="searchQuery"
+      (keyup)="onSearch()"
+    />
+  </div>
 </header>
 <main *ngIf="userVerified">
   <app-relationship-toggle></app-relationship-toggle>

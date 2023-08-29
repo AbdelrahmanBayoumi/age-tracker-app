@@ -1,13 +1,16 @@
 header {
   position: sticky;
   top: 0;
+  background-color: var(--dark-hover);
+  padding: 20px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
+}
+
+header div {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  background-color: var(--dark-hover);
-  padding: 20px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.4);
 }
 
 header h1 {
@@ -16,6 +19,27 @@ header h1 {
 
 header img {
   vertical-align: middle;
+}
+
+header input[type="text"] {
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 1.5rem;
+  width: 100%;
+  padding: 10px 10px;
+  border-radius: 15px;
+  background: var(--dark-primary, #33485d);
+  min-height: 50px;
+}
+
+.cancel-search-btn {
+  position: absolute;
+  right: 10px;
+}
+
+header input[type="text"]::placeholder {
+  color: #fff;
 }
 
 footer {

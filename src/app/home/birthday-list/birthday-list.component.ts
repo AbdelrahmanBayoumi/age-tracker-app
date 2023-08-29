@@ -24,18 +24,19 @@ export class BirthdayListCompnent implements OnInit, OnDestroy {
     this.store
       .select('birthdays')
       .pipe(
-        map((birthdayState) => {
-          // filter by relationship
-          if (birthdayState.relationshipSelected !== '-1') {
-            return birthdayState.birthdays.filter((birthday: Birthday) => {
-              return (
-                birthday.relationship === birthdayState.relationshipSelected
-              );
-            });
-          } else {
-            return birthdayState.birthdays;
-          }
-        })
+        map((birthdayState) =>
+          birthdayState.birthdays.filter((birthday: Birthday) => {
+            return (
+              (birthdayState.relationshipSelected === '-1'
+                ? true
+                : birthday.relationship ===
+                  birthdayState.relationshipSelected) &&
+              birthday.name
+                .toLowerCase()
+                .includes(birthdayState.searchQuery.toLowerCase())
+            );
+          })
+        )
       )
       .subscribe((birthdays: Birthday[]) => {
         console.log('birthdays', birthdays);

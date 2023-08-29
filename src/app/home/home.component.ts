@@ -9,6 +9,9 @@ import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { Store } from '@ngrx/store';
+import * as fromApp from '../store/app.reducer';
+import * as BirthdayActions from '../birthday/store/birthday.actions';
 
 @Component({
   selector: 'app-home',
@@ -19,11 +22,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer: ElementRef | undefined;
   private userSub: Subscription | null = null;
   userVerified = false;
+  startSearch = false;
+  searchQuery = '';
 
   constructor(
     private viewportScroller: ViewportScroller,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private store: Store<fromApp.AppState>
   ) {}
 
   ngOnInit(): void {
@@ -59,11 +65,26 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   sendVerificationEmail(buttonElement: HTMLButtonElement) {
-    // Disable the button to prevent multiple clicks during processing
     buttonElement.disabled = true;
-
     this.authService.sendVerificationEmail().subscribe(() => {
       console.log('Verification email sent');
     });
+  }
+
+  onStartSearch() {
+    this.startSearch = true;
+  }
+
+  onSearch() {
+    console.log('searchQuery', this.searchQuery);
+    this.store.dispatch(
+      BirthdayActions.searchByName({ name: this.searchQuery })
+    );
+  }
+
+  onCancelSearch() {
+    this.startSearch = false;
+    this.searchQuery = '';
+    this.store.dispatch(BirthdayActions.searchByName({ name: '' }));
   }
 }

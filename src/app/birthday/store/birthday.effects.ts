@@ -49,8 +49,6 @@ export class BirthdayEffects {
     this.actions$.pipe(
       ofType(BirthdaysActions.addBirthday),
       switchMap((action) => {
-        console.log(action.birthday);
-
         return this.http.post<Birthday>(
           environment.apiUrl + this.END_POINT,
           action.birthday
@@ -61,6 +59,24 @@ export class BirthdayEffects {
       }),
       catchError((_error) => {
         return of(BirthdaysActions.addBirthdayFailed());
+      })
+    )
+  );
+
+  updateBirthday = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BirthdaysActions.updateBirthday),
+      switchMap((action) => {
+        return this.http.patch<Birthday>(
+          environment.apiUrl + this.END_POINT + '/' + action.id,
+          action.newBirthday
+        );
+      }),
+      map(() => {
+        return BirthdaysActions.fetchBirthdays();
+      }),
+      catchError((_error) => {
+        return of(BirthdaysActions.updateBirthdayFailed());
       })
     )
   );

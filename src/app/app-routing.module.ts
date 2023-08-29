@@ -17,10 +17,15 @@ const routes: Routes = [
     component: AddBirthdayComponent,
     canActivate: [AuthGuard],
   },
-  // route for birthday detials based on id
   {
     path: 'birthday/:id',
     component: BirthdayDetailsCompnent,
+    canActivate: [AuthGuard],
+    resolve: [BirthdaysResolverService],
+  },
+  {
+    path: 'birthday/:id/edit',
+    component: AddBirthdayComponent,
     canActivate: [AuthGuard],
     resolve: [BirthdaysResolverService],
   },

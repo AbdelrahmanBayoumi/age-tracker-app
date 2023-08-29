@@ -1,5 +1,5 @@
 <header>
-  <h1>Add Birthday</h1>
+  <h1>{{ isEditMode ? "Edit" : "Add" }} Birthday</h1>
   <button class="dark-icon-btn" (click)="backToHome()">
     <img src="/assets/images/arrow.svg" alt="arrow icon" />
   </button>
@@ -10,39 +10,44 @@
 <div *ngIf="!isLoading">
   <main>
     <div>
-      <form #addFrom="ngForm" (ngSubmit)="onSubmit(addFrom)">
+      <form [formGroup]="birthdayForm!" (ngSubmit)="onSubmit()">
         <img
           class="person-image"
           src="assets/images/user.svg"
           alt="Birthday person"
         />
         <label for="name">Name</label>
-        <input type="text" name="name" placeholder="Name" ngModel required />
+        <input
+          type="text"
+          name="name"
+          placeholder="Name"
+          formControlName="name"
+        />
         <label for="relationship">Relationship</label>
         <input
           type="text"
           name="relationship"
           placeholder="Relationship"
-          ngModel
-          required
+          formControlName="relationship"
         />
         <label for="date">Birthdate</label>
         <input
           type="date"
           name="birthday"
-          placeholder="Date"
-          ngModel
-          required
+          placeholder="1999-08-24"
+          formControlName="birthday"
         />
 
-        <p class="error" *ngIf="addFrom.invalid && addFrom.touched" dir="auto">
+        <p class="error" *ngIf="birthdayForm?.invalid && birthdayForm?.touched" dir="auto">
           Please enter valid data
         </p>
         <p class="error" *ngIf="errorMessage">
           {{ errorMessage }}
         </p>
 
-        <button type="submit" [disabled]="!addFrom.valid">Add Birthday</button>
+        <button type="submit" [disabled]="!birthdayForm?.valid">
+          {{ isEditMode ? "Edit" : "Add" }} Birthday
+        </button>
       </form>
     </div>
   </main>

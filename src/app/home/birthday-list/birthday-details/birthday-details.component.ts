@@ -42,8 +42,8 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
           });
         })
       )
-      .subscribe((recipe) => {
-        this.birthday = recipe;
+      .subscribe((birthday) => {
+        this.birthday = birthday;
         this.georgianStat = new GeorgianDateStatistics(
           new Date(this.birthday?.birthDate!)
         );
@@ -51,7 +51,7 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   }
 
   onEditBirthday() {
-    // this.router.navigate(['edit'], { relativeTo: this.route });
+    this.router.navigate(['edit'], { relativeTo: this.route });
   }
 
   async onDeleteBirthday() {

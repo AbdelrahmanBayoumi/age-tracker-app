@@ -54,6 +54,13 @@ export const birthdayReducer = createReducer(
       loading: false,
     };
   }),
+  on(BirthdayActions.updateBirthdayFailed, (state, action) => {
+    return {
+      ...state,
+      errMsg: 'Unable to update birthday. Please try again later.',
+      loading: false,
+    };
+  }),
   on(BirthdayActions.setBirthdays, (state, action) => {
     return {
       ...state,
@@ -62,19 +69,6 @@ export const birthdayReducer = createReducer(
       birthdays: [...action.birthdays],
     };
   }),
-  // on(BirthdayActions.updateBirthday, (state, action) => {
-  //   const updatedBithday: Birthday = state.birthdays[action.index].update(
-  //     action.newBirthday
-  //   );
-
-  //   const updatedBirthdays = [...state.birthdays];
-  //   updatedBirthdays[action.index] = updatedBithday;
-
-  //   return {
-  //     ...state,
-  //     birthdays: updatedBirthdays,
-  //   };
-  // }),
   on(BirthdayActions.deleteBirthday, (state, action) => {
     return {
       ...state,

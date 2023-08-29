@@ -43,6 +43,14 @@ export const addBirthdayFailed = createAction(
   '[Birthdays] Add Birthday Failed'
 );
 
+export const updateBirthday = createAction(
+  '[Birthday] Update Birthday',
+  props<{ id: number; newBirthday: Birthday }>()
+);
+export const updateBirthdayFailed = createAction(
+  '[Birthdays] Update Birthday Failed'
+);
+
 export const deleteBirthday = createAction(
   '[Birthday] Delete Birthday',
   props<{ id: number }>()
@@ -56,9 +64,4 @@ export const deleteBirthdayFailed = createAction(
 // export const getBirthday = createAction(
 //   '[Birthday] Get Birthday',
 //   props<{ index: number }>()
-// );
-
-// export const updateBirthday = createAction(
-//   '[Birthday] Update Birthday',
-//   props<{ index: number; newBirthday: Birthday }>()
 // );

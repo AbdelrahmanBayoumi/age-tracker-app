@@ -5,6 +5,7 @@ import * as BirthdayActions from '../../../birthday/store/birthday.actions';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, switchMap } from 'rxjs';
+import { GeorgianDateStatistics } from 'src/app/birthday/model/georgian-date-statistics.model';
 
 @Component({
   selector: 'app-birthday-details',
@@ -14,6 +15,7 @@ import { map, switchMap } from 'rxjs';
 export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   birthday: Birthday | undefined;
   id: number | undefined;
+  georgianStat: GeorgianDateStatistics | undefined;
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -21,8 +23,6 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    console.log('0) birthday', this.birthday);
-
     this.route.params
       .pipe(
         map((params) => {
@@ -40,8 +40,24 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
       )
       .subscribe((recipe) => {
         this.birthday = recipe;
-        console.log('1) birthday', this.birthday);
+        this.georgianStat = new GeorgianDateStatistics(
+          new Date(this.birthday?.birthDate!)
+        );
       });
+  }
+
+  onEditBirthday() {
+    // this.router.navigate(['edit'], { relativeTo: this.route });
+  }
+
+  onDeleteBirthday() {
+    // => show confirm alert => delete and navigate to home after delete success
+    // this.store.dispatch(new BirthdayActions.DeleteBirthday(this.id!));
+    // this.router.navigate(['/']);
+  }
+
+  backToHome() {
+    this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {}

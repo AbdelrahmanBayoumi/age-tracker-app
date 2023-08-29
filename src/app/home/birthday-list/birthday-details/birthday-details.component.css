@@ -1,0 +1,96 @@
+header {
+  background: linear-gradient(180deg, #111820 0%, #33485d 100%);
+  padding: 20px;
+  height: 200px;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+}
+
+header div {
+  display: flex;
+  gap: 10px;
+}
+
+header .close-btn {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 45px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+main hr {
+  width: 100%;
+  max-width: 600px;
+  border: 1px solid #ccc;
+}
+
+.person-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 25px;
+  object-fit: cover;
+
+  border: 6px solid var(--bg-color, #f5f7fe);
+  margin-top: -100px;
+  background-color: var(--bg-color, #f5f7fe);
+}
+
+.title-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.relationship {
+  border-radius: 10px;
+  border: 2px solid var(--light-blue, #5296cf);
+  color: var(--light-blue, #5296cf);
+  padding: 10px 15px;
+}
+
+.detials-box {
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.25);
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 650px;
+}
+
+.detials-box div {
+  display: flex;
+}
+
+.detials-box .calendar-icon {
+  width: 70px;
+  margin-top: -45px;
+}
+.detials-box .tart-icon {
+  width: 45.5px;
+}
+
+.detials-box div > p:not(:last-child) {
+  margin-bottom: 10px;
+}
+
+.note h5 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+.note p {
+  font-size: 0.9rem;
+}

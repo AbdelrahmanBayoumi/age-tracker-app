@@ -122,3 +122,8 @@ body::-webkit-scrollbar-thumb:hover {
 body::-webkit-scrollbar-button {
   display: none; /* Hide scrollbar buttons */
 }
+
+/* --------- */
+.semi-bold{
+  font-weight: 500;
+}

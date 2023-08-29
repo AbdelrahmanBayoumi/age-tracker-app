@@ -5,7 +5,6 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Actions, ofType } from '@ngrx/effects';
 import { take, map, switchMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -15,10 +14,7 @@ import * as BirthdaysActions from './store/birthday.actions';
 
 @Injectable({ providedIn: 'root' })
 export class BirthdaysResolverService implements Resolve<Birthday[]> {
-  constructor(
-    private store: Store<fromApp.AppState>,
-    private actions$: Actions
-  ) {}
+  constructor(private store: Store<fromApp.AppState>) {}
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     return this.store.select('birthdays').pipe(

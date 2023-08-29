@@ -1,1 +1,150 @@
-{{ birthday | json }}
+<!-- {{ birthday | json }} -->
+<header>
+  <button class="dark-icon-btn close-btn" (click)="backToHome()">X</button>
+  <div>
+    <button class="dark-icon-btn" (click)="onDeleteBirthday()">
+      <img src="/assets/images/trash.svg" alt="trash icon" />
+    </button>
+    <button class="dark-icon-btn" (click)="onEditBirthday()">
+      <img src="/assets/images/edit.svg" alt="edit icon" />
+    </button>
+  </div>
+</header>
+
+<main>
+  <div class="title-box">
+    <img src="/assets/images/user.svg" alt="user" class="person-image" />
+
+    <h2>{{ birthday?.name }}</h2>
+
+    <p class="relationship">{{ birthday?.relationship }}</p>
+  </div>
+
+  <div class="detials-box">
+    <div>
+      <img
+        class="calendar-icon"
+        src="/assets/images/georgian-calendar.svg"
+        alt="georgian calendar icon"
+      />
+      <h3>Gregorian calendar</h3>
+    </div>
+
+    <p>
+      Birthdate:
+      <span class="semi-bold">{{
+        birthday?.birthDate | date : "dd MMMM yyyy"
+      }}</span>
+    </p>
+    <div style="display: flex; align-items: flex-start; gap: 10px">
+      <img
+        class="tart-icon"
+        src="/assets/images/tart.svg"
+        alt="tart calendar icon"
+      />
+      <div style="display: block">
+        <p>
+          Age:
+          <span class="semi-bold">
+            {{ georgianStat?.ageString?.years }} years, 0 months, 8 days, 197
+            hours, 36 minutes and 14 seconds
+          </span>
+        </p>
+        <p>
+          The next birthday is after
+          <span class="semi-bold"
+            >{{ georgianStat?.whenNextBirthday?.months }} months and
+            {{ georgianStat?.whenNextBirthday?.days }} days</span
+          >
+          on Wednesday
+          {{ georgianStat?.whenNextBirthday?.date }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="detials-box">
+    <div>
+      <img
+        class="calendar-icon"
+        src="/assets/images/hijri-calendar.png"
+        alt="georgian calendar icon"
+      />
+      <h3>Hijri calendar</h3>
+    </div>
+
+    <p>
+      Birthdate:
+      <span class="semi-bold"> 1420-04-24 (Rabi Thani) </span>
+    </p>
+    <div style="display: flex; align-items: stretch; gap: 10px">
+      <img
+        class="tart-icon"
+        src="/assets/images/tart.svg"
+        alt="tart calendar icon"
+      />
+      <div style="display: flex">
+        <p>
+          Age:
+          <span class="semi-bold"> 24 years, 7 months and 20 days </span>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="detials-box">
+    <div>
+      <img
+        class="calendar-icon"
+        src="/assets/images/sand-watch.svg"
+        alt="sand watch icon"
+      />
+      <h3>Age in different formats</h3>
+    </div>
+
+    <p>In months: 286 months and 28 days</p>
+    <p>In weeks: 1,247 weeks and 2 days</p>
+    <p>In days: 8,731 days</p>
+    <p>In hours: about 209,543 hours</p>
+    <p>In minutes: about 878,797.7 minutes</p>
+    <p>In seconds: about 999,999,999 seconds</p>
+  </div>
+
+  <div class="detials-box">
+    <div>
+      <img
+        class="calendar-icon"
+        src="/assets/images/chart.svg"
+        alt="chart icon"
+      />
+      <h3>More info</h3>
+    </div>
+
+    <p>Born on: <span class="semi-bold">Monday</span></p>
+    <p>It was in the <span class="semi-bold">summer</span></p>
+    <p>You breathed about <span class="semi-bold">174,620,000 times</span></p>
+    <p>
+      Your heart beat about<span class="semi-bold"> 1,005,811,200 times </span>
+    </p>
+    <p>You laughed about <span class="semi-bold">87,310 times</span></p>
+    <p>
+      You slept about
+      <span class="semi-bold">7 years, 11 months and 18 days</span>
+    </p>
+    <p>
+      You ate about <span class="semi-bold">1 year 03 months and 9 days</span>
+    </p>
+  </div>
+
+  <hr>
+  <div class="note">
+    <h5>Important note:</h5>
+    <p>
+      The age in Hijri differs from your age in Gregorian, because the Hijri
+      year is 354.36 days, while the Gregorian year is 365.25 days. There is a
+      difference between the two calendars about 11 days in each year of your
+      life. Therefore, the age in Hijri is greater than the age in Gregorian,
+      and the older this difference increases.
+    </p>
+  </div>
+</main>

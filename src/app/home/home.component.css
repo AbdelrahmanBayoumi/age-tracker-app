@@ -65,6 +65,38 @@ main {
   padding-bottom: 100px;
 }
 
+.verifyAccountBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.verifyAccountBox button {
+  border-radius: 10px;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  min-height: 40px;
+  background-color: var(--dark-primary);
+}
+.verifyAccountBox button:disabled {
+  background-color: var(--dark-primary);
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.verifyAccountBox button:disabled:hover {
+  background-color: var(--dark-primary);
+  opacity: 0.5;
+}
+
+.verifyAccountBox button:hover {
+  background-color: var(--dark-hover);
+}
+
 .drawer {
   position: fixed;
   top: 0;
@@ -115,7 +147,6 @@ main {
   font-size: 1.5rem;
   min-height: 40px;
 }
-
 
 .drawer__links button:first-child {
   background: var(--dark-primary);

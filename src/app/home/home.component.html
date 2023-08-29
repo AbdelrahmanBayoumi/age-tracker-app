@@ -6,11 +6,24 @@
     <img src="/assets/images/search.svg" alt="search icon" />
   </button>
 </header>
-<main>
+<main *ngIf="userVerified">
   <app-relationship-toggle></app-relationship-toggle>
 
   <app-birthday-list></app-birthday-list>
 </main>
+
+<div class="verifyAccountBox" *ngIf="!userVerified">
+  <p>
+    Please verify your email address. We have sent you an email with a link to
+    verify your account.
+  </p>
+  <button
+    (click)="sendVerificationEmail(verificationButton)"
+    #verificationButton
+  >
+    Resend Verification Email
+  </button>
+</div>
 
 <footer>
   <button (click)="scrollToTop()">

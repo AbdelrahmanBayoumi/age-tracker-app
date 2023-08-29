@@ -6,11 +6,13 @@ import * as BirthdayActions from './birthday.actions';
 export interface State {
   birthdays: Birthday[];
   relationshipSelected: string;
+  searchQuery: string;
 }
 
 const initialState: State = {
   birthdays: [],
   relationshipSelected: '-1',
+  searchQuery: '',
 };
 
 export const birthdayReducer = createReducer(
@@ -46,6 +48,12 @@ export const birthdayReducer = createReducer(
       birthdays: state.birthdays.filter((birthday, index) => {
         return index !== action.index;
       }),
+    };
+  }),
+  on(BirthdayActions.searchByName, (state, action) => {
+    return {
+      ...state,
+      searchQuery: action.name,
     };
   }),
   on(BirthdayActions.filterByRelationship, (state, action) => {

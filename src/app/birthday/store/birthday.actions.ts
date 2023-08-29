@@ -15,6 +15,11 @@ export const getBirthday = createAction(
   props<{ index: number }>()
 );
 
+export const searchByName = createAction(
+  '[Birthday] Search Birthday By Name',
+  props<{ name: string }>()
+);
+
 export const filterByRelationship = createAction(
   '[Birthday] Filter Birthday By Relationship',
   props<{ relationship: string }>()

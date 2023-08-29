@@ -18,6 +18,7 @@ import { ViewportScroller } from '@angular/common';
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer: ElementRef | undefined;
   private userSub: Subscription | null = null;
+  userVerified = false;
 
   constructor(
     private viewportScroller: ViewportScroller,
@@ -29,9 +30,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe((user) => {
       if (!user) {
         this.router.navigate(['/auth']);
+      } else {
+        this.userVerified = user.isVerified;
       }
     });
-    // TODO: handle if the account is unverified
   }
 
   ngOnDestroy(): void {
@@ -54,5 +56,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   scrollToTop() {
     this.viewportScroller.scrollToPosition([0, 0]);
+  }
+
+  sendVerificationEmail(buttonElement: HTMLButtonElement) {
+    // Disable the button to prevent multiple clicks during processing
+    buttonElement.disabled = true;
+
+    this.authService.sendVerificationEmail().subscribe(() => {
+      console.log('Verification email sent');
+    });
   }
 }

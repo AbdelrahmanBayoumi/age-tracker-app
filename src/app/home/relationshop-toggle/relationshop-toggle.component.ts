@@ -35,7 +35,6 @@ export class RelationshipToggleComponent implements OnInit, OnDestroy {
     if (relationship === this.selectedRelation) {
       return;
     }
-    console.log('onChooseRelation:', relationship);
     this.selectedRelation = relationship;
     this.store.dispatch(BirthdayActions.filterByRelationship({ relationship }));
   }

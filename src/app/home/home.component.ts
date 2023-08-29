@@ -21,9 +21,12 @@ import * as BirthdayActions from '../birthday/store/birthday.actions';
 export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer: ElementRef | undefined;
   private userSub: Subscription | null = null;
+  private storeSub: Subscription | null = null;
   userVerified = false;
   startSearch = false;
   searchQuery = '';
+  isLoading = true;
+  errorMessage = '';
 
   constructor(
     private viewportScroller: ViewportScroller,
@@ -33,15 +36,27 @@ export class HomeComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    console.log('isLoading', this.isLoading);
+
     this.userSub = this.authService.user.subscribe((user) => {
       if (user) {
         this.userVerified = user.isVerified;
       }
     });
+    this.storeSub = this.store
+      .select('birthdays')
+      .subscribe((birthdaysState) => {
+        this.isLoading = birthdaysState.loading;
+        this.errorMessage = birthdaysState.errMsg;
+      });
+
+    this.store.dispatch(BirthdayActions.fetchBirthdaysStart());
+    this.store.dispatch(BirthdayActions.fetchBirthdays());
   }
 
   ngOnDestroy(): void {
     this.userSub?.unsubscribe();
+    this.storeSub?.unsubscribe();
   }
 
   logout() {

@@ -1,3 +1,4 @@
+import { fetchBirthdaysStart } from './../../birthday/store/birthday.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BirthdayService } from '../../birthday/birthday.service';
@@ -19,8 +20,6 @@ export class BirthdayListCompnent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(BirthdayActions.fetchBirthdays());
-
     this.store
       .select('birthdays')
       .pipe(

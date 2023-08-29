@@ -7,13 +7,18 @@ export const setBirthdays = createAction(
   props<{ birthdays: Birthday[] }>()
 );
 
-// TODO: Handle loading state
-export const fetchBirthdays = createAction('[Birthdays] Fetch Birthdays');
-
-export const getBirthday = createAction(
-  '[Birthday] Get Birthday',
-  props<{ index: number }>()
+export const fetchBirthdaysStart = createAction(
+  '[Birthdays] Fetch Birthdays Start'
 );
+export const fetchBirthdays = createAction('[Birthdays] Fetch Birthdays');
+export const fetchBirthdaysFailed = createAction(
+  '[Birthdays] Fetch Birthdays Failed'
+);
+
+// export const getBirthday = createAction(
+//   '[Birthday] Get Birthday',
+//   props<{ index: number }>()
+// );
 
 export const searchByName = createAction(
   '[Birthday] Search Birthday By Name',
@@ -36,19 +41,21 @@ export const addBirthday = createAction(
   }>()
 );
 
-export const birthdaySuccess = createAction('[Birthdays] Birthday Updated Sccess');
+export const birthdaySuccess = createAction(
+  '[Birthdays] Birthday Updated Sccess'
+);
 export const addBirthdayFailed = createAction(
   '[Birthdays] Add Birthday Failed'
 );
 
-export const updateBirthday = createAction(
-  '[Birthday] Update Birthday',
-  props<{ index: number; newBirthday: Birthday }>()
-);
+// export const updateBirthday = createAction(
+//   '[Birthday] Update Birthday',
+//   props<{ index: number; newBirthday: Birthday }>()
+// );
 
-export const deleteBirthday = createAction(
-  '[Birthday] Delete Birthday',
-  props<{ index: number }>()
-);
+// export const deleteBirthday = createAction(
+//   '[Birthday] Delete Birthday',
+//   props<{ index: number }>()
+// );
 
 export const storeBirthdays = createAction('[Birthday] Store Birthdays');

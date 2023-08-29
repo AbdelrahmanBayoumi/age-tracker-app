@@ -21,6 +21,14 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     this.storeSub = this.store
       .select('birthdays')
       .subscribe((birthdayState) => {
+        if (this.isLoading === true) {
+          if (birthdayState.errMsg === '' && birthdayState.loading === false) {
+            this.isLoading = birthdayState.loading;
+            this.errorMessage = birthdayState.errMsg;
+            this.router.navigate(['/']);
+            return;
+          }
+        }
         this.isLoading = birthdayState.loading;
         this.errorMessage = birthdayState.errMsg;
       });
@@ -36,7 +44,6 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
 
   onSubmit(form: NgForm) {
     this.isLoading = true;
-    // this.router.navigate(['/']);
     console.log(form.value);
 
     this.store.dispatch(

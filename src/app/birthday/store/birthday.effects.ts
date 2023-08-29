@@ -11,7 +11,7 @@ import { of } from 'rxjs';
 @Injectable()
 export class BirthdayEffects {
   private readonly END_POINT = '/birthday';
-  // handle fetch birthdays
+
   fetchBirthdays = createEffect(() =>
     this.actions$.pipe(
       ofType(BirthdaysActions.fetchBirthdays),
@@ -38,6 +38,9 @@ export class BirthdayEffects {
       }),
       map((birthdays) => {
         return BirthdaysActions.setBirthdays({ birthdays });
+      }),
+      catchError((_error) => {
+        return of(BirthdaysActions.fetchBirthdaysFailed());
       })
     )
   );
@@ -61,21 +64,6 @@ export class BirthdayEffects {
       })
     )
   );
-
-  // storeBirthdays = createEffect(
-  //   () =>
-  //     this.actions$.pipe(
-  //       ofType(BirthdaysActions.storeBirthdays),
-  //       withLatestFrom(this.store.select('recipes')),
-  //       switchMap(([actionData, recipesState]) => {
-  //         return this.http.put(
-  //           'https://angular-demo-ce5e5-default-rtdb.europe-west1.firebasedatabase.app/recipes.json',
-  //           recipesState.recipes
-  //         );
-  //       })
-  //     ),
-  //   { dispatch: false }
-  // );
 
   constructor(private actions$: Actions, private http: HttpClient) {}
 }

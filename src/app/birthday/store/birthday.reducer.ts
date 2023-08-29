@@ -21,6 +21,28 @@ const initialState: State = {
 
 export const birthdayReducer = createReducer(
   initialState,
+  on(BirthdayActions.fetchBirthdaysStart, (state, action) => {
+    console.log('fetchBirthdaysStart');
+
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
+  on(BirthdayActions.fetchBirthdays, (state, action) => {
+    console.log('fetchBirthdays');
+    return {
+      ...state,
+      loading: false,
+    };
+  }),
+  on(BirthdayActions.fetchBirthdaysFailed, (state, action) => {
+    return {
+      ...state,
+      errMsg: 'Unable to Fetch birthdays. Please try again later.',
+      loading: false,
+    };
+  }),
   on(BirthdayActions.addBirthday, (state, action) => {
     return {
       ...state,
@@ -45,8 +67,8 @@ export const birthdayReducer = createReducer(
     return {
       ...state,
       errMsg: '',
-      birthdays: [...action.birthdays],
       loading: false,
+      birthdays: [...action.birthdays],
     };
   }),
   // on(BirthdayActions.updateBirthday, (state, action) => {

@@ -20,11 +20,22 @@
     />
   </div>
 </header>
-<main *ngIf="userVerified">
+
+<main *ngIf="userVerified && !isLoading && !errorMessage">
   <app-relationship-toggle></app-relationship-toggle>
 
   <app-birthday-list></app-birthday-list>
 </main>
+
+<div style="text-align: center" *ngIf="isLoading">
+  <img src="assets/images/spinner.gif" alt="spinner" />
+</div>
+
+<div class="verifyAccountBox">
+  <p class="error" *ngIf="errorMessage">
+    {{ errorMessage }}
+  </p>
+</div>
 
 <div class="verifyAccountBox" *ngIf="!userVerified">
   <p>
@@ -44,7 +55,7 @@
     <img src="/assets/images/home.svg" alt="home icon" />
   </button>
 
-  <button class="add-event-btn"  (click)="onAddBirthday()">
+  <button class="add-event-btn" (click)="onAddBirthday()">
     <img src="/assets/images/calendar-add.svg" alt="add birthday" />
   </button>
 

@@ -1,5 +1,6 @@
 <div class="relationship-box" appHorizontalScroll #dd>
   <button
+    *ngIf="relationships && relationships.size > 0"
     class="relation-btn relation-btn-all"
     [class.relation-btn-selected]="selectedRelation === '-1'"
     (click)="onChooseRelation('-1', -1)"

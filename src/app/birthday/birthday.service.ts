@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Birthday } from './model/birthday.model';
-import * as FakeData from './fake-data';
 import * as fromApp from '../store/app.reducer';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BirthdayService {
-  birthdays: Birthday[] = FakeData.birthdays;
 
   constructor(private store: Store<fromApp.AppState>) {}
 

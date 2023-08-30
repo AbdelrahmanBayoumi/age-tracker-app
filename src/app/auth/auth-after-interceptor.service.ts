@@ -14,6 +14,10 @@ export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
         next: (event) => {},
         // Operation failed; error is an HttpErrorResponse
         error: (error) => {
+          // if it is /change-password no nothing
+          if (req.url.includes('/change-password')) {
+            return;
+          }
           console.log('before error', localStorage.getItem('access_token'));
           if (error.status === 401) {
             localStorage.removeItem('access_token');

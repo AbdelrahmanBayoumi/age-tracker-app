@@ -144,6 +144,20 @@ export class AuthService {
       );
   }
 
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+    const id = this.user.value?.id;
+    if (!id) {
+      throw new Error('User id is not found');
+    }
+    return this.http.patch<User>(
+      environment.apiUrl + '/users/' + id + '/change-password',
+      {
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      }
+    );
+  }
+
   deleteAccount(): Observable<any> {
     const id = this.user.value?.id;
     if (!id) {

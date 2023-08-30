@@ -1,20 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
-import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import Swal from 'sweetalert2';
 
-import * as fromApp from '../store/app.reducer';
-import * as BirthdayActions from '../birthday/store/birthday.actions';
-import { State } from '../birthday/store/birthday.reducer';
-import { catchError, map, of, switchMap } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-settings',
@@ -23,7 +14,6 @@ import { AuthService } from '../auth/auth.service';
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   isLoading = false;
-  errorMessage = '';
   authSub: any;
   isEditMode = false;
   userForm: FormGroup;
@@ -77,6 +67,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         this.userForm.value.email,
         this.userForm.value.birthday
       )
+      .pipe(take(1))
       .subscribe(() => {
         this.isLoading = false;
         Swal.fire({
@@ -90,7 +81,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   showMyAgeStat() {}
 
-  changePassword() {}
+  changePassword() {
+    this.router.navigate(['/settings/change-password']);
+  }
 
   async deleteAccount() {
     const result = await Swal.fire({
@@ -105,10 +98,13 @@ export class SettingsComponent implements OnInit, OnDestroy {
     });
 
     if (result.isConfirmed) {
-      this.authService.deleteAccount().subscribe(() => {
-        Swal.fire('Deleted!', 'Your account has been deleted.', 'success');
-        this.router.navigate(['/auth/signup']);
-      });
+      this.authService
+        .deleteAccount()
+        .pipe(take(1))
+        .subscribe(() => {
+          Swal.fire('Deleted!', 'Your account has been deleted.', 'success');
+          this.router.navigate(['/auth/signup']);
+        });
     }
   }
 }

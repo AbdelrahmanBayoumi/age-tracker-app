@@ -78,6 +78,7 @@ form button:disabled {
 .error {
   color: red;
   font-size: 0.9rem;
+  text-align: center;
 }
 
 .dark-icon-btn {

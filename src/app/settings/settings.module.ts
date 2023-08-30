@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SettingsComponent } from './settings.component';
+import { ChagePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
-  declarations: [SettingsComponent],
+  declarations: [SettingsComponent, ChagePasswordComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
@@ -13,12 +14,8 @@ import { SettingsComponent } from './settings.component';
       {
         path: '',
         component: SettingsComponent,
-        children: [
-          // { path: 'signup', component: SignupComponent },
-          // { path: 'login', component: LoginComponent },
-          // { path: '', redirectTo: 'login', pathMatch: 'full' },
-        ],
       },
+      { path: 'change-password', component: ChagePasswordComponent },
       // { path: '', redirectTo: 'login', pathMatch: 'full' },
     ]),
   ],

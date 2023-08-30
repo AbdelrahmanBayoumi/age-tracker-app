@@ -6,7 +6,6 @@ import { Observable, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class BirthdayService {
-
   constructor(private store: Store<fromApp.AppState>) {}
 
   getRelationships(): Observable<Set<string>> {

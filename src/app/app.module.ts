@@ -22,6 +22,7 @@ import { environment } from 'src/environments/environment';
 import { AddBirthdayComponent } from './home/add-birthday/add-birthday.component';
 import { CheckAuthAfterRequestInterceptor } from './auth/auth-after-interceptor.service';
 import { BirthdayDetailsCompnent } from './home/birthday-list/birthday-details/birthday-details.component';
+import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { BirthdayDetailsCompnent } from './home/birthday-list/birthday-details/b
     HomeComponent,
     BirthdayDetailsCompnent,
     DateFormatPipe,
+    NumberWithCommasPipe,
   ],
   imports: [
     BrowserModule,

@@ -5,7 +5,7 @@ import * as BirthdayActions from '../../../birthday/store/birthday.actions';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
 import { map, of, switchMap } from 'rxjs';
-import { GeorgianDateStatistics } from 'src/app/birthday/model/georgian-date-statistics.model';
+import { BirthdayStatistics } from 'src/app/birthday/model/birthday-statistics.model';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/auth/auth.service';
 
@@ -17,7 +17,7 @@ import { AuthService } from 'src/app/auth/auth.service';
 export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   birthday: Birthday | undefined;
   id: number | undefined;
-  georgianStat: GeorgianDateStatistics | undefined;
+  birthdayStat: BirthdayStatistics | undefined;
   storeSub0: any;
   storeSub: any;
   isLoading = false;
@@ -33,7 +33,7 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   private initBirthday(birthday: Birthday) {
     if (!birthday) return;
     this.birthday = birthday;
-    this.georgianStat = new GeorgianDateStatistics(new Date(birthday.birthday));
+    this.birthdayStat = new BirthdayStatistics(new Date(birthday.birthday));
   }
 
   ngOnInit(): void {
@@ -70,7 +70,13 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
                           return birthday.id === this.id;
                         }
                       );
-                      if (!birthday) {
+
+                      if (
+                        birthdaysState &&
+                        birthdaysState.birthdays &&
+                        birthdaysState.birthdays.length > 0 &&
+                        !birthday
+                      ) {
                         this.backToHome();
                       }
                       return birthday;

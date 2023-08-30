@@ -57,18 +57,25 @@
         <p>
           Age:
           <span class="semi-bold">
-            {{ georgianStat?.ageString?.years }} years, 0 months, 8 days, 197
-            hours, 36 minutes and 14 seconds
+            {{ birthdayStat?.ageDetailed?.years }} years,
+            {{ birthdayStat?.ageDetailed?.remainingMonths }} months,
+            {{ birthdayStat?.ageDetailed?.remainingDays }} days,
+            {{ birthdayStat?.ageDetailed?.remainingHours }} hours,
+            {{ birthdayStat?.ageDetailed?.remainingMinutes }} minutes and
+            {{ birthdayStat?.ageDetailed?.remainingSeconds }} seconds
           </span>
         </p>
         <p>
           The next birthday is after
-          <span class="semi-bold"
-            >{{ georgianStat?.whenNextBirthday?.months }} months and
-            {{ georgianStat?.whenNextBirthday?.days }} days</span
-          >
-          on Wednesday
-          {{ georgianStat?.whenNextBirthday?.date }}
+          <span class="semi-bold">
+            {{ birthdayStat?.toNextBirthdayStr?.months }} months,
+            {{ birthdayStat?.toNextBirthdayStr?.days }} days,
+            {{ birthdayStat?.toNextBirthdayStr?.minutes }} minutes and
+            {{ birthdayStat?.toNextBirthdayStr?.seconds }} seconds
+          </span>
+          on
+          {{ birthdayStat?.nextBirthdayDayOfWeek }}
+          {{ birthdayStat?.nextBirthdateString }}
         </p>
       </div>
     </div>
@@ -86,7 +93,11 @@
 
     <p>
       Birthdate:
-      <span class="semi-bold"> 1420-04-24 (Rabi Thani) </span>
+      <span class="semi-bold">
+        {{ birthdayStat?.hjiriDate?.fullDate }} ({{
+          birthdayStat?.hjiriDate?.monthNameEN
+        }})
+      </span>
     </p>
     <div style="display: flex; align-items: stretch; gap: 10px">
       <img
@@ -97,7 +108,12 @@
       <div style="display: flex">
         <p>
           Age:
-          <span class="semi-bold"> 24 years, 7 months and 20 days </span>
+          <!-- <span class="semi-bold"> 24 years, 7 months and 20 days </span> -->
+          <span class="semi-bold">
+            {{ birthdayStat?.ageInHijri?.years }} years,
+            {{ birthdayStat?.ageInHijri?.remainingMonths }} months and
+            {{ birthdayStat?.ageInHijri?.remainingDays }} days
+          </span>
         </p>
       </div>
     </div>
@@ -113,12 +129,44 @@
       <h3>Age in different formats</h3>
     </div>
 
-    <p>In months: 286 months and 28 days</p>
-    <p>In weeks: 1,247 weeks and 2 days</p>
-    <p>In days: 8,731 days</p>
-    <p>In hours: about 209,543 hours</p>
-    <p>In minutes: about 878,797.7 minutes</p>
-    <p>In seconds: about 999,999,999 seconds</p>
+    <p>
+      In months:
+      <span class="semi-bold">
+        {{ birthdayStat?.ageInMonths?.months }} months and
+        {{ birthdayStat?.ageInMonths?.days }} days
+      </span>
+    </p>
+    <p>
+      In weeks:
+      <span class="semi-bold">
+        {{ birthdayStat?.ageInWeeks?.weeks }} weeks and
+        {{ birthdayStat?.ageInWeeks?.days }} days
+      </span>
+    </p>
+    <p>
+      In days:
+      <span class="semi-bold">
+        {{ birthdayStat?.ageInDays | numberWithCommas }} days
+      </span>
+    </p>
+    <p>
+      In hours: about
+      <span class="semi-bold">
+        {{ birthdayStat?.ageInHours | numberWithCommas }} hours</span
+      >
+    </p>
+    <p>
+      In minutes: about
+      <span class="semi-bold">
+        {{ birthdayStat?.ageInMinutes | numberWithCommas }} minutes</span
+      >
+    </p>
+    <p>
+      In seconds: about
+      <span class="semi-bold">
+        {{ birthdayStat?.ageInSeconds | numberWithCommas }} seconds</span
+      >
+    </p>
   </div>
 
   <div class="detials-box">
@@ -131,9 +179,17 @@
       <h3>More info</h3>
     </div>
 
-    <p>Born on: <span class="semi-bold">Monday</span></p>
-    <p>It was in the <span class="semi-bold">summer</span></p>
-    <p>You breathed about <span class="semi-bold">174,620,000 times</span></p>
+    <p>
+      Born on:
+      <span class="semi-bold">{{
+        birthday?.birthDate?.toLocaleDateString("en-US", { weekday: "long" })
+      }}</span>
+    </p>
+    <p>
+      It was in the
+      <span class="semi-bold">{{ birthdayStat?.yearSeason | titlecase }}</span>
+    </p>
+    <!-- <p>You breathed about <span class="semi-bold">174,620,000 times</span></p>
     <p>
       Your heart beat about<span class="semi-bold"> 1,005,811,200 times </span>
     </p>
@@ -144,10 +200,11 @@
     </p>
     <p>
       You ate about <span class="semi-bold">1 year 03 months and 9 days</span>
-    </p>
+    </p> -->
   </div>
 
   <hr />
+
   <div class="note">
     <h5>Important note:</h5>
     <p>

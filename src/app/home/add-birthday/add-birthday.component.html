@@ -37,8 +37,20 @@
           placeholder="1999-08-24"
           formControlName="birthday"
         />
+        <!-- get error (birthdayNotValid) of birthday field -->
+        <p
+          class="error"
+          *ngIf="birthdayForm?.get('birthday')?.errors?.['birthdayNotValid']"
+          dir="auto"
+        >
+          Birthdate must be in the past
+        </p>
 
-        <p class="error" *ngIf="birthdayForm?.invalid && birthdayForm?.touched" dir="auto">
+        <p
+          class="error"
+          *ngIf="birthdayForm?.invalid && birthdayForm?.touched"
+          dir="auto"
+        >
           Please enter valid data
         </p>
         <p class="error" *ngIf="errorMessage">

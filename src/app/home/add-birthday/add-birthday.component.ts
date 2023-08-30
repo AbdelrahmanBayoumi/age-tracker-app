@@ -38,7 +38,10 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   private initForm() {
     this.birthdayForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      birthday: new FormControl(null, Validators.required),
+      birthday: new FormControl(null, [
+        Validators.required,
+        this.validBirthday,
+      ]),
       relationship: new FormControl('', Validators.required),
     });
 
@@ -63,6 +66,16 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
           });
         });
     }
+  }
+
+  private validBirthday(control: FormControl): { [s: string]: boolean } {
+    const today = new Date();
+    const birthday = new Date(control.value);
+
+    if (birthday > today) {
+      return { birthdayNotValid: true };
+    }
+    return null!;
   }
 
   ngOnInit(): void {

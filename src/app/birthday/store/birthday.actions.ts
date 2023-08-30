@@ -58,10 +58,3 @@ export const deleteBirthday = createAction(
 export const deleteBirthdayFailed = createAction(
   '[Birthdays] Delete Birthday Failed'
 );
-
-// export const storeBirthdays = createAction('[Birthday] Store Birthdays');
-
-// export const getBirthday = createAction(
-//   '[Birthday] Get Birthday',
-//   props<{ index: number }>()
-// );

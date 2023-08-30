@@ -4,9 +4,10 @@ import * as fromApp from '../../../store/app.reducer';
 import * as BirthdayActions from '../../../birthday/store/birthday.actions';
 import { Store } from '@ngrx/store';
 import { ActivatedRoute, Router } from '@angular/router';
-import { map, switchMap } from 'rxjs';
+import { map, of, switchMap } from 'rxjs';
 import { GeorgianDateStatistics } from 'src/app/birthday/model/georgian-date-statistics.model';
 import Swal from 'sweetalert2';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-birthday-details',
@@ -17,36 +18,71 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   birthday: Birthday | undefined;
   id: number | undefined;
   georgianStat: GeorgianDateStatistics | undefined;
+  storeSub0: any;
   storeSub: any;
   isLoading = false;
+  isMe = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private authService: AuthService,
     private store: Store<fromApp.AppState>
   ) {}
 
+  private initBirthday(birthday: Birthday) {
+    if (!birthday) return;
+    this.birthday = birthday;
+    this.georgianStat = new GeorgianDateStatistics(new Date(birthday.birthday));
+  }
+
   ngOnInit(): void {
-    this.route.params
-      .pipe(
-        map((params) => {
-          return +params['id'];
-        }),
-        switchMap((id) => {
-          this.id = id;
-          return this.store.select('birthdays');
-        }),
-        map((birthdaysState) => {
-          return birthdaysState.birthdays.find((birthday, index) => {
-            return birthday.id === this.id;
-          });
-        })
-      )
-      .subscribe((birthday) => {
-        this.birthday = birthday;
-        this.georgianStat = new GeorgianDateStatistics(
-          new Date(this.birthday?.birthDate!)
-        );
+    this.storeSub0 = this.store
+      .select('birthdays')
+      .subscribe((birthdaysState) => {
+        if (birthdaysState.viewedBirthday) {
+          console.log('viewedBirthday: ', birthdaysState.viewedBirthday);
+          this.initBirthday(birthdaysState.viewedBirthday);
+        } else {
+          this.route.params
+            .pipe(
+              switchMap((params) => {
+                if (params['id'] === 'me') {
+                  this.isMe = true;
+                  if (!this.authService.user.value) {
+                    return of(null);
+                  }
+                  return of(
+                    new Birthday(
+                      -1,
+                      this.authService.user.value!.fullName,
+                      this.authService.user.value!.birthday,
+                      'Me'
+                    )
+                  );
+                } else {
+                  this.id = +params['id'];
+                  this.isMe = false;
+                  return this.store.select('birthdays').pipe(
+                    map((birthdaysState) => {
+                      const birthday = birthdaysState.birthdays.find(
+                        (birthday, index) => {
+                          return birthday.id === this.id;
+                        }
+                      );
+                      if (!birthday) {
+                        this.backToHome();
+                      }
+                      return birthday;
+                    })
+                  );
+                }
+              })
+            )
+            .subscribe((birthday) => {
+              this.initBirthday(birthday!);
+            });
+        }
       });
   }
 
@@ -86,10 +122,15 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   }
 
   backToHome() {
+    if (this.isMe) {
+      this.router.navigate(['/settings']);
+      return;
+    }
     this.router.navigate(['/']);
   }
 
   ngOnDestroy(): void {
+    this.storeSub0?.unsubscribe();
     this.storeSub?.unsubscribe();
   }
 }

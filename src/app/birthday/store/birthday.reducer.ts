@@ -9,6 +9,7 @@ export interface State {
   searchQuery: string;
   errMsg: string;
   loading: boolean;
+  viewedBirthday?: Birthday;
 }
 
 const initialState: State = {

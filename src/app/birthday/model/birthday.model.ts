@@ -6,7 +6,8 @@ export class Birthday {
     public name: string,
     public birthday: string | Date,
     public relationship: string,
-    public notes?: string
+    public notes?: string,
+    public userId?: string
   ) {
     this.birthDate = new Date(birthday);
     this.birthDateStr = this.birthday.toString();

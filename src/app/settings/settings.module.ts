@@ -16,6 +16,7 @@ import { ChagePasswordComponent } from './change-password/change-password.compon
         component: SettingsComponent,
       },
       { path: 'change-password', component: ChagePasswordComponent },
+      { path: 'my-age-stat', redirectTo: 'birthday/me' },
       // { path: '', redirectTo: 'login', pathMatch: 'full' },
     ]),
   ],

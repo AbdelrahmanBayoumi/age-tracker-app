@@ -79,7 +79,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
       });
   }
 
-  showMyAgeStat() {}
+  showMyAgeStat() {
+    this.router.navigate(['/birthday/me']);
+  }
 
   changePassword() {
     this.router.navigate(['/settings/change-password']);

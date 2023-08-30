@@ -84,25 +84,25 @@ export class AuthService {
   logout() {
     return this.http.post(environment.apiUrl + '/auth/logout', {}).pipe(
       tap(() => {
-        this.user.next(null);
-        localStorage.removeItem('user');
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
+        this.afterLogoutRequest();
       }),
       catchError((errorRes) => {
         return throwError(() => {
           console.log(errorRes);
-
-          this.user.next(null);
-          localStorage.removeItem('user');
-          localStorage.removeItem('access_token');
-          localStorage.removeItem('refresh_token');
+          this.afterLogoutRequest();
         });
       })
     );
   }
 
-  sendVerificationEmail() {
+  private afterLogoutRequest() {
+    this.user.next(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+  }
+
+  resendVerificationEmail() {
     return this.http.post(environment.apiUrl + '/auth/resend-verification', {
       email: this.user.value?.email,
     });
@@ -119,7 +119,40 @@ export class AuthService {
     return this.checkToken(access_token);
   }
 
+  updateUser(
+    fullName: string,
+    email: string,
+    birthday: string
+  ): Observable<any> {
+    const id = this.user.value?.id;
+    if (!id) {
+      throw new Error('User id is not found');
+    }
+    return this.http
+      .patch<User>(environment.apiUrl + '/users/' + id, {
+        fullName: fullName,
+        email: email,
+        birthday: birthday,
+      })
+      .pipe(
+        tap((user) => {
+          // save user object to local storage
+          localStorage.setItem('user', JSON.stringify(user));
+          // send updated user object to subscribers
+          this.user.next(user);
+        })
+      );
+  }
 
+  deleteAccount(): Observable<any> {
+    const id = this.user.value?.id;
+    if (!id) {
+      throw new Error('User id is not found');
+    }
+    return this.http
+      .delete(environment.apiUrl + '/users/' + id)
+      .pipe(tap(() => this.afterLogoutRequest()));
+  }
 
   private checkToken(accessToken: string): Observable<User> {
     return this.http

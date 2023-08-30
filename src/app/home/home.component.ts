@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   sendVerificationEmail(buttonElement: HTMLButtonElement) {
     buttonElement.disabled = true;
-    this.authService.sendVerificationEmail().subscribe(() => {
+    this.authService.resendVerificationEmail().subscribe(() => {
       console.log('Verification email sent');
     });
   }

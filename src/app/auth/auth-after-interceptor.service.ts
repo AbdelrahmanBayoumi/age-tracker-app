@@ -4,10 +4,13 @@ import {
   HttpRequest,
   HttpHandler,
 } from '@angular/common/http';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
+import { AuthService } from './auth.service';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
+  constructor(private authService: AuthService, private router: Router) {}
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     return next.handle(req).pipe(
       tap({
@@ -18,14 +21,15 @@ export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
           if (req.url.includes('/change-password')) {
             return;
           }
-          console.log('before error', localStorage.getItem('access_token'));
           if (error.status === 401) {
             localStorage.removeItem('access_token');
-            // TODO: if response is 401 Unauthorized, then call refresh-token endpoint
-            localStorage.removeItem('refresh_token');
             localStorage.removeItem('user');
+
+            this.authService.refreshToken().pipe(catchError(() => {
+              this.router.navigate(['/auth']);
+              return [];
+            })).subscribe();
           }
-          console.log('after error', localStorage.getItem('access_token'));
         },
       })
     );

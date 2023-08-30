@@ -144,7 +144,10 @@ export class AuthService {
       );
   }
 
-  changePassword(currentPassword: string, newPassword: string): Observable<any> {
+  changePassword(
+    currentPassword: string,
+    newPassword: string
+  ): Observable<any> {
     const id = this.user.value?.id;
     if (!id) {
       throw new Error('User id is not found');
@@ -199,5 +202,40 @@ export class AuthService {
       errorString = 'Email or password is not correct';
     }
     return errorString;
+  }
+
+  refreshToken() {
+    const refresh_token = localStorage.getItem('refresh_token');
+    if (!refresh_token) {
+      return throwError(() => {
+        this.afterLogoutRequest();
+      });
+    }
+    localStorage.removeItem('refresh_token');
+    return this.http
+      .post<Tokens>(
+        environment.apiUrl + '/auth/refresh',
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${refresh_token}`,
+          },
+        }
+      )
+      .pipe(
+        map((resData) => {
+          localStorage.setItem('access_token', resData.access_token);
+          localStorage.setItem('refresh_token', resData.refresh_token);
+          return resData;
+        }),
+        switchMap((resData) => {
+          return this.checkToken(resData.access_token);
+        }),
+        catchError((errorRes) => {
+          return throwError(() => {
+            this.afterLogoutRequest();
+          });
+        })
+      );
   }
 }

@@ -231,7 +231,6 @@ export class BirthdayStatistics {
   }
 
   getHijriDate(): HijriDate {
-    console.log(this.birthdate);
     const hijriDate = uq(this.birthdate);
     return {
       fullDate: hijriDate.format('yyyy-MM-dd', 'en'),
@@ -246,9 +245,6 @@ export class BirthdayStatistics {
   getAgeInHijri(): DetailedAge {
     const hijriBirthdate = uq(this.birthdate);
     const hijriToday = uq(this.today);
-
-    console.log(hijriBirthdate);
-    console.log(hijriToday);
 
     let years = hijriToday.hy - hijriBirthdate.hy;
     let remainingMonths = hijriToday.hm - hijriBirthdate.hm;

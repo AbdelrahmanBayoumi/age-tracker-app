@@ -26,6 +26,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMessage = '';
   storeSub: any;
+  storeSub2: any;
   isEditMode = false;
   id: number | undefined;
 
@@ -46,7 +47,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     });
 
     if (this.isEditMode) {
-      this.store
+      this.storeSub2 = this.store
         .select('birthdays')
         .pipe(
           map((birthdayState) => {
@@ -128,6 +129,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.storeSub?.unsubscribe();
+    this.storeSub2?.unsubscribe();
   }
 
   backToHome() {

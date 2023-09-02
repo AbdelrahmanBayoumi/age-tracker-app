@@ -7,6 +7,7 @@ export class Birthday {
     public birthday: string | Date,
     public relationship: string,
     public notes?: string,
+    public image?: string,
     public userId?: string
   ) {
     this.birthDate = new Date(birthday);

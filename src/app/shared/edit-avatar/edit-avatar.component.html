@@ -1,0 +1,48 @@
+<div id="avatar-container">
+  <img
+    id="avatar-photo"
+    #avatarImg
+    class="avatar-photo"
+    [src]="
+      photo && photo !== ''
+        ? photo
+        : '/assets/images/no-image.png'
+    "
+    (mouseenter)="showAddPhotoOverlay = true"
+    alt="avatar photo"
+  />
+
+  <div
+    *ngIf="showAddPhotoOverlay"
+    id="add-photo-overlay"
+    class="avatar-photo"
+    (mouseleave)="showAddPhotoOverlay = false"
+  >
+    <button
+      id="add-avatar-photo-button"
+      class="center-positon-absolute"
+      mat-icon-button
+      (click)="openFileInput(fileInput)"
+    >
+      <mat-icon>add_a_photo</mat-icon>
+    </button>
+
+    <mat-icon
+      id="remove-avatar-photo-button"
+      *ngIf="photo && photo !== ''"
+      (click)="removePhoto()"
+      matTooltip="remove this photo"
+      >close</mat-icon
+    >
+  </div>
+
+  <!-- Input file -->
+  <input
+    #fileInput
+    type="file"
+    (change)="addPhoto($event)"
+    name="avatar"
+    accept="image/png, image/jpeg"
+    style="display: none"
+  />
+</div>

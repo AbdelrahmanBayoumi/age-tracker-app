@@ -23,6 +23,7 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;
+  avatarPhoto: string | ArrayBuffer | null = '';
   isLoading = false;
   errorMessage = '';
   storeSub: any;
@@ -59,7 +60,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
         .subscribe((birthday) => {
           console.log('birthday', birthday);
           console.log('this.birthdayForm', this.birthdayForm);
-
+          if (birthday && birthday.image) {
+            this.avatarPhoto = birthday.image;
+          }
           this.birthdayForm?.patchValue({
             name: birthday?.name,
             birthday: birthday?.birthday,
@@ -148,7 +151,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
             -1,
             this.birthdayForm?.value.name,
             this.birthdayForm?.value.birthday,
-            this.birthdayForm?.value.relationship
+            this.birthdayForm?.value.relationship,
+            '',
+            this.avatarPhoto?.toString()
           ),
         })
       );
@@ -163,5 +168,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  onUpdatePhoto(photo: string | ArrayBuffer | null) {
+    this.avatarPhoto = photo;
   }
 }

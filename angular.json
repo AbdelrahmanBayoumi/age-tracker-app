@@ -20,10 +20,14 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
-              "node_modules/sweetalert2/src/sweetalert2.scss"
+              "node_modules/sweetalert2/src/sweetalert2.scss",
+              "node_modules/cropperjs/dist/cropper.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/cropperjs/dist/cropper.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -76,7 +80,10 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css"
+            ],
             "scripts": []
           }
         }

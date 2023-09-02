@@ -25,7 +25,8 @@ export class BirthdayEffects {
             birthday.name,
             birthday.birthday,
             birthday.relationship,
-            birthday.notes
+            birthday.notes,
+            birthday.image
           );
         });
       }),
@@ -67,12 +68,52 @@ export class BirthdayEffects {
     this.actions$.pipe(
       ofType(BirthdaysActions.updateBirthday),
       switchMap((action) => {
-        return this.http.patch<Birthday>(
-          environment.apiUrl + this.END_POINT + '/' + action.id,
-          action.newBirthday
-        );
+        console.log('action.newBirthday', action.newBirthday);
+
+        return this.http
+          .patch<Birthday>(
+            environment.apiUrl + this.END_POINT + '/' + action.id,
+            action.newBirthday
+          )
+          .pipe(
+            switchMap(() => {
+              console.log(
+                'action.newBirthday.image',
+                action.newBirthday.image ? true : false
+              );
+              if (action.newBirthday.image) {
+                // handle updaload image to server with form data named image
+                const formData = new FormData();
+                formData.append(
+                  'image',
+                  'C:/Coding/GitHub/AbdelrahmanBayoumi/age-tracker-app/src/assets/images/hijri-calendar.png'
+                );
+                console.log(
+                  'Type of action.newBirthday.image:',
+                  typeof action.newBirthday.image
+                );
+                console.log('Before appending:', formData.get('image'));
+                formData.set('image', action.newBirthday.image, 'image');
+                console.log('After appending:', formData.get('image'));
+
+                console.log('formData', formData);
+
+                return this.http.post(
+                  environment.apiUrl +
+                    this.END_POINT +
+                    '/' +
+                    action.id +
+                    '/upload-image',
+                  formData
+                );
+              }
+              return of();
+            })
+          );
       }),
-      map(() => {
+      map((res) => {
+        console.log('res', res);
+
         return BirthdaysActions.fetchBirthdays();
       }),
       catchError((_error) => {

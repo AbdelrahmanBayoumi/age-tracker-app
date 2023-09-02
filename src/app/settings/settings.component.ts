@@ -146,7 +146,6 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   // ------ Handle photo ------
-
   openFileInput(fileInput: HTMLInputElement) {
     fileInput.click();
   }

@@ -29,14 +29,25 @@ main > div {
 }
 
 .person-image {
-  /* crop the image to size 150px*150px with border radious 25px */
   width: 150px;
   height: 150px;
-  border-radius: 25px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
 form label {
   width: 100%;
   text-align: left;
+}
+
+
+
+.image-buttons{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.image-buttons .image-remove{
+  background-color: #f44336;
 }

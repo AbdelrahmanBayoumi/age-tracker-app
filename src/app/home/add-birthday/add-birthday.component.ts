@@ -18,7 +18,10 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;
-  avatarPhoto: string = '';
+  image: { fileURL: string; fileObject?: File } = {
+    fileURL: '',
+  };
+  fileSizeError = false;
   isLoading = false;
   errorMessage = '';
   storeSub: any;
@@ -31,6 +34,22 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<fromApp.AppState>
   ) {}
+
+  get hasImage() {
+    return (
+      this.image &&
+      this.image?.fileURL !== '' &&
+      this.image?.fileURL !== null &&
+      this.image?.fileURL !== undefined
+    );
+  }
+
+  get userPhotoUrl() {
+    if (this.hasImage) {
+      return this.image?.fileURL;
+    }
+    return '/assets/images/no-image.png';
+  }
 
   private initForm() {
     this.birthdayForm = new FormGroup({
@@ -56,7 +75,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
           console.log('birthday', birthday);
           console.log('this.birthdayForm', this.birthdayForm);
           if (birthday && birthday.image) {
-            this.avatarPhoto = birthday.image;
+            this.image = {
+              fileURL: birthday.image,
+            };
           }
           this.birthdayForm?.patchValue({
             name: birthday?.name,
@@ -147,9 +168,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
             this.birthdayForm?.value.name,
             this.birthdayForm?.value.birthday,
             this.birthdayForm?.value.relationship,
-            '',
-            this.avatarPhoto?.toString()
+            ''
           ),
+          image: this.image,
         })
       );
     } else {
@@ -165,7 +186,34 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     }
   }
 
-  onUpdatePhoto(photo: string) {
-    this.avatarPhoto = photo;
+  // ------ Handle photo ------
+  openFileInput(fileInput: HTMLInputElement) {
+    fileInput.click();
+  }
+
+  addPhoto(event: any) {
+    this.image.fileObject = <File>event.target.files[0];
+    if (!this.image.fileObject) {
+      return;
+    }
+    console.log('this.image.fileObject', this.image.fileObject);
+
+    if (this.image.fileObject.size > 2 * 1024 * 1024) {
+      this.fileSizeError = true;
+      console.log('this.fileSizeError', this.fileSizeError);
+
+      this.image.fileObject = undefined;
+      return;
+    }
+    this.image.fileURL = URL.createObjectURL(event.target.files[0]);
+    this.fileSizeError = false;
+  }
+
+  removePhoto() {
+    this.image = {
+      fileURL: '',
+      fileObject: undefined,
+    };
+    this.fileSizeError = false;
   }
 }

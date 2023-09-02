@@ -77,37 +77,36 @@ export class BirthdayEffects {
           )
           .pipe(
             switchMap(() => {
-              console.log(
-                'action.newBirthday.image',
-                action.newBirthday.image ? true : false
-              );
-              if (action.newBirthday.image) {
-                // handle updaload image to server with form data named image
-                const formData = new FormData();
+              const image = action.image;
+              const formData = new FormData();
+              const isNewImage: boolean =
+                image.fileObject != null || image.fileObject != undefined;
+              const isOldImage: boolean =
+                image.fileURL != null &&
+                image.fileURL != undefined &&
+                image.fileURL != '' &&
+                !isNewImage;
+
+              if (isNewImage) {
+                // image changed => upload new image
                 formData.append(
                   'image',
-                  'C:/Coding/GitHub/AbdelrahmanBayoumi/age-tracker-app/src/assets/images/hijri-calendar.png'
+                  image.fileObject!,
+                  image.fileObject!.name
                 );
-                console.log(
-                  'Type of action.newBirthday.image:',
-                  typeof action.newBirthday.image
-                );
-                console.log('Before appending:', formData.get('image'));
-                formData.set('image', action.newBirthday.image, 'image');
-                console.log('After appending:', formData.get('image'));
-
-                console.log('formData', formData);
-
-                return this.http.post(
-                  environment.apiUrl +
-                    this.END_POINT +
-                    '/' +
-                    action.id +
-                    '/upload-image',
-                  formData
-                );
+              } else if (isOldImage) {
+                // image not changed => keep old image
+                return of(null);
               }
-              return of();
+
+              return this.http.post(
+                environment.apiUrl +
+                  this.END_POINT +
+                  '/' +
+                  action.id +
+                  '/upload-image',
+                formData
+              );
             })
           );
       }),

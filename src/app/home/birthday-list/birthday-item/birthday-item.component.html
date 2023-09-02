@@ -1,11 +1,18 @@
 <div class="birthday-group">
   <h2>{{ birthdaysGroup.month | dateFormat }}</h2>
-  <div class="birthday-item" *ngFor="let birthday of birthdaysGroup.birthdays" (click)="onGoToDetails(birthday)">
+  <div
+    class="birthday-item"
+    *ngFor="let birthday of birthdaysGroup.birthdays"
+    (click)="onGoToDetails(birthday)"
+  >
     <div class="birthday-item__image-container">
-      <!-- src="https://picsum.photos/200/300" -->
       <img
         class="birthday-item__image"
-        src="assets/images/user.svg"
+        [src]="
+          birthday?.image && birthday?.image !== ''
+            ? birthday?.image
+            : '/assets/images/no-image.png'
+        "
         alt="Birthday person"
       />
     </div>

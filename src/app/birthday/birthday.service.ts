@@ -27,7 +27,8 @@ export class BirthdayService {
           birthday.name,
           new Date(birthday.birthDate),
           birthday.relationship,
-          birthday.notes
+          birthday.notes,
+          birthday.image
         );
       })
       .sort((a, b) => {

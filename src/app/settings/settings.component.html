@@ -14,13 +14,44 @@
         <button type="button" *ngIf="!isEditMode" (click)="onStartEdit()">
           Edit
         </button>
-        <button class="save-btn" type="submit" *ngIf="isEditMode">Save</button>
+        <button
+          class="save-btn"
+          type="submit"
+          *ngIf="isEditMode"
+          [disabled]="!userForm.valid"
+        >
+          Save
+        </button>
       </div>
-      <img
-        class="person-image"
-        src="assets/images/user.svg"
-        alt="person image"
-      />
+      <img class="person-image" [src]="userPhotoUrl" alt="person image" />
+      <div class="image-buttons" *ngIf="isEditMode">
+        <button
+          type="button"
+          class="image-add"
+          (click)="openFileInput(fileInput)"
+        >
+          {{ hasImage ? "Edit" : "Upload" }}
+        </button>
+        <button
+          type="button"
+          class="image-remove"
+          *ngIf="hasImage"
+          (click)="removePhoto()"
+        >
+          Remove
+        </button>
+        <input
+          #fileInput
+          type="file"
+          style="display: none"
+          (change)="addPhoto($event)"
+          name="avatar"
+          accept="image/png, image/jpeg, image/jpg"
+        />
+      </div>
+      <p class="error" *ngIf="fileSizeError" dir="auto">
+        Image size must be less than or equal to 2MB
+      </p>
       <label for="name">Name</label>
       <input
         type="text"
@@ -48,7 +79,6 @@
         formControlName="birthday"
         [readOnly]="!isEditMode"
       />
-
       <p
         class="error"
         *ngIf="userForm?.invalid && userForm?.touched"

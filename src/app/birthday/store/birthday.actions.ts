@@ -45,7 +45,11 @@ export const addBirthdayFailed = createAction(
 
 export const updateBirthday = createAction(
   '[Birthday] Update Birthday',
-  props<{ id: number; newBirthday: Birthday }>()
+  props<{
+    id: number;
+    newBirthday: Birthday;
+    image: { fileURL: string; fileObject?: File };
+  }>()
 );
 export const updateBirthdayFailed = createAction(
   '[Birthdays] Update Birthday Failed'

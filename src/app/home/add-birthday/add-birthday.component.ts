@@ -1,11 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import Swal from 'sweetalert2';
@@ -13,7 +8,7 @@ import Swal from 'sweetalert2';
 import * as fromApp from '../../store/app.reducer';
 import * as BirthdayActions from '../../birthday/store/birthday.actions';
 import { State } from '../../birthday/store/birthday.reducer';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 
 @Component({
@@ -23,6 +18,10 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;
+  image: { fileURL: string; fileObject?: File } = {
+    fileURL: '',
+  };
+  fileSizeError = false;
   isLoading = false;
   errorMessage = '';
   storeSub: any;
@@ -35,6 +34,22 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     private router: Router,
     private store: Store<fromApp.AppState>
   ) {}
+
+  get hasImage() {
+    return (
+      this.image &&
+      this.image?.fileURL !== '' &&
+      this.image?.fileURL !== null &&
+      this.image?.fileURL !== undefined
+    );
+  }
+
+  get userPhotoUrl() {
+    if (this.hasImage) {
+      return this.image?.fileURL;
+    }
+    return '/assets/images/no-image.png';
+  }
 
   private initForm() {
     this.birthdayForm = new FormGroup({
@@ -59,7 +74,11 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
         .subscribe((birthday) => {
           console.log('birthday', birthday);
           console.log('this.birthdayForm', this.birthdayForm);
-
+          if (birthday && birthday.image) {
+            this.image = {
+              fileURL: birthday.image,
+            };
+          }
           this.birthdayForm?.patchValue({
             name: birthday?.name,
             birthday: birthday?.birthday,
@@ -148,8 +167,10 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
             -1,
             this.birthdayForm?.value.name,
             this.birthdayForm?.value.birthday,
-            this.birthdayForm?.value.relationship
+            this.birthdayForm?.value.relationship,
+            ''
           ),
+          image: this.image,
         })
       );
     } else {
@@ -163,5 +184,36 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
         })
       );
     }
+  }
+
+  // ------ Handle photo ------
+  openFileInput(fileInput: HTMLInputElement) {
+    fileInput.click();
+  }
+
+  addPhoto(event: any) {
+    this.image.fileObject = <File>event.target.files[0];
+    if (!this.image.fileObject) {
+      return;
+    }
+    console.log('this.image.fileObject', this.image.fileObject);
+
+    if (this.image.fileObject.size > 2 * 1024 * 1024) {
+      this.fileSizeError = true;
+      console.log('this.fileSizeError', this.fileSizeError);
+
+      this.image.fileObject = undefined;
+      return;
+    }
+    this.image.fileURL = URL.createObjectURL(event.target.files[0]);
+    this.fileSizeError = false;
+  }
+
+  removePhoto() {
+    this.image = {
+      fileURL: '',
+      fileObject: undefined,
+    };
+    this.fileSizeError = false;
   }
 }

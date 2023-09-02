@@ -25,7 +25,8 @@ export class BirthdayEffects {
             birthday.name,
             birthday.birthday,
             birthday.relationship,
-            birthday.notes
+            birthday.notes,
+            birthday.image
           );
         });
       }),
@@ -67,12 +68,51 @@ export class BirthdayEffects {
     this.actions$.pipe(
       ofType(BirthdaysActions.updateBirthday),
       switchMap((action) => {
-        return this.http.patch<Birthday>(
-          environment.apiUrl + this.END_POINT + '/' + action.id,
-          action.newBirthday
-        );
+        console.log('action.newBirthday', action.newBirthday);
+
+        return this.http
+          .patch<Birthday>(
+            environment.apiUrl + this.END_POINT + '/' + action.id,
+            action.newBirthday
+          )
+          .pipe(
+            switchMap(() => {
+              const image = action.image;
+              const formData = new FormData();
+              const isNewImage: boolean =
+                image.fileObject != null || image.fileObject != undefined;
+              const isOldImage: boolean =
+                image.fileURL != null &&
+                image.fileURL != undefined &&
+                image.fileURL != '' &&
+                !isNewImage;
+
+              if (isNewImage) {
+                // image changed => upload new image
+                formData.append(
+                  'image',
+                  image.fileObject!,
+                  image.fileObject!.name
+                );
+              } else if (isOldImage) {
+                // image not changed => keep old image
+                return of(null);
+              }
+
+              return this.http.post(
+                environment.apiUrl +
+                  this.END_POINT +
+                  '/' +
+                  action.id +
+                  '/upload-image',
+                formData
+              );
+            })
+          );
       }),
-      map(() => {
+      map((res) => {
+        console.log('res', res);
+
         return BirthdaysActions.fetchBirthdays();
       }),
       catchError((_error) => {

@@ -31,10 +31,9 @@ main > form {
 }
 
 .person-image {
-  /* crop the image to size 150px*150px with border radious 25px */
   width: 150px;
   height: 150px;
-  border-radius: 25px;
+  border-radius: 50%;
   object-fit: cover;
 }
 
@@ -156,4 +155,14 @@ main hr {
 
 .delete-btn:disabled:hover svg {
   fill: red;
+}
+
+.image-buttons{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.image-buttons .image-remove{
+  background-color: #f44336;
 }

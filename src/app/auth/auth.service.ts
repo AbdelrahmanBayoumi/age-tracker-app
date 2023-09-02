@@ -6,6 +6,7 @@ import {
   Subject,
   catchError,
   map,
+  of,
   switchMap,
   tap,
   throwError,
@@ -122,26 +123,68 @@ export class AuthService {
   updateUser(
     fullName: string,
     email: string,
-    birthday: string
+    birthday: string,
+    image: { fileURL: string; fileObject?: File }
   ): Observable<any> {
     const id = this.user.value?.id;
     if (!id) {
       throw new Error('User id is not found');
     }
-    return this.http
-      .patch<User>(environment.apiUrl + '/users/' + id, {
-        fullName: fullName,
-        email: email,
-        birthday: birthday,
+
+    return of(true).pipe(
+      map(() => {
+        console.log('image', image);
+        const formData = new FormData();
+        const isNewImage: boolean =
+          image.fileObject != null || image.fileObject != undefined;
+        const isOldImage: boolean =
+          image.fileURL != null &&
+          image.fileURL != undefined &&
+          image.fileURL != '' &&
+          !isNewImage;
+        // const isImageRemoved =
+        //   image.fileURL == null ||
+        //   image.fileURL == undefined ||
+        //   (image.fileURL == '' && !isNewImage);
+
+        if (isNewImage) {
+          // image changed => upload new image
+          formData.append('image', image.fileObject!, image.fileObject!.name);
+        } else if (isOldImage) {
+          // image not changed => keep old image
+          return of(null);
+        }
+        // use the formData to upload image
+        return this.http.post<{ url: string }>(
+          environment.apiUrl + '/users/upload-profile-image',
+          formData
+        );
+      }),
+      switchMap((resData) => {
+        if (resData == null) {
+          return of(null);
+        }
+        return resData;
+      }),
+      map((resData) => {
+        console.log('resData', resData);
+
+        return this.http.patch<User>(environment.apiUrl + '/users/' + id, {
+          fullName: fullName,
+          email: email,
+          birthday: birthday,
+        });
+      }),
+      switchMap((resData) => {
+        return resData;
+      }),
+      tap((user) => {
+        // save user object to local storage
+        localStorage.setItem('user', JSON.stringify(user));
+        // send updated user object to subscribers
+        this.user.next(user);
       })
-      .pipe(
-        tap((user) => {
-          // save user object to local storage
-          localStorage.setItem('user', JSON.stringify(user));
-          // send updated user object to subscribers
-          this.user.next(user);
-        })
-      );
+    );
   }
 
   changePassword(

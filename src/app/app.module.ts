@@ -1,7 +1,6 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MatIconModule } from '@angular/material/icon';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -24,7 +23,6 @@ import { AddBirthdayComponent } from './home/add-birthday/add-birthday.component
 import { CheckAuthAfterRequestInterceptor } from './auth/auth-after-interceptor.service';
 import { BirthdayDetailsCompnent } from './home/birthday-list/birthday-details/birthday-details.component';
 import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
-import { EditAvatarComponent } from './shared/edit-avatar/edit-avatar.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +36,6 @@ import { EditAvatarComponent } from './shared/edit-avatar/edit-avatar.component'
     BirthdayDetailsCompnent,
     DateFormatPipe,
     NumberWithCommasPipe,
-    EditAvatarComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +43,6 @@ import { EditAvatarComponent } from './shared/edit-avatar/edit-avatar.component'
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
-    MatIconModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([BirthdayEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),

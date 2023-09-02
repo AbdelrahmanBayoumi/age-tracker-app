@@ -5,7 +5,6 @@ import { HomeComponent } from './home/home.component';
 import { AddBirthdayComponent } from './home/add-birthday/add-birthday.component';
 import { BirthdayDetailsCompnent } from './home/birthday-list/birthday-details/birthday-details.component';
 import { BirthdaysResolverService } from './birthday/birthday-resolver.service';
-import { EditAvatarComponent } from './shared/edit-avatar/edit-avatar.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, canActivate: [AuthGuard] },
@@ -35,10 +34,6 @@ const routes: Routes = [
     loadChildren: () =>
       import('./settings/settings.module').then((m) => m.SettingsModule),
     canActivate: [AuthGuard],
-  },
-  {
-    path: 'avatar',
-    component: EditAvatarComponent,
   },
   { path: '**', redirectTo: '' },
 ];

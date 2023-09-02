@@ -18,7 +18,7 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;
-  avatarPhoto: string | ArrayBuffer | null = '';
+  avatarPhoto: string = '';
   isLoading = false;
   errorMessage = '';
   storeSub: any;
@@ -165,7 +165,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     }
   }
 
-  onUpdatePhoto(photo: string | ArrayBuffer | null) {
+  onUpdatePhoto(photo: string) {
     this.avatarPhoto = photo;
   }
 }

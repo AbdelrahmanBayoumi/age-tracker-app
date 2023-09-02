@@ -11,12 +11,15 @@
   <main>
     <div>
       <form [formGroup]="birthdayForm!" (ngSubmit)="onSubmit()">
-        <!-- <img
+        <img
           class="person-image"
-          src="assets/images/user.svg"
+          [src]="
+            avatarPhoto && avatarPhoto !== ''
+              ? avatarPhoto
+              : '/assets/images/no-image.png'
+          "
           alt="Birthday person"
-        /> -->
-        <app-edit-avatar [photo]="avatarPhoto" (photoUpdated)="onUpdatePhoto($event)"></app-edit-avatar>
+        />
         <label for="name">Name</label>
         <input
           type="text"

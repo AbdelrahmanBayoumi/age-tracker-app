@@ -18,7 +18,7 @@
       </div>
       <img
         class="person-image"
-        src="assets/images/user.svg"
+        [src]="userPhotoUrl && userPhotoUrl !== '' ? userPhotoUrl : '/assets/images/no-image.png'"
         alt="person image"
       />
       <label for="name">Name</label>

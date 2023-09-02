@@ -1,11 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  FormControl,
-} from '@angular/forms';
+import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import Swal from 'sweetalert2';
@@ -13,7 +8,7 @@ import Swal from 'sweetalert2';
 import * as fromApp from '../../store/app.reducer';
 import * as BirthdayActions from '../../birthday/store/birthday.actions';
 import { State } from '../../birthday/store/birthday.reducer';
-import { catchError, map, of, switchMap } from 'rxjs';
+import { map } from 'rxjs';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 
 @Component({

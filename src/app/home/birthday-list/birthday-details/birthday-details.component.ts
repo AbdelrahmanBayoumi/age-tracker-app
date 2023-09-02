@@ -18,6 +18,7 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   birthday: Birthday | undefined;
   id: number | undefined;
   birthdayStat: BirthdayStatistics | undefined;
+  userPhotoUrl: string | undefined = '';
   storeSub0: any;
   storeSub: any;
   isLoading = false;
@@ -34,6 +35,7 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
     if (!birthday) return;
     this.birthday = birthday;
     this.birthdayStat = new BirthdayStatistics(new Date(birthday.birthday));
+    this.userPhotoUrl = birthday.image;
   }
 
   ngOnInit(): void {

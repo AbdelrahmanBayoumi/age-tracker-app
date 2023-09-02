@@ -18,6 +18,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   isEditMode = false;
   userForm: FormGroup;
   private currentUser: any;
+  userPhotoUrl: string = '';
 
   constructor(
     private router: Router,
@@ -47,6 +48,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         email: this.currentUser?.email,
         birthday: this.currentUser?.birthday,
       });
+      this.userPhotoUrl = this.currentUser?.image;
     });
   }
 

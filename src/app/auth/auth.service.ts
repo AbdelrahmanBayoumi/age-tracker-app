@@ -55,8 +55,6 @@ export class AuthService {
   }
 
   signup(signupDto: SignupDto) {
-    console.log(signupDto);
-
     this.isLoading.next(true);
 
     return this.http
@@ -212,6 +210,13 @@ export class AuthService {
     return this.http
       .delete(environment.apiUrl + '/users/' + id)
       .pipe(tap(() => this.afterLogoutRequest()));
+  }
+
+  forgetPassword(email: string): Observable<any> {
+    this.isLoading.next(true);
+    return this.http.post(environment.apiUrl + '/auth/forget-password', {
+      email: email,
+    });
   }
 
   private checkToken(accessToken: string): Observable<User> {

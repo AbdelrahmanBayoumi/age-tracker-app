@@ -5,9 +5,15 @@ import { RouterModule } from '@angular/router';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AuthComponent } from './auth.component';
+import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 
 @NgModule({
-  declarations: [SignupComponent, LoginComponent, AuthComponent],
+  declarations: [
+    SignupComponent,
+    LoginComponent,
+    AuthComponent,
+    ForgetPasswordComponent,
+  ],
   imports: [
     CommonModule,
     FormsModule,
@@ -18,6 +24,10 @@ import { AuthComponent } from './auth.component';
         children: [
           { path: 'signup', component: SignupComponent },
           { path: 'login', component: LoginComponent },
+          {
+            path: 'forget-password',
+            component: ForgetPasswordComponent,
+          },
           { path: '', redirectTo: 'login', pathMatch: 'full' },
         ],
       },

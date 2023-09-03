@@ -18,7 +18,7 @@ export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
         // Operation failed; error is an HttpErrorResponse
         error: (error) => {
           // if it is /change-password no nothing
-          if (req.url.includes('/change-password')) {
+          if (req.url.includes('/change-password') || req.url.includes('/forget-password')) {
             return;
           }
           if (error.status === 401) {

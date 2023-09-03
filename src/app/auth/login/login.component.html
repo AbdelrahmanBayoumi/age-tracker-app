@@ -29,7 +29,7 @@
     <p class="error" *ngIf="errorMessage">
       {{ errorMessage }}
     </p>
-    <a routerLink="/forget-password"> Forgot your password?</a>
+    <a routerLink="/auth/forget-password"> Forgot your password?</a>
     <button type="submit" [disabled]="!authForm.valid">Continue</button>
   </form>
 

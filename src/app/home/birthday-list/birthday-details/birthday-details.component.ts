@@ -51,15 +51,19 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
               switchMap((params) => {
                 if (params['id'] === 'me') {
                   this.isMe = true;
-                  if (!this.authService.user.value) {
+                  const user = this.authService.user.value;
+                  if (!user) {
                     return of(null);
                   }
+
                   return of(
                     new Birthday(
                       -1,
-                      this.authService.user.value!.fullName,
-                      this.authService.user.value!.birthday,
-                      'Me'
+                      user.fullName,
+                      user.birthday,
+                      'Me',
+                      '',
+                      user.image
                     )
                   );
                 } else {

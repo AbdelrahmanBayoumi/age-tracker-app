@@ -10,6 +10,7 @@ export class User {
     public fullName: string,
     public birthday: string,
     public isVerified: boolean,
-    public tokens: Tokens
+    public tokens: Tokens,
+    public image: string
   ) {}
 }

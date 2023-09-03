@@ -27,6 +27,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   storeSub: any;
   storeSub2: any;
   isEditMode = false;
+  showCropModal = false;
   id: number | undefined;
 
   constructor(
@@ -49,6 +50,21 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
       return this.image?.fileURL;
     }
     return '/assets/images/no-image.png';
+  }
+
+  private blobToFile(blob: Blob, fileName: string): File {
+    // Create a new File object from the Blob
+    const file = new File([blob], fileName, { type: blob.type });
+    return file;
+  }
+
+  onDoneCropImage(croppedImage: Blob) {
+    console.log('croppedImage', croppedImage);
+    // type the code here to save the cropped image and update the UI
+    this.image.fileObject = this.blobToFile(croppedImage, 'croppedImage.png');
+    this.image.fileURL = URL.createObjectURL(this.image.fileObject);
+
+    this.showCropModal = false;
   }
 
   private initForm() {
@@ -191,22 +207,32 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     fileInput.click();
   }
 
-  addPhoto(event: any) {
-    this.image.fileObject = <File>event.target.files[0];
-    if (!this.image.fileObject) {
-      return;
-    }
-    console.log('this.image.fileObject', this.image.fileObject);
+  // addPhoto(event: any) {
+  //   this.image.fileObject = <File>event.target.files[0];
+  //   if (!this.image.fileObject) {
+  //     return;
+  //   }
+  //   console.log('this.image.fileObject', this.image.fileObject);
 
-    if (this.image.fileObject.size > 2 * 1024 * 1024) {
-      this.fileSizeError = true;
-      console.log('this.fileSizeError', this.fileSizeError);
+  //   if (this.image.fileObject.size > 2 * 1024 * 1024) {
+  //     this.fileSizeError = true;
+  //     console.log('this.fileSizeError', this.fileSizeError);
 
-      this.image.fileObject = undefined;
-      return;
-    }
-    this.image.fileURL = URL.createObjectURL(event.target.files[0]);
-    this.fileSizeError = false;
+  //     this.image.fileObject = undefined;
+  //     return;
+  //   }
+  //   this.image.fileURL = URL.createObjectURL(event.target.files[0]);
+  //   this.fileSizeError = false;
+  // }
+
+  openCropPopup() {
+    this.showCropModal = true;
+    console.log('openCropPopup');
+  }
+
+  onCloseCropPopup() {
+    this.showCropModal = false;
+    console.log('onCloseCropPopup');
   }
 
   removePhoto() {

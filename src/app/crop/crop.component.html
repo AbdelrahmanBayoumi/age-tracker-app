@@ -1,13 +1,8 @@
-<div
-  style="
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  "
->
+<div class="crop-popup" (click)="close($event)">
   <main>
+    <div style="width: 100%; text-align: end">
+      <button class="close-btn" (click)="close($event)">X</button>
+    </div>
     <div
       *ngIf="!showCropper"
       #dropZone
@@ -23,14 +18,12 @@
     <image-cropper
       [imageChangedEvent]="imageChangedEvent"
       [maintainAspectRatio]="true"
-      [containWithinAspectRatio]="containWithinAspectRatio"
+      [containWithinAspectRatio]="false"
       [aspectRatio]="1 / 1"
       [resizeToWidth]="256"
       [cropperMinWidth]="128"
       [onlyScaleDown]="true"
       [roundCropper]="true"
-      [canvasRotation]="canvasRotation"
-      [transform]="transform"
       [alignImage]="'center'"
       [style.display]="showCropper ? null : 'none'"
       format="png"
@@ -38,24 +31,6 @@
       (imageLoaded)="imageLoaded()"
       (loadImageFailed)="loadImageFailed()"
     ></image-cropper>
-
-    <!-- <div class="buttons-box" *ngIf="showCropper">
-      <button (click)="rotateLeft()">Rotate ←</button>
-      <button (click)="rotateRight()">Rotate →</button>
-      <button (click)="flipHorizontal()">Flip ↔️</button>
-      <button (click)="flipVertical()">Flip ↕️</button>
-    </div> -->
-
-    <!-- <button (click)="toggleContainWithinAspectRatio()">
-      {{
-        containWithinAspectRatio
-          ? "Fill Aspect Ratio"
-          : "Contain Within Aspect Ratio"
-      }}
-    </button> -->
-    <!-- <button (click)="resetImage()">
-      Reset image
-    </button> -->
 
     <div class="image-buttons">
       <button
@@ -90,21 +65,5 @@
     >
       Save
     </button>
-
-    <!-- <div class="buttons-box">
-      <input
-        [(ngModel)]="rotation"
-        placeholder="Rotation"
-        type="number"
-        (keyup)="updateRotation()"
-      />
-      <button (click)="zoomOut()">Zoom -</button>
-      <button (click)="zoomIn()">Zoom +</button>
-    </div> -->
   </main>
-
-  <!-- <img
-    [src]="croppedImage"
-    [style.border]="croppedImage ? '1px solid black' : 'none'"
-  /> -->
 </div>

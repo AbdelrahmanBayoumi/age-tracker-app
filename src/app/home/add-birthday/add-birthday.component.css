@@ -51,3 +51,11 @@ form label {
 .image-buttons .image-remove{
   background-color: #f44336;
 }
+
+.crop-modal{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}

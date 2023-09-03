@@ -23,6 +23,8 @@ import { AddBirthdayComponent } from './home/add-birthday/add-birthday.component
 import { CheckAuthAfterRequestInterceptor } from './auth/auth-after-interceptor.service';
 import { BirthdayDetailsCompnent } from './home/birthday-list/birthday-details/birthday-details.component';
 import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { CropComponent } from './crop/crop.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,7 @@ import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
     BirthdayDetailsCompnent,
     DateFormatPipe,
     NumberWithCommasPipe,
+    CropComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,6 +46,7 @@ import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
+    ImageCropperModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([BirthdayEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),

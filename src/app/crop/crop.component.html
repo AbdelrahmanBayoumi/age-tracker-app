@@ -1,0 +1,110 @@
+<div
+  style="
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  "
+>
+  <main>
+    <div
+      *ngIf="!showCropper"
+      #dropZone
+      id="drop-zone"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+      (click)="openFileInput(fileInput)"
+    >
+      Drop an image here or click to choose one
+    </div>
+
+    <image-cropper
+      [imageChangedEvent]="imageChangedEvent"
+      [maintainAspectRatio]="true"
+      [containWithinAspectRatio]="containWithinAspectRatio"
+      [aspectRatio]="1 / 1"
+      [resizeToWidth]="256"
+      [cropperMinWidth]="128"
+      [onlyScaleDown]="true"
+      [roundCropper]="true"
+      [canvasRotation]="canvasRotation"
+      [transform]="transform"
+      [alignImage]="'center'"
+      [style.display]="showCropper ? null : 'none'"
+      format="png"
+      (imageCropped)="imageCropped($event)"
+      (imageLoaded)="imageLoaded()"
+      (loadImageFailed)="loadImageFailed()"
+    ></image-cropper>
+
+    <!-- <div class="buttons-box" *ngIf="showCropper">
+      <button (click)="rotateLeft()">Rotate ←</button>
+      <button (click)="rotateRight()">Rotate →</button>
+      <button (click)="flipHorizontal()">Flip ↔️</button>
+      <button (click)="flipVertical()">Flip ↕️</button>
+    </div> -->
+
+    <!-- <button (click)="toggleContainWithinAspectRatio()">
+      {{
+        containWithinAspectRatio
+          ? "Fill Aspect Ratio"
+          : "Contain Within Aspect Ratio"
+      }}
+    </button> -->
+    <!-- <button (click)="resetImage()">
+      Reset image
+    </button> -->
+
+    <div class="image-buttons">
+      <button
+        type="button"
+        class="image-add"
+        (click)="openFileInput(fileInput)"
+      >
+        {{ imageSelected ? "Choose other Image" : "Change Image" }}
+      </button>
+      <button
+        type="button"
+        class="image-remove"
+        *ngIf="imageSelected"
+        (click)="removeImage()"
+      >
+        Discard
+      </button>
+      <input
+        #fileInput
+        type="file"
+        style="display: none"
+        (change)="fileChangeEvent($event)"
+        name="avatar"
+        accept="image/png, image/jpeg, image/jpg"
+      />
+    </div>
+    <button
+      type="button"
+      class="image-save"
+      *ngIf="imageSelected"
+      (click)="saveImage()"
+    >
+      Save
+    </button>
+
+    <!-- <div class="buttons-box">
+      <input
+        [(ngModel)]="rotation"
+        placeholder="Rotation"
+        type="number"
+        (keyup)="updateRotation()"
+      />
+      <button (click)="zoomOut()">Zoom -</button>
+      <button (click)="zoomIn()">Zoom +</button>
+    </div> -->
+  </main>
+
+  <!-- <img
+    [src]="croppedImage"
+    [style.border]="croppedImage ? '1px solid black' : 'none'"
+  /> -->
+</div>

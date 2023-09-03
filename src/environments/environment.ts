@@ -5,5 +5,5 @@
 export const environment = {
   production: false,
   apiUrl: 'https://birthday-database.azurewebsites.net',
-  version: '0.0.8',
+  version: '0.0.9',
 };

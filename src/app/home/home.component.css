@@ -186,3 +186,11 @@ main {
   opacity: 1 !important;
   transform: translateX(0) !important;
 }
+.footer-text {
+  margin-top: 50px;
+}
+.footer-text a {
+  text-decoration: none;
+  text-decoration: underline;
+  color: #fff;
+}

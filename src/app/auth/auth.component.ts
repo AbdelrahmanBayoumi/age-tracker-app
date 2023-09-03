@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-auth',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./auth.component.css'],
 })
 export class AuthComponent implements OnDestroy, OnInit {
+  version = environment.version;
   private userSub: Subscription | undefined;
 
   constructor(private authService: AuthService, private router: Router) {}

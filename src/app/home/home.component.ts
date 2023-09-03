@@ -12,6 +12,7 @@ import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as BirthdayActions from '../birthday/store/birthday.actions';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ import * as BirthdayActions from '../birthday/store/birthday.actions';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  version = environment.version;
   @ViewChild('drawer') drawer: ElementRef | undefined;
   private userSub: Subscription | null = null;
   private storeSub: Subscription | null = null;

@@ -1,8 +1,8 @@
 {
-  "name": "age-tracker-app",
-  "short_name": "age-tracker-app",
-  "theme_color": "#1976d2",
-  "background_color": "#fafafa",
+  "name": "Age Tracker",
+  "short_name": "Age Tracker",
+  "theme_color": "#1e2b3c",
+  "background_color": "#5296cf",
   "display": "standalone",
   "scope": "./",
   "start_url": "./",

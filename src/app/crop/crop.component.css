@@ -1,10 +1,10 @@
-.crop-popup{
+.crop-popup {
   padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: rgb(0 0 0 / 50%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(0 0 0 / 50%);
 }
 
 main {
@@ -21,9 +21,13 @@ main {
   height: 70vh;
 }
 
-.close-btn{
+.close-btn {
   color: #fff;
-  background-color: var(--dark-primary);
+  background-color: gray;
+}
+
+.close-btn:hover {
+  background-color: darkgray;
 }
 
 image-cropper {

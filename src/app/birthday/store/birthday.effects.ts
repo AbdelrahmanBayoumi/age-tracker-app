@@ -50,10 +50,13 @@ export class BirthdayEffects {
     this.actions$.pipe(
       ofType(BirthdaysActions.addBirthday),
       switchMap((action) => {
-        return this.http.post<Birthday>(
-          environment.apiUrl + this.END_POINT,
-          action.birthday
-        );
+        return this.http
+          .post<Birthday>(environment.apiUrl + this.END_POINT, action.birthday)
+          .pipe(
+            switchMap((res) => {
+              return this.uploadImage(res.id, action.image);
+            })
+          );
       }),
       map(() => {
         return BirthdaysActions.birthdaySuccess();
@@ -63,6 +66,33 @@ export class BirthdayEffects {
       })
     )
   );
+
+  private uploadImage(
+    id: number,
+    image: { fileURL: string; fileObject?: File }
+  ) {
+    const formData = new FormData();
+    const isNewImage: boolean =
+      image.fileObject != null || image.fileObject != undefined;
+    const isOldImage: boolean =
+      image.fileURL != null &&
+      image.fileURL != undefined &&
+      image.fileURL != '' &&
+      !isNewImage;
+
+    if (isNewImage) {
+      // image changed => upload new image
+      formData.append('image', image.fileObject!, image.fileObject!.name);
+    } else if (isOldImage) {
+      // image not changed => keep old image
+      return of(null);
+    }
+
+    return this.http.post(
+      environment.apiUrl + this.END_POINT + '/' + id + '/upload-image',
+      formData
+    );
+  }
 
   updateBirthday = createEffect(() =>
     this.actions$.pipe(
@@ -77,36 +107,7 @@ export class BirthdayEffects {
           )
           .pipe(
             switchMap(() => {
-              const image = action.image;
-              const formData = new FormData();
-              const isNewImage: boolean =
-                image.fileObject != null || image.fileObject != undefined;
-              const isOldImage: boolean =
-                image.fileURL != null &&
-                image.fileURL != undefined &&
-                image.fileURL != '' &&
-                !isNewImage;
-
-              if (isNewImage) {
-                // image changed => upload new image
-                formData.append(
-                  'image',
-                  image.fileObject!,
-                  image.fileObject!.name
-                );
-              } else if (isOldImage) {
-                // image not changed => keep old image
-                return of(null);
-              }
-
-              return this.http.post(
-                environment.apiUrl +
-                  this.END_POINT +
-                  '/' +
-                  action.id +
-                  '/upload-image',
-                formData
-              );
+              return this.uploadImage(action.id, action.image);
             })
           );
       }),

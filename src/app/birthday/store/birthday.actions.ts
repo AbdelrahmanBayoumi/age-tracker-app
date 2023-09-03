@@ -33,6 +33,7 @@ export const addBirthday = createAction(
       birthday: string;
       relationship: string;
     };
+    image: { fileURL: string; fileObject?: File };
   }>()
 );
 

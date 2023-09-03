@@ -36,37 +36,6 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     private store: Store<fromApp.AppState>
   ) {}
 
-  get hasImage() {
-    return (
-      this.image &&
-      this.image?.fileURL !== '' &&
-      this.image?.fileURL !== null &&
-      this.image?.fileURL !== undefined
-    );
-  }
-
-  get userPhotoUrl() {
-    if (this.hasImage) {
-      return this.image?.fileURL;
-    }
-    return '/assets/images/no-image.png';
-  }
-
-  private blobToFile(blob: Blob, fileName: string): File {
-    // Create a new File object from the Blob
-    const file = new File([blob], fileName, { type: blob.type });
-    return file;
-  }
-
-  onDoneCropImage(croppedImage: Blob) {
-    console.log('croppedImage', croppedImage);
-    // type the code here to save the cropped image and update the UI
-    this.image.fileObject = this.blobToFile(croppedImage, 'croppedImage.png');
-    this.image.fileURL = URL.createObjectURL(this.image.fileObject);
-
-    this.showCropModal = false;
-  }
-
   private initForm() {
     this.birthdayForm = new FormGroup({
       name: new FormControl('', Validators.required),
@@ -197,33 +166,43 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
             birthday: this.birthdayForm?.value.birthday,
             relationship: this.birthdayForm?.value.relationship,
           },
+          image: this.image,
         })
       );
     }
   }
 
   // ------ Handle photo ------
-  openFileInput(fileInput: HTMLInputElement) {
-    fileInput.click();
+  get hasImage() {
+    return (
+      this.image &&
+      this.image?.fileURL !== '' &&
+      this.image?.fileURL !== null &&
+      this.image?.fileURL !== undefined
+    );
   }
 
-  // addPhoto(event: any) {
-  //   this.image.fileObject = <File>event.target.files[0];
-  //   if (!this.image.fileObject) {
-  //     return;
-  //   }
-  //   console.log('this.image.fileObject', this.image.fileObject);
+  get userPhotoUrl() {
+    if (this.hasImage) {
+      return this.image?.fileURL;
+    }
+    return '/assets/images/no-image.png';
+  }
 
-  //   if (this.image.fileObject.size > 2 * 1024 * 1024) {
-  //     this.fileSizeError = true;
-  //     console.log('this.fileSizeError', this.fileSizeError);
+  private blobToFile(blob: Blob, fileName: string): File {
+    // Create a new File object from the Blob
+    const file = new File([blob], fileName, { type: blob.type });
+    return file;
+  }
 
-  //     this.image.fileObject = undefined;
-  //     return;
-  //   }
-  //   this.image.fileURL = URL.createObjectURL(event.target.files[0]);
-  //   this.fileSizeError = false;
-  // }
+  onDoneCropImage(croppedImage: Blob) {
+    console.log('croppedImage', croppedImage);
+    // type the code here to save the cropped image and update the UI
+    this.image.fileObject = this.blobToFile(croppedImage, 'croppedImage.png');
+    this.image.fileURL = URL.createObjectURL(this.image.fileObject);
+
+    this.showCropModal = false;
+  }
 
   openCropPopup() {
     this.showCropModal = true;

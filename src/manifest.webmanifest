@@ -7,7 +7,7 @@
   "display": "standalone",
   "scope": "./",
   "start_url": "./",
-  "id": "com.bayoumi.agetracker",
+  "id": "/",
   "icons": [
     {
       "src": "assets/icons/icon-48x48.png",

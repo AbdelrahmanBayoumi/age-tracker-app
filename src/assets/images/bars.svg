@@ -1,9 +1,1 @@
-<svg width="40" height="27" viewBox="0 0 40 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="Group 22">
-<g id="Hambuger">
-<path id="Vector" d="M3 24.61H36.8668" stroke="#1E2B3C" stroke-width="4.53228" stroke-miterlimit="10" stroke-linecap="round"/>
-<path id="Vector_2" d="M3 13.8051L36.8721 13.8545" stroke="#1E2B3C" stroke-width="4.53228" stroke-miterlimit="10" stroke-linecap="round"/>
-<path id="Vector_3" d="M3.00098 3H36.8678" stroke="#1E2B3C" stroke-width="4.53228" stroke-miterlimit="10" stroke-linecap="round"/>
-</g>
-</g>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="27" fill="none" viewBox="0 0 40 27"><g id="Group 22"><g id="Hambuger"><path id="Vector" stroke="#1E2B3C" stroke-linecap="round" stroke-miterlimit="10" stroke-width="4.532" d="M3 24.61H36.8668"/><path id="Vector_2" stroke="#1E2B3C" stroke-linecap="round" stroke-miterlimit="10" stroke-width="4.532" d="M3 13.8051L36.8721 13.8545"/><path id="Vector_3" stroke="#1E2B3C" stroke-linecap="round" stroke-miterlimit="10" stroke-width="4.532" d="M3.00098 3H36.8678"/></g></g></svg>

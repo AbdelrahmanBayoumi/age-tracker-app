@@ -78,7 +78,7 @@ If you find any issue just put it in the repository issue section, thank you.
 
 ## 📝 License
 
-This project is licensed under the GPL-3.0 License - see the [LICENSE](LICENSE) file for details.
+This project is licensed under the Apache-2.0 License - see the [LICENSE](LICENSE) file for details.
 
 <div align=center>
 

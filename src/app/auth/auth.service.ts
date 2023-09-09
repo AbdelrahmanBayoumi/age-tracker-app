@@ -81,17 +81,21 @@ export class AuthService {
   }
 
   logout() {
-    return this.http.post(environment.apiUrl + '/auth/logout', {}).pipe(
-      tap(() => {
-        this.afterLogoutRequest();
-      }),
-      catchError((errorRes) => {
-        return throwError(() => {
-          console.log(errorRes);
-          this.afterLogoutRequest();
-        });
+    return this.http
+      .post(environment.apiUrl + '/auth/logout', {
+        refresh_token: localStorage.getItem('refresh_token'),
       })
-    );
+      .pipe(
+        tap(() => {
+          this.afterLogoutRequest();
+        }),
+        catchError((errorRes) => {
+          return throwError(() => {
+            console.log(errorRes);
+            this.afterLogoutRequest();
+          });
+        })
+      );
   }
 
   private afterLogoutRequest() {

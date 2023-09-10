@@ -22,8 +22,20 @@
 </header>
 
 <main *ngIf="userVerified && !isLoading && !errorMessage">
+  <!-- current user birthday stat -->
+  <div
+    class="birthday-group"
+  >
+    <app-birthday-card
+      [birthday]="currentUserBirthday"
+      routerLink="/birthday/me"
+    ></app-birthday-card>
+  </div>
+
+  <!-- toggle relationship of birthdays -->
   <app-relationship-toggle></app-relationship-toggle>
 
+  <!-- list of all birthdays -->
   <app-birthday-list></app-birthday-list>
 </main>
 

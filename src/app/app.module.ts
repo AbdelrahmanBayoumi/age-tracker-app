@@ -12,7 +12,7 @@ import { AuthInterceptorService } from './auth/auth-before-interceptor.service';
 import { HorizontalScrollDirective } from './directives/horizontal-scroll.directive';
 import { RelationshipToggleComponent } from './home/relationshop-toggle/relationshop-toggle.component';
 import { BirthdayListCompnent } from './home/birthday-list/birthday-list.component';
-import { BirthdayItemCompnent } from './home/birthday-list/birthday-item/birthday-item.component';
+import { BirthdayGroupCompnent } from './home/birthday-list/birthday-group/birthday-group.component';
 import { DateFormatPipe } from './pipes/date-format.pipe';
 import { BirthdayEffects } from './birthday/store/birthday.effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -26,6 +26,7 @@ import { NumberWithCommasPipe } from './pipes/number-with-commas.pipe';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropComponent } from './crop/crop.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { BirthdayCardompnent } from './home/birthday-list/birthday-card/birthday-card.component';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     HorizontalScrollDirective,
     RelationshipToggleComponent,
     BirthdayListCompnent,
-    BirthdayItemCompnent,
+    BirthdayGroupCompnent,
+    BirthdayCardompnent,
     AddBirthdayComponent,
     HomeComponent,
     BirthdayDetailsCompnent,
@@ -56,7 +58,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
   providers: [

@@ -17,9 +17,9 @@
   </div>
 
   <div *ngIf="birthdays.length > 0">
-    <app-birthday-item
+    <app-birthday-group
       *ngFor="let birthday of birthdays"
       [birthdaysGroup]="birthday"
-    ></app-birthday-item>
+    ></app-birthday-group>
   </div>
 </div>

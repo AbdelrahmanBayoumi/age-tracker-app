@@ -13,6 +13,7 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer';
 import * as BirthdayActions from '../birthday/store/birthday.actions';
 import { environment } from 'src/environments/environment';
+import { Birthday } from '../birthday/model/birthday.model';
 
 @Component({
   selector: 'app-home',
@@ -29,6 +30,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   searchQuery = '';
   isLoading = true;
   errorMessage = '';
+  currentUserBirthday: Birthday | null = null;
 
   constructor(
     private viewportScroller: ViewportScroller,
@@ -41,6 +43,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe((user) => {
       if (user) {
         this.userVerified = user.isVerified;
+        this.currentUserBirthday = new Birthday(
+          -1,
+          user.fullName,
+          user.birthday,
+          'Me',
+          '',
+          user.image
+        );
       }
     });
     this.storeSub = this.store

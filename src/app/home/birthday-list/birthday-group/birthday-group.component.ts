@@ -3,11 +3,11 @@ import { Router } from '@angular/router';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 
 @Component({
-  selector: 'app-birthday-item',
-  templateUrl: './birthday-item.component.html',
-  styleUrls: ['./birthday-item.component.css'],
+  selector: 'app-birthday-group',
+  templateUrl: './birthday-group.component.html',
+  styleUrls: ['./birthday-group.component.css'],
 })
-export class BirthdayItemCompnent implements OnInit, OnDestroy {
+export class BirthdayGroupCompnent implements OnInit, OnDestroy {
   @Input() birthdaysGroup: { month: string; birthdays: Birthday[] } = {
     month: '',
     birthdays: [],

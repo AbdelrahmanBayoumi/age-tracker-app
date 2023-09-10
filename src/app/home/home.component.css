@@ -85,6 +85,37 @@ footer button img {
   border: white 3px solid;
 }
 
+.birthday-group {
+  display: flex;
+  justify-content: center;
+  margin: 20px;
+  margin-bottom: 10px;
+}
+
+.birthday-group app-birthday-card {
+  min-width: 340px;
+  max-width: 450px;
+}
+
+@media (max-width: 768px) {
+  .birthday-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .birthday-group app-birthday-card {
+    width: 100%;
+    min-width: 100%;
+  }
+}
+
+@media (max-width: 300px) {
+  .birthday-group app-birthday-card {
+    min-width: 240px;
+  }
+}
+
 main {
   padding-bottom: 60px;
 }

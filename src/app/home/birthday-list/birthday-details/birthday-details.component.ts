@@ -134,10 +134,6 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   }
 
   backToHome() {
-    if (this.isMe) {
-      this.router.navigate(['/settings']);
-      return;
-    }
     this.router.navigate(['/']);
   }
 

@@ -6,9 +6,11 @@ import { AddBirthdayComponent } from './home/add-birthday/add-birthday.component
 import { BirthdayDetailsCompnent } from './home/birthday-list/birthday-details/birthday-details.component';
 import { BirthdaysResolverService } from './birthday/birthday-resolver.service';
 import { CropComponent } from './crop/crop.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
-  { path: '', component: HomeComponent, canActivate: [AuthGuard] },
+  { path: '', component: LandingPageComponent },
+  { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),

@@ -27,6 +27,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
 import { CropComponent } from './crop/crop.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { BirthdayCardompnent } from './home/birthday-list/birthday-card/birthday-card.component';
+import { LandingPageComponent } from './landing-page/landing-page.component';
+import { NgParticlesModule } from 'ng-particles';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,7 @@ import { BirthdayCardompnent } from './home/birthday-list/birthday-card/birthday
     DateFormatPipe,
     NumberWithCommasPipe,
     CropComponent,
+    LandingPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,6 +53,7 @@ import { BirthdayCardompnent } from './home/birthday-list/birthday-card/birthday
     AppRoutingModule,
     HttpClientModule,
     ImageCropperModule,
+    NgParticlesModule,
     StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([BirthdayEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),

@@ -3,7 +3,7 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
 import * as fromApp from '../../../store/app.reducer';
 import * as BirthdayActions from '../../../birthday/store/birthday.actions';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { map, of, switchMap } from 'rxjs';
 import { BirthdayStatistics } from 'src/app/birthday/model/birthday-statistics.model';
 import Swal from 'sweetalert2';
@@ -39,6 +39,13 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        // Scroll to the top of the page
+        window.scrollTo(0, 0);
+      }
+    });
+
     this.storeSub0 = this.store
       .select('birthdays')
       .subscribe((birthdaysState) => {
@@ -96,6 +103,8 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
             });
         }
       });
+
+
   }
 
   onEditBirthday() {

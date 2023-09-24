@@ -21,7 +21,7 @@
   </div>
 </header>
 
-<main *ngIf="false">
+<main *ngIf="userVerified && !isLoading && !errorMessage">
   <!-- current user birthday stat -->
   <div class="birthday-group">
     <app-birthday-card
@@ -45,9 +45,9 @@
     justify-content: center;
     padding-top: 50px;
   "
-  *ngIf="true"
+  *ngIf="isLoading"
 >
-  <img src="assets/images/loader.gif" alt="spinner" style="max-width: 250px;" />
+  <img src="assets/images/loader.gif" alt="spinner" style="max-width: 260px;" />
 </div>
 
 <div class="verifyAccountBox">

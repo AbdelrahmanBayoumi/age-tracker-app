@@ -100,7 +100,7 @@ nav a:hover {
   padding-top: 70px;
   /* padding-bottom: 100px; */
   position: relative;
-  z-index: 10;
+  z-index: 12;
 }
 
 .textbox-container {
@@ -153,7 +153,7 @@ nav a:hover {
 }
 .visuals img {
   height: 100%;
-  max-width: 380px;
+  max-width: 550px;
 }
 
 .wave {
@@ -169,7 +169,16 @@ body {
   background-color: red;
 }
 
-@media (max-width: 800px) {
+.small-screen-image {
+  display: none;
+}
+
+.big-screen-image {
+  display: block;
+}
+
+/* Mobile screen */
+@media (max-width: 800px) or (max-height: 600px) {
   nav {
     display: none;
   }
@@ -184,6 +193,19 @@ body {
   .wave {
     display: none;
   }
+
+  .small-screen-image {
+    display: block;
+  }
+
+  .big-screen-image {
+    display: none;
+  }
+
+  .visuals img {
+    max-width: 380px;
+  }
+
 
   .textbox-container {
     padding-top: 100px;

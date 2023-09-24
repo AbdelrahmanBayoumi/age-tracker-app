@@ -115,7 +115,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
             });
           }
 
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
           return;
         }
         this.isLoading = birthdayState.loading;
@@ -137,7 +137,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   }
 
   backToHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   onSubmit() {

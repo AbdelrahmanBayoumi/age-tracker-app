@@ -40,7 +40,7 @@ export class SignupComponent {
       )
       .subscribe({
         next: (user: any) => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
           this.errorMessage = '';
         },
         error: (errorRes) => {

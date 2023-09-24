@@ -12,10 +12,12 @@ header {
 header h1 {
   color: white;
   font-size: 1.5rem;
+  cursor: pointer;
 }
 
 header .logo-img {
   width: 90px;
+  cursor: pointer;
 }
 
 header .logo-text {

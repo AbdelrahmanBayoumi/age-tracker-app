@@ -81,7 +81,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   backToHome() {
-    this.router.navigate(['/']);
+    this.router.navigate(['/home']);
   }
 
   onStartEdit() {

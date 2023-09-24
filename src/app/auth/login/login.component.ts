@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
       .login(form.value.email, form.value.password)
       .subscribe({
         next: (user: User) => {
-          this.router.navigate(['/']);
+          this.router.navigate(['/home']);
           this.errorMessage = '';
         },
         error: (errorRes) => {

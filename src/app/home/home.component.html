@@ -23,9 +23,7 @@
 
 <main *ngIf="userVerified && !isLoading && !errorMessage">
   <!-- current user birthday stat -->
-  <div
-    class="birthday-group"
-  >
+  <div class="birthday-group">
     <app-birthday-card
       [birthday]="currentUserBirthday"
       routerLink="/birthday/me"
@@ -39,8 +37,17 @@
   <app-birthday-list></app-birthday-list>
 </main>
 
-<div style="text-align: center" *ngIf="isLoading">
-  <img src="assets/images/spinner.gif" alt="spinner" />
+<div
+  style="
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+  "
+  *ngIf="isLoading"
+>
+  <img src="assets/images/loader.gif" alt="spinner" />
 </div>
 
 <div class="verifyAccountBox">
@@ -87,7 +94,7 @@
       class="logo-img"
       routerLink="/"
     />
-    <h1  routerLink="/">
+    <h1 routerLink="/">
       <img src="/assets/images/logo.svg" alt="logo" class="logo-text" />
     </h1>
     <p>

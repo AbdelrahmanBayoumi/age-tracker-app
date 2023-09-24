@@ -1,5 +1,13 @@
-<div style="text-align: center">
-  <img src="assets/images/spinner.gif" alt="spinner" *ngIf="isLoading" />
+<div
+  style="
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    padding-top: 50px;
+  "
+>
+  <img src="assets/images/loader-white-bg.gif" alt="spinner" *ngIf="isLoading" />
 </div>
 <div class="signup-container" *ngIf="!isLoading">
   <h2>Signup now!</h2>

@@ -41,7 +41,6 @@ To run the front-end repository that uses Angular, follow these steps:
    ```bash
    cd age-tracker-app
    ```
-<!-- add note for --legacy-peer-deps -->
 4. Install the project dependencies:
 
    ```bash

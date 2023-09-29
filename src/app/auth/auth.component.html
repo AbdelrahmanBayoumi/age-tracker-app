@@ -15,9 +15,15 @@
     <router-outlet></router-outlet>
   </main>
   <p class="footer-text">
-    <a href="https://abdelrahmanbayoumi.github.io/" target="_blank" rel="noopener noreferrer">
-      Made with <span class="heart">❤️</span> by Abdelrahman Bayoumi |
+    <a
+      href="https://abdelrahmanbayoumi.github.io/"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      {{ "MadeWithLoveBy" | translate }} |
       <span>{{ version }}</span>
     </a>
   </p>
+
+  <a style="text-decoration: none; cursor: pointer;user-select: none; padding-top: 10px;" (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</a>
 </div>

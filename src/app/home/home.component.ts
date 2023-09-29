@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+
 import { AuthService } from '../auth/auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
@@ -14,7 +15,7 @@ import * as fromApp from '../store/app.reducer';
 import * as BirthdayActions from '../birthday/store/birthday.actions';
 import { environment } from 'src/environments/environment';
 import { Birthday } from '../birthday/model/birthday.model';
-
+import { LanguageService } from '../shared/language.service';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -31,13 +32,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   isLoading = true;
   errorMessage = '';
   currentUserBirthday: Birthday | null = null;
+  otherLanguage = 'عربي';
 
   constructor(
     private viewportScroller: ViewportScroller,
     private authService: AuthService,
     private router: Router,
-    private store: Store<fromApp.AppState>
-  ) {}
+    private store: Store<fromApp.AppState>,
+    private languageService: LanguageService
+  ) {
+    this.otherLanguage = this.languageService.otherLanguage;
+  }
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {
@@ -113,5 +118,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onAddBirthday() {
     this.router.navigate(['/birthday/add-birthday']);
+  }
+
+  onChangeLanguage() {
+    this.languageService.switchLanguage();
+    this.otherLanguage = this.languageService.otherLanguage;
   }
 }

@@ -13,16 +13,20 @@
       href="https://github.com/AbdelrahmanBayoumi/age-tracker-app"
       target="_blank"
       rel="noopener noreferrer"
-      >For Developers</a
     >
-    <a href="mailto:abdelrahmanbayoumi1@gmail.com">Contact Us</a>
+      {{ "landingPage.forDevelopers" | translate }}
+    </a>
+    <a href="mailto:abdelrahmanbayoumi1@gmail.com">
+      {{ "landingPage.contactUs" | translate }}
+    </a>
+    <a (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</a>
     <a class="home-btn" routerLink="/home">
       <img
         src="assets/images/georgian-calendar.svg"
         alt="georgian calendar"
         class="home-btn-img"
       />
-      Go to the App
+      {{ "landingPage.goToTheApp" | translate }}
     </a>
   </nav>
 
@@ -31,16 +35,20 @@
       href="https://github.com/AbdelrahmanBayoumi/age-tracker-app"
       target="_blank"
       rel="noopener noreferrer"
-      >For Developers</a
     >
-    <a href="mailto:abdelrahmanbayoumi1@gmail.com">Contact Us</a>
+      {{ "landingPage.forDevelopers" | translate }}
+    </a>
+    <a href="mailto:abdelrahmanbayoumi1@gmail.com">
+      {{ "landingPage.contactUs" | translate }}
+    </a>
+    <a (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</a>
     <a class="home-btn" routerLink="/home">
       <img
         src="assets/images/georgian-calendar.svg"
         alt="georgian calendar"
         class="home-btn-img"
       />
-      Go to the App
+      {{ "landingPage.goToTheApp" | translate }}
     </a>
   </div>
 </header>
@@ -48,12 +56,9 @@
 <div class="hero">
   <div class="textbox-container">
     <div class="textbox">
-      <!-- <div class="background-border"></div> -->
-      <h2>Embrace the Journey of Life with Age Tracker!</h2>
-      <p>
-        Seize every moment & never forget a birthday! Displays age in real-time,
-        Hijri & Gregorian. Monitor age in in many formats. Rejoice, remember,
-        and make every moment meaningful!
+      <h2 dir="auto">{{ "landingPage.title" | translate }}</h2>
+      <p dir="auto">
+        {{ "landingPage.subtitle" | translate }}
       </p>
       <button class="home-btn" routerLink="/home">
         <img
@@ -61,13 +66,21 @@
           alt="georgian calendar"
           class="home-btn-img"
         />
-        Go to the App
+        {{ "landingPage.goToTheApp" | translate }}
       </button>
     </div>
   </div>
   <div class="visuals">
-    <img src="/assets/images/hero-img-l.png" alt="hero" class="big-screen-image" />
-    <img src="/assets/images/hero-img-s.png" alt="hero" class="small-screen-image" />
+    <img
+      src="/assets/images/hero-img-l.png"
+      alt="hero"
+      class="big-screen-image"
+    />
+    <img
+      src="/assets/images/hero-img-s.png"
+      alt="hero"
+      class="small-screen-image"
+    />
   </div>
 </div>
 <!--

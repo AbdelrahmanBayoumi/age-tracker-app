@@ -1,0 +1,53 @@
+{
+  "LANGUAGE": "English",
+  "LANGUAGE_CODE": "ar",
+  "direction": "ltr",
+  "APP_TITLE": "Age Tracker",
+  "APP_DESCRIPTION": "is a flexible tool that helps users keep track of important birthdays, including those of their loved ones. It features real-time age display in Hijri and Georgian calendars.",
+  "MadeWithLoveBy": "Made with ❤️ by Abdelrahman Bayoumi",
+  "landingPage": {
+    "title": "Embrace the Journey of Life with Age Tracker!",
+    "subtitle": "Seize every moment & never forget a birthday! Displays age in real-time, Hijri & Gregorian. Monitor age in in many formats. Rejoice, remember, and make every moment meaningful!",
+    "goToTheApp": "Go to the App",
+    "contactUs": "Contact Us",
+    "forDevelopers": "For Developers"
+  },
+  "auth": {
+    "Login": "Login",
+    "signupNow": "Signup Now!",
+    "Logout": "Logout",
+    "NewUser": "New user?",
+    "CreateAccount": "Create Account",
+    "Email": "Email",
+    "Password": "Password",
+    "ForgotPassword": "Forgot your Password?",
+    "alreadyRegistered": "Already registered?"
+  },
+  "Settings": "Settings",
+  "resendVerificationEmail": "Resend Verification Email",
+  "pleaseVerifyEmail": "Please verify your email address. We have sent you an email with a link to verify your account.",
+  "Name": "Name",
+  "BirthDate": "Birth date",
+  "pleaseEnterValidData": "Please enter valid data",
+  "clickHereToAddNewBirthday": "Click here to add new birthday",
+  "thereIsNoBirthdaysYet": "There is no birthdays yet!",
+  "All": "All",
+  "Continue": "Continue",
+  "MONTHS": [
+    "January",
+    "February",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+  ],
+  "yearsOld": "years old",
+  "day": "Day",
+  "days": "Days"
+}

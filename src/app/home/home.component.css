@@ -216,9 +216,10 @@ main {
   background: var(--dark-primary);
 }
 
-.drawer__links button:last-child {
+.drawer__links button:not(first-child) {
   background-color: transparent;
   border: 3px solid var(--dark-primary);
+  padding: 10px 10px;
 }
 
 .drawer-open {

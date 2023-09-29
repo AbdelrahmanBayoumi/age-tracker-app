@@ -24,7 +24,7 @@ export class Birthday {
     const birthDate = new Date(this.birthDate);
     const age = today.getFullYear() - birthDate.getFullYear();
     const birthDateStr = `${birthDate.getMonth() + 1}/${birthDate.getDate()}`;
-    return ` ${birthDateStr} - ${age} years old`;
+    return ` ${birthDateStr} - ${age}`;
   }
 
   getDaysUntilNextBirthday(): number {

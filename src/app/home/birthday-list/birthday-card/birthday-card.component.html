@@ -1,4 +1,4 @@
-<div class="birthday-item">
+<div class="birthday-item" dir="{{ 'direction' | translate }}">
   <div class="birthday-item__image-container">
     <img
       class="birthday-item__image"
@@ -12,12 +12,12 @@
   </div>
   <div class="birthday-item__info">
     <h3 class="birthday-item__name">{{ birthday?.name }}</h3>
-    <div class="birthday-item__age">
-      {{ birthday?.getAgeAndBirthDate() }}
+    <div class="birthday-item__age" dir="auto">
+      {{ birthday?.getAgeAndBirthDate() }} {{ "yearsOld" | translate }}
     </div>
   </div>
   <div class="days-remaining">
     <p>{{ birthday?.getDaysUntilNextBirthday() }}</p>
-    <p>days</p>
+    <p>{{ "day" | translate | lowercase }}</p>
   </div>
 </div>

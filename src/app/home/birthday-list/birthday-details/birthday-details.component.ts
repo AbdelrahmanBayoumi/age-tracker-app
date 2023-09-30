@@ -8,6 +8,7 @@ import { map, of, switchMap } from 'rxjs';
 import { BirthdayStatistics } from 'src/app/birthday/model/birthday-statistics.model';
 import Swal from 'sweetalert2';
 import { AuthService } from 'src/app/auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-birthday-details',
@@ -28,7 +29,8 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private authService: AuthService,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private translate: TranslateService
   ) {}
 
   private initBirthday(birthday: Birthday) {
@@ -103,8 +105,6 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
             });
         }
       });
-
-
   }
 
   onEditBirthday() {
@@ -113,14 +113,14 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
 
   async onDeleteBirthday() {
     const result = await Swal.fire({
-      title: 'Delete Birthday?',
-      text: 'You will not be able to recover this birthday!',
+      title: this.translate.instant('DELETE_BIRTHDAY_TITLE'),
+      text: this.translate.instant('DELETE_BIRTHDAY_MESSAGE'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
+      confirmButtonText: this.translate.instant('DELETE_BIRTHDAY_CONFIRMATION'),
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      cancelButtonText: 'No, keep it',
+      cancelButtonText: this.translate.instant('DELETE_BIRTHDAY_CANCEL'),
     });
     if (result.value) {
       this.store.dispatch(BirthdayActions.deleteBirthday({ id: this.id! }));
@@ -132,8 +132,8 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
 
           if (!this.isLoading) {
             await Swal.fire(
-              'Deleted!',
-              'Birthday has been deleted.',
+              this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
+              this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
               'success'
             );
             this.backToHome();

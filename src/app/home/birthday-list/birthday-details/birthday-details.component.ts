@@ -36,7 +36,10 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
   private initBirthday(birthday: Birthday) {
     if (!birthday) return;
     this.birthday = birthday;
-    this.birthdayStat = new BirthdayStatistics(new Date(birthday.birthday));
+    this.birthdayStat = new BirthdayStatistics(
+      new Date(birthday.birthday),
+      this.translate.currentLang
+    );
     this.userPhotoUrl = birthday.image;
   }
 

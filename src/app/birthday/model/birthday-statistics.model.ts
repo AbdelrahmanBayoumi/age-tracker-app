@@ -13,9 +13,22 @@ interface HijriDate {
   fullDate: string;
   year: number;
   month: number;
-  monthNameAR: string;
-  monthNameEN: string;
+  monthName: string;
   day: number;
+}
+
+export enum SeasonEN {
+  Spring = 'Spring',
+  Summer = 'Summer',
+  Autumn = 'Autumn',
+  Winter = 'Winter',
+}
+
+export enum SeasonAR {
+  Spring = 'الربيع',
+  Summer = 'الصيف',
+  Autumn = 'الخريف',
+  Winter = 'الشتاء',
 }
 
 export class BirthdayStatistics {
@@ -51,7 +64,7 @@ export class BirthdayStatistics {
 
   private readonly today: Date;
   private readonly ageInMillis: number;
-  constructor(public birthdate: Date) {
+  constructor(public birthdate: Date, private local: string = 'en') {
     this.today = new Date();
     this.ageInMillis = this.today.getTime() - this.birthdate.getTime();
     this.georgianCalendarBirthday = birthdate.toISOString().split('T')[0];
@@ -66,12 +79,9 @@ export class BirthdayStatistics {
     this.yearSeason = this.getYearSeason();
     this.nextBirthdateString = this.getNextBirthdate();
     this.nextBirthdate = new Date(this.nextBirthdateString);
-    this.nextBirthdayDayOfWeek = this.nextBirthdate.toLocaleDateString(
-      'en-US',
-      {
-        weekday: 'long',
-      }
-    );
+    this.nextBirthdayDayOfWeek = this.nextBirthdate.toLocaleDateString(local, {
+      weekday: 'long',
+    });
     this.hjiriDate = this.getHijriDate();
     this.ageInHijri = this.getAgeInHijri();
     this.toNextBirthdayStr = this.getToNextBirthdayStr();
@@ -155,23 +165,23 @@ export class BirthdayStatistics {
       month === 5 ||
       (month === 6 && day < 21)
     ) {
-      return 'Spring';
+      return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Spring;
     } else if (
       (month === 6 && day >= 21) ||
       month === 7 ||
       month === 8 ||
       (month === 9 && day < 23)
     ) {
-      return 'Summer';
+      return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Summer;
     } else if (
       (month === 9 && day >= 23) ||
       month === 10 ||
       month === 11 ||
       (month === 12 && day < 21)
     ) {
-      return 'Autumn';
+      return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Autumn;
     } else {
-      return 'Winter';
+      return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Winter;
     }
   }
 
@@ -236,8 +246,7 @@ export class BirthdayStatistics {
       fullDate: hijriDate.format('yyyy-MM-dd', 'en'),
       year: hijriDate.hy,
       month: hijriDate.hm,
-      monthNameAR: hijriDate.format('MMMM', 'ar'),
-      monthNameEN: hijriDate.format('MMMM', 'en'),
+      monthName: hijriDate.format('MMMM', this.local),
       day: hijriDate.hd,
     };
   }

@@ -1,5 +1,8 @@
-<header>
-  <h1>{{ isEditMode ? "Edit" : "Add" }} Birthday</h1>
+<header dir="{{ 'direction' | translate }}">
+  <h1 dir="auto">
+    {{ isEditMode ? ("edit" | translate) : ("add" | translate) }}
+    {{ "birthday" | translate }}
+  </h1>
   <button class="dark-icon-btn" (click)="backToHome()">
     <img src="/assets/images/arrow.svg" alt="arrow icon" />
   </button>
@@ -23,7 +26,11 @@
         <img class="person-image" [src]="userPhotoUrl" alt="person image" />
         <div class="image-buttons">
           <button type="button" class="image-add" (click)="openCropPopup()">
-            {{ hasImage ? "Edit" : "Upload" }}
+            {{
+              hasImage
+                ? ("edit" | translate | titlecase)
+                : ("upload" | translate | titlecase)
+            }}
           </button>
           <button
             type="button"
@@ -31,28 +38,34 @@
             *ngIf="hasImage"
             (click)="removePhoto()"
           >
-            Remove
+            {{ "remove" | translate }}
           </button>
         </div>
         <p class="error" *ngIf="fileSizeError" dir="auto">
-          Image size must be less than or equal to 2MB
+          {{ "imageSizeMustBeLessThan2MB" | translate }}
         </p>
 
-        <label for="name">Name</label>
+        <label for="name" dir="{{ 'direction' | translate }}">
+          {{ "Name" | translate }}
+        </label>
         <input
           type="text"
           name="name"
-          placeholder="Name"
+          placeholder="{{ 'Name' | translate }}"
           formControlName="name"
         />
-        <label for="relationship">Relationship</label>
+        <label for="relationship" dir="{{ 'direction' | translate }}">
+          {{ "Relationship" | translate }}
+        </label>
         <input
           type="text"
           name="relationship"
-          placeholder="Relationship"
+          placeholder="{{ 'Relationship' | translate }}"
           formControlName="relationship"
         />
-        <label for="date">Birthdate</label>
+        <label for="date" dir="{{ 'direction' | translate }}">
+          {{ "BirthDate" | translate }}
+        </label>
         <input
           type="date"
           name="birthday"
@@ -65,7 +78,7 @@
           *ngIf="birthdayForm?.get('birthday')?.errors?.['birthdayNotValid']"
           dir="auto"
         >
-          Birthdate must be in the past
+          {{ "birthdateMustBeInThePast" | translate }}
         </p>
 
         <p
@@ -73,14 +86,15 @@
           *ngIf="birthdayForm?.invalid && birthdayForm?.touched"
           dir="auto"
         >
-          Please enter valid data
+          {{ "pleaseEnterValidData" | translate }}
         </p>
         <p class="error" *ngIf="errorMessage">
           {{ errorMessage }}
         </p>
 
         <button type="submit" [disabled]="!birthdayForm?.valid">
-          {{ isEditMode ? "Edit" : "Add" }} Birthday
+          {{ isEditMode ? ("edit" | translate) : ("add" | translate) }}
+          {{ "birthday" | translate }}
         </button>
       </form>
     </div>

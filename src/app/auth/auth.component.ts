@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+import { LanguageService } from '../shared/language.service';
 
 @Component({
   selector: 'app-auth',
@@ -12,8 +13,15 @@ import { environment } from '../../environments/environment';
 export class AuthComponent implements OnDestroy, OnInit {
   version = environment.version;
   private userSub: Subscription | undefined;
+  otherLanguage;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private languageService: LanguageService
+  ) {
+    this.otherLanguage = this.languageService.otherLanguage;
+  }
 
   ngOnInit(): void {
     this.userSub = this.authService.user.subscribe((user) => {
@@ -25,5 +33,10 @@ export class AuthComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.userSub?.unsubscribe();
+  }
+
+  onChangeLanguage() {
+    this.languageService.switchLanguage();
+    this.otherLanguage = this.languageService.otherLanguage;
   }
 }

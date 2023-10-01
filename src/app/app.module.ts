@@ -1,4 +1,5 @@
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from './shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -7,7 +8,11 @@ import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { HomeComponent } from './home/home.component';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {
+  HTTP_INTERCEPTORS,
+  HttpClient,
+  HttpClientModule,
+} from '@angular/common/http';
 import { AuthInterceptorService } from './auth/auth-before-interceptor.service';
 import { HorizontalScrollDirective } from './directives/horizontal-scroll.directive';
 import { RelationshipToggleComponent } from './home/relationshop-toggle/relationshop-toggle.component';
@@ -29,6 +34,14 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { BirthdayCardompnent } from './home/birthday-list/birthday-card/birthday-card.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { NgParticlesModule } from 'ng-particles';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { LanguageService } from './shared/language.service';
+
+// AoT requires an exported function for factories
+export function HttpLoaderFactory(httpClient: HttpClient) {
+  return new TranslateHttpLoader(httpClient);
+}
 
 @NgModule({
   declarations: [
@@ -48,7 +61,7 @@ import { NgParticlesModule } from 'ng-particles';
   ],
   imports: [
     BrowserModule,
-    FormsModule,
+    SharedModule,
     ReactiveFormsModule,
     AppRoutingModule,
     HttpClientModule,
@@ -58,6 +71,14 @@ import { NgParticlesModule } from 'ng-particles';
     EffectsModule.forRoot([BirthdayEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production }),
     StoreRouterConnectingModule.forRoot(),
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+      defaultLanguage: 'en',
+    }),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
       // Register the ServiceWorker as soon as the application is stable

@@ -48,20 +48,22 @@
     <p class="relationship">{{ birthday?.relationship }}</p>
   </div>
 
-  <div class="detials-box">
+  <div class="detials-box" dir="{{ 'direction' | translate }}">
     <div>
       <img
         class="calendar-icon"
         src="/assets/images/georgian-calendar.svg"
         alt="georgian calendar icon"
       />
-      <h3>Gregorian calendar</h3>
+      <h3 dir="auto">
+        {{ "GregorianCalendar" | translate | titlecase }}
+      </h3>
     </div>
 
     <p>
-      Birthdate:
+      {{ "BirthDate" | translate }}:
       <span class="semi-bold">{{
-        birthday?.birthDate | date : "dd MMMM yyyy"
+        birthday?.birthDate | localizedDate : "dd MMMM yyyy"
       }}</span>
     </p>
     <div style="display: flex; align-items: flex-start; gap: 10px">
@@ -70,27 +72,38 @@
         src="/assets/images/tart.svg"
         alt="tart calendar icon"
       />
-      <div style="display: block">
+      <div style="display: block" dir="auto">
         <p>
-          Age:
+          {{ "theAge" | translate }}:
           <span class="semi-bold">
-            {{ birthdayStat?.ageDetailed?.years }} years,
-            {{ birthdayStat?.ageDetailed?.remainingMonths }} months,
-            {{ birthdayStat?.ageDetailed?.remainingDays }} days,
-            {{ birthdayStat?.ageDetailed?.remainingHours }} hours,
-            {{ birthdayStat?.ageDetailed?.remainingMinutes }} minutes and
-            {{ birthdayStat?.ageDetailed?.remainingSeconds }} seconds
+            {{ birthdayStat?.ageDetailed?.years }}
+            {{ "year" | translate | lowercase }},
+            {{ birthdayStat?.ageDetailed?.remainingMonths }}
+            {{ "month" | translate | lowercase }},
+            {{ birthdayStat?.ageDetailed?.remainingDays }}
+            {{ "day" | translate | lowercase }},
+            {{ birthdayStat?.ageDetailed?.remainingHours }}
+            {{ "hour" | translate | lowercase }},
+            {{ birthdayStat?.ageDetailed?.remainingMinutes }}
+            {{ "minute" | translate | lowercase }} {{ "and" | translate }}
+            {{ birthdayStat?.ageDetailed?.remainingSeconds }}
+            {{ "second" | translate | lowercase }}
           </span>
         </p>
-        <p>
-          The next birthday is after
+        <p dir="auto">
+          {{ "theNextBirthdayIsAfter" | translate }}
           <span class="semi-bold">
-            {{ birthdayStat?.toNextBirthdayStr?.months }} months,
-            {{ birthdayStat?.toNextBirthdayStr?.days }} days,
-            {{ birthdayStat?.toNextBirthdayStr?.minutes }} minutes and
-            {{ birthdayStat?.toNextBirthdayStr?.seconds }} seconds
+            {{ birthdayStat?.toNextBirthdayStr?.months }}
+            {{ "month" | translate | lowercase }},
+            {{ birthdayStat?.toNextBirthdayStr?.days }}
+            {{ "day" | translate | lowercase }},
+            {{ birthdayStat?.toNextBirthdayStr?.minutes }}
+            {{ "minute" | translate | lowercase }}
+            {{ "and" | translate | lowercase }}
+            {{ birthdayStat?.toNextBirthdayStr?.seconds }}
+            {{ "second" | translate | lowercase }}
           </span>
-          on
+          {{ "on" | translate }}
           {{ birthdayStat?.nextBirthdayDayOfWeek }}
           {{ birthdayStat?.nextBirthdateString }}
         </p>
@@ -98,21 +111,21 @@
     </div>
   </div>
 
-  <div class="detials-box">
+  <div class="detials-box" dir="{{ 'direction' | translate }}">
     <div>
       <img
         class="calendar-icon"
         src="/assets/images/hijri-calendar.png"
         alt="georgian calendar icon"
       />
-      <h3>Hijri calendar</h3>
+      <h3>{{ "HijriCalendar" | translate | titlecase }}</h3>
     </div>
 
-    <p>
-      Birthdate:
+    <p dir="auto">
+      {{ "BirthDate" | translate }}:
       <span class="semi-bold">
         {{ birthdayStat?.hjiriDate?.fullDate }} ({{
-          birthdayStat?.hjiriDate?.monthNameEN
+          birthdayStat?.hjiriDate?.monthName
         }})
       </span>
     </p>
@@ -124,86 +137,94 @@
       />
       <div style="display: flex">
         <p>
-          Age:
+          {{ "theAge" | translate }}:
           <!-- <span class="semi-bold"> 24 years, 7 months and 20 days </span> -->
           <span class="semi-bold">
-            {{ birthdayStat?.ageInHijri?.years }} years,
-            {{ birthdayStat?.ageInHijri?.remainingMonths }} months and
-            {{ birthdayStat?.ageInHijri?.remainingDays }} days
+            {{ birthdayStat?.ageInHijri?.years }}
+            {{ "year" | translate | lowercase }},
+            {{ birthdayStat?.ageInHijri?.remainingMonths }}
+            {{ "month" | translate | lowercase }} {{ "and" | translate }}
+            {{ birthdayStat?.ageInHijri?.remainingDays }}
+            {{ "day" | translate | lowercase }}
           </span>
         </p>
       </div>
     </div>
   </div>
 
-  <div class="detials-box">
+  <div class="detials-box" dir="{{ 'direction' | translate }}">
     <div>
       <img
         class="calendar-icon"
         src="/assets/images/sand-watch.svg"
         alt="sand watch icon"
       />
-      <h3>Age in different formats</h3>
+      <h3>{{ "ageInDifferentFormats" | translate }}</h3>
     </div>
 
     <p>
-      In months:
+      {{ "inMonths" | translate }}:
       <span class="semi-bold">
-        {{ birthdayStat?.ageInMonths?.months }} months and
-        {{ birthdayStat?.ageInMonths?.days }} days
+        {{ birthdayStat?.ageInMonths?.months }} {{ "month" | translate }}
+        {{ "and" | translate }} {{ birthdayStat?.ageInMonths?.days }}
+        {{ "day" | translate }}
       </span>
     </p>
     <p>
-      In weeks:
+      {{ "inWeeks" | translate }}:
       <span class="semi-bold">
-        {{ birthdayStat?.ageInWeeks?.weeks }} weeks and
-        {{ birthdayStat?.ageInWeeks?.days }} days
+        {{ birthdayStat?.ageInWeeks?.weeks }} {{ "week" | translate }}
+        {{ "and" | translate }} {{ birthdayStat?.ageInWeeks?.days }}
+        {{ "day" | translate }}
       </span>
     </p>
     <p>
-      In days:
+      {{ "inDays" | translate }}:
       <span class="semi-bold">
-        {{ birthdayStat?.ageInDays | numberWithCommas }} days
+        {{ birthdayStat?.ageInDays | numberWithCommas }} {{ "day" | translate }}
       </span>
     </p>
     <p>
-      In hours: about
+      {{ "inHours" | translate }}: {{ "about" | translate }}
       <span class="semi-bold">
-        {{ birthdayStat?.ageInHours | numberWithCommas }} hours</span
+        {{ birthdayStat?.ageInHours | numberWithCommas }}
+        {{ "hour" | translate }}</span
       >
     </p>
     <p>
-      In minutes: about
+      {{ "inMinutes" | translate }}: {{ "about" | translate }}
       <span class="semi-bold">
-        {{ birthdayStat?.ageInMinutes | numberWithCommas }} minutes</span
+        {{ birthdayStat?.ageInMinutes | numberWithCommas }}
+        {{ "minute" | translate }}</span
       >
     </p>
     <p>
-      In seconds: about
+      {{ "inSeconds" | translate }}: {{ "about" | translate }}
       <span class="semi-bold">
-        {{ birthdayStat?.ageInSeconds | numberWithCommas }} seconds</span
+        {{ birthdayStat?.ageInSeconds | numberWithCommas }}
+        {{ "second" | translate }}</span
       >
     </p>
   </div>
 
-  <div class="detials-box">
+  <div class="detials-box" dir="{{ 'direction' | translate }}">
     <div>
       <img
         class="calendar-icon"
         src="/assets/images/chart.svg"
         alt="chart icon"
       />
-      <h3>More info</h3>
+      <h3>{{ "moreInfo" | translate }}</h3>
     </div>
 
     <p>
-      Born on:
+      {{ "bornOn" | translate }}
       <span class="semi-bold">{{
-        birthday?.birthDate?.toLocaleDateString("en-US", { weekday: "long" })
+        birthday?.birthDate | localizedDate : "EEEE"
       }}</span>
     </p>
     <p>
-      It was in the
+      {{ "itWasInThe" | translate }}
       <span class="semi-bold">{{ birthdayStat?.yearSeason | titlecase }}</span>
     </p>
     <!-- <p>You breathed about <span class="semi-bold">174,620,000 times</span></p>
@@ -223,13 +244,9 @@
   <hr />
 
   <div class="note">
-    <h5>Important note:</h5>
-    <p>
-      The age in Hijri differs from your age in Gregorian, because the Hijri
-      year is 354.36 days, while the Gregorian year is 365.25 days. There is a
-      difference between the two calendars about 11 days in each year of your
-      life. Therefore, the age in Hijri is greater than the age in Gregorian,
-      and the older this difference increases.
+    <h5 dir="auto">{{ "ImportantNote" | translate }}:</h5>
+    <p dir="auto">
+      {{ "HijriNote" | translate }}
     </p>
   </div>
 </main>

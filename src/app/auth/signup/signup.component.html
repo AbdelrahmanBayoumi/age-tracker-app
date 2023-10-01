@@ -6,17 +6,19 @@
     justify-content: center;
     padding-top: 50px;
   "
+  *ngIf="isLoading"
 >
-  <img src="assets/images/loader-white-bg.gif" alt="spinner" *ngIf="isLoading" />
+  <img src="assets/images/loader-white-bg.gif" alt="spinner" />
 </div>
+
 <div class="signup-container" *ngIf="!isLoading">
-  <h2>Signup now!</h2>
+  <h2 dir="auto"> {{ "auth.signupNow" | translate }}</h2>
   <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
     <input
       type="text"
       name="fullName"
       id="fullName"
-      placeholder="Name"
+      placeholder="{{ 'Name' | translate }}"
       ngModel
       required
     />
@@ -32,7 +34,7 @@
       type="text"
       name="email"
       id="email"
-      placeholder="Email"
+      placeholder="{{ 'auth.Email' | translate }}"
       ngModel
       required
       email
@@ -41,21 +43,27 @@
       type="password"
       name="password"
       id="password"
-      placeholder="Password"
+      placeholder="{{ 'auth.Password' | translate }}"
       ngModel
       required
       minlength="6"
     />
     <p class="error" *ngIf="authForm.invalid && authForm.touched" dir="auto">
-      Please enter valid data
+      {{ "pleaseEnterValidData" | translate }}
     </p>
     <p class="error" *ngIf="errorMessage">
       {{ errorMessage }}
     </p>
-    <button type="submit" [disabled]="!authForm.valid">Continue</button>
+
+    <button type="submit" [disabled]="!authForm.valid">
+      {{ "Continue" | translate }}
+    </button>
   </form>
 
-  <p>
-    Already registered? <a routerLink="/auth/login" class="has-acc">Login</a>
+  <p dir="auto">
+    {{ "auth.alreadyRegistered" | translate }}
+    <a routerLink="/auth/login" class="has-acc">
+      {{ "auth.Login" | translate }}
+    </a>
   </p>
 </div>

@@ -1,14 +1,14 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component } from '@angular/core';
 import {
   MoveDirection,
   ClickMode,
-  HoverMode,
   OutMode,
   Container,
   Engine,
 } from 'tsparticles-engine';
 //import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from 'tsparticles-slim'; // if you are going to use `loadSlim`, install the "tsparticles-slim" package too.
+import { LanguageService } from '../shared/language.service';
 
 @Component({
   selector: 'app-landing-page',
@@ -17,6 +17,9 @@ import { loadSlim } from 'tsparticles-slim'; // if you are going to use `loadSli
 })
 export class LandingPageComponent {
   id = 'tsparticles';
+  otherLanguage = 'عربي';
+
+  constructor(private languageService: LanguageService) {}
 
   particlesOptions = {
     background: {
@@ -84,7 +87,6 @@ export class LandingPageComponent {
     detectRetina: true,
   };
 
-
   particlesLoaded(container: Container): void {
     console.log(container);
   }
@@ -101,5 +103,10 @@ export class LandingPageComponent {
 
   showNavbar(mobileNav: HTMLElement) {
     mobileNav.classList.toggle('hidden');
+  }
+
+  onChangeLanguage() {
+    this.languageService.switchLanguage();
+    this.otherLanguage = this.languageService.otherLanguage;
   }
 }

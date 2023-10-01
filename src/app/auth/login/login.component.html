@@ -6,17 +6,22 @@
     justify-content: center;
     padding-top: 50px;
   "
+  *ngIf="isLoading"
 >
-  <img src="assets/images/loader-white-bg.gif" alt="spinner" *ngIf="isLoading" />
+  <img
+    src="assets/images/loader-white-bg.gif"
+    alt="spinner"
+  />
 </div>
+
 <div class="login-container" *ngIf="!isLoading">
-  <h2>Login</h2>
+  <h2>{{ "auth.Login" | translate }}</h2>
   <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
     <input
       type="text"
       name="email"
       id="email"
-      placeholder="Email"
+      placeholder="{{ 'auth.Email' | translate }}"
       ngModel
       required
       email
@@ -25,23 +30,30 @@
       type="password"
       name="password"
       id="password"
-      placeholder="Password"
+      placeholder="{{ 'auth.Password' | translate }}"
       ngModel
       required
       minlength="6"
     />
     <p class="error" *ngIf="authForm.invalid && authForm.touched">
-      Please enter valid data
+      {{ "pleaseEnterValidData" | translate }}
     </p>
 
     <p class="error" *ngIf="errorMessage">
       {{ errorMessage }}
     </p>
-    <a routerLink="/auth/forget-password"> Forgot your password?</a>
-    <button type="submit" [disabled]="!authForm.valid">Continue</button>
+    <a routerLink="/auth/forget-password">
+      {{ "auth.ForgotPassword" | translate }}
+    </a>
+    <button type="submit" [disabled]="!authForm.valid">
+      {{ "Continue" | translate }}
+    </button>
   </form>
 
   <p>
-    New user? <a routerLink="/auth/signup" class="new-acc">Create Account</a>
+    {{ "auth.NewUser" | translate }}
+    <a routerLink="/auth/signup" class="new-acc">
+      {{ "auth.CreateAccount" | translate }}
+    </a>
   </p>
 </div>

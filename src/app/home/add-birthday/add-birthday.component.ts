@@ -10,6 +10,7 @@ import * as BirthdayActions from '../../birthday/store/birthday.actions';
 import { State } from '../../birthday/store/birthday.reducer';
 import { map } from 'rxjs';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-add-birthday',
@@ -33,7 +34,8 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<fromApp.AppState>
+    private store: Store<fromApp.AppState>,
+    private translate: TranslateService
   ) {}
 
   private initForm() {
@@ -98,16 +100,22 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
           this.errorMessage = birthdayState.errMsg;
 
           if (this.isEditMode) {
+            const translatedTitle = this.translate.instant(
+              'BIRTHDAY_UPDATED_SUCCESS_MESSAGE'
+            );
             await Swal.fire({
-              title: 'Birthday updated successfully!',
+              title: translatedTitle,
               icon: 'success',
               showConfirmButton: false,
               timer: 3000,
               position: 'center',
             });
           } else {
+            const translatedTitle = this.translate.instant(
+              'BIRTHDAY_ADDED_SUCCESS_MESSAGE'
+            );
             await Swal.fire({
-              title: 'Birthday added successfully!',
+              title: translatedTitle,
               icon: 'success',
               showConfirmButton: false,
               timer: 3000,

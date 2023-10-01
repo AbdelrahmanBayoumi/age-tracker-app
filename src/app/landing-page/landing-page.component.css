@@ -36,6 +36,8 @@ nav a {
   transition: 0.3s;
   text-align: center;
   justify-content: center;
+  cursor: pointer;
+  user-select: none;
 }
 
 .mobile-nav a:hover,

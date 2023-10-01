@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SignupComponent } from './signup/signup.component';
 import { LoginComponent } from './login/login.component';
 import { AuthComponent } from './auth.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -15,8 +15,8 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
     ForgetPasswordComponent,
   ],
   imports: [
-    CommonModule,
-    FormsModule,
+    SharedModule,
+    TranslateModule.forChild(),
     RouterModule.forChild([
       {
         path: '',
@@ -34,6 +34,6 @@ import { ForgetPasswordComponent } from './forget-password/forget-password.compo
       { path: '', redirectTo: 'login', pathMatch: 'full' },
     ]),
   ],
-  exports: [RouterModule],
+  exports: [RouterModule, TranslateModule],
 })
 export class AuthModule {}

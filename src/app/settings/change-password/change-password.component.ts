@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import Swal from 'sweetalert2';
 
+import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
@@ -11,7 +12,7 @@ import { AuthService } from '../../auth/auth.service';
   templateUrl: './change-password.component.html',
   styleUrls: ['../settings.component.css', './change-password.component.css'],
 })
-export class ChagePasswordComponent implements OnInit, OnDestroy {
+export class ChangePasswordComponent implements OnInit, OnDestroy {
   isLoading = false;
   errorMessage = '';
   authSub: any;
@@ -20,7 +21,8 @@ export class ChagePasswordComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private translate: TranslateService
   ) {
     this.userForm = this.formBuilder.group(
       {
@@ -59,10 +61,10 @@ export class ChagePasswordComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.errorMessage = '';
           Swal.fire({
-            title: 'Success!',
-            text: 'Your password has been changed successfully!',
+            title: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_TITLE'),
+            text: this.translate.instant('UPDATE_PASSWORD_SUCCESS_TITLE'),
             icon: 'success',
-            confirmButtonText: 'Ok',
+            confirmButtonText: this.translate.instant('ok'),
           }).then((result) => {
             if (result.isConfirmed) {
               this.router.navigate(['/settings']);

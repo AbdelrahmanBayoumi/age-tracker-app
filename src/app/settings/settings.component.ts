@@ -1,17 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators,
-  ValidatorFn,
-  AbstractControl,
-} from '@angular/forms';
 
 import Swal from 'sweetalert2';
 
-import { AuthService } from '../auth/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -32,7 +27,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private translate: TranslateService
   ) {
     // add general validation to the form
     this.userForm = this.formBuilder.group({
@@ -105,9 +101,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
       .subscribe((e) => {
         console.log('e', e);
         this.isLoading = false;
+
         Swal.fire({
-          title: 'Success!',
-          text: 'Your profile has been updated.',
+          title: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_TITLE'),
+          text: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_MESSAGE'),
           icon: 'success',
           confirmButtonText: 'Ok',
         });
@@ -124,12 +121,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   async deleteAccount() {
     const result = await Swal.fire({
-      title: 'Are you sure?',
-      text: 'You will not be able to recover your account!',
+      title: this.translate.instant('DELETE_ACCOUNT_TITLE'),
+      text: this.translate.instant('DELETE_ACCOUNT_MESSAGE'),
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Yes, delete it!',
-      cancelButtonText: 'No, keep it!',
+      confirmButtonText: this.translate.instant('DELETE_ACCOUNT_CONFIRMATION'),
+      cancelButtonText: this.translate.instant('DELETE_ACCOUNT_CANCEL'),
       cancelButtonColor: 'green',
       confirmButtonColor: '#d33',
     });
@@ -139,7 +136,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
         .deleteAccount()
         .pipe(take(1))
         .subscribe(() => {
-          Swal.fire('Deleted!', 'Your account has been deleted.', 'success');
+          Swal.fire(
+            this.translate.instant('DELETE_ACCOUNT_SUCCESS_MESSAGE'),
+            this.translate.instant('DELETE_ACCOUNT_SUCCESS_MESSAGE'),
+            'success'
+          );
           this.router.navigate(['/auth/signup']);
         });
     }

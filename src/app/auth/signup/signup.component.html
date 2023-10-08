@@ -4,11 +4,10 @@
     width: 100%;
     align-items: center;
     justify-content: center;
-    padding-top: 50px;
   "
   *ngIf="isLoading"
 >
-  <img src="assets/images/loader-white-bg.gif" alt="spinner" />
+<div class="loader"></div>
 </div>
 
 <div class="signup-container" *ngIf="!isLoading">

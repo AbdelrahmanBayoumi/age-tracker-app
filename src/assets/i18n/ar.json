@@ -82,7 +82,7 @@
   "DELETE_ACCOUNT_CONFIRMATION": "نعم، احذفه!",
   "DELETE_ACCOUNT_CANCEL": "إلغاء",
   "DELETE_ACCOUNT_SUCCESS_MESSAGE": "تم حذف الحساب بنجاح",
-  "UPDATE_ACCOUNT_SUCCESS_TITLE": "نجاح!",
+  "UPDATE_ACCOUNT_SUCCESS_TITLE": "تم بنجاح",
   "UPDATE_ACCOUNT_SUCCESS_MESSAGE": "تم تحديث الملف الشخصي بنجاح",
   "UPDATE_PASSWORD_SUCCESS_TITLE": "كلمة المرور تم تغييرها بنجاح!",
   "changeImage": "تغيير الصورة",

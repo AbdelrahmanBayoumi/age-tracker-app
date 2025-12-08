@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -32,13 +31,13 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   isEditMode = false;
   showCropModal = false;
   id: number | undefined;
+  relationshipOptions: string[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromApp.AppState>,
-    private translate: TranslateService,
-    private location: Location
+    private translate: TranslateService
   ) {}
 
   private initForm() {
@@ -138,6 +137,12 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
         }
         this.isLoading = birthdayState.loading;
         this.errorMessage = birthdayState.errMsg;
+
+        // Extract unique relationships
+        const relationships = birthdayState.birthdays.map(
+          (b) => b.relationship
+        );
+        this.relationshipOptions = [...new Set(relationships)];
       });
   }
 

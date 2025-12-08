@@ -17,7 +17,7 @@
   "
   *ngIf="isLoading"
 >
-<div class="loader"></div>
+  <div class="loader"></div>
 </div>
 <div *ngIf="!isLoading">
   <main>
@@ -59,10 +59,19 @@
         </label>
         <input
           type="text"
+          id="relationship"
           name="relationship"
-          placeholder="{{ 'Relationship' | translate }}"
+          [placeholder]="'Relationship' | translate"
           formControlName="relationship"
+          list="relationshipOptionsList"
+          dir="auto"
         />
+        <datalist id="relationshipOptionsList">
+          <option
+            *ngFor="let relation of relationshipOptions"
+            [value]="relation"
+          ></option>
+        </datalist>
         <label for="date" dir="{{ 'direction' | translate }}">
           {{ "BirthDate" | translate }}
         </label>

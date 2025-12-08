@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { HttpClient } from '@angular/common/http';
-import { switchMap, map, catchError } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
-import * as BirthdaysActions from './birthday.actions';
-import { Birthday } from '../model/birthday.model';
+import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { of } from 'rxjs';
+import { Birthday } from '../model/birthday.model';
+import * as BirthdaysActions from './birthday.actions';
 
 @Injectable()
 export class BirthdayEffects {
@@ -54,12 +54,16 @@ export class BirthdayEffects {
           .post<Birthday>(environment.apiUrl + this.END_POINT, action.birthday)
           .pipe(
             switchMap((res) => {
-              return this.uploadImage(res.id, action.image);
+              return this.uploadImage(res.id, action.image).pipe(
+                switchMap(() => {
+                  return of(res.id);
+                })
+              );
             })
           );
       }),
-      map(() => {
-        return BirthdaysActions.birthdaySuccess();
+      map((id: number) => {
+        return BirthdaysActions.birthdaySuccess({ id });
       }),
       catchError((_error) => {
         return of(BirthdaysActions.addBirthdayFailed());
@@ -70,7 +74,7 @@ export class BirthdayEffects {
   private uploadImage(
     id: number,
     image: { fileURL: string; fileObject?: File }
-  ) {
+  ): Observable<any> {
     const formData = new FormData();
     const isNewImage: boolean =
       image.fileObject != null || image.fileObject != undefined;

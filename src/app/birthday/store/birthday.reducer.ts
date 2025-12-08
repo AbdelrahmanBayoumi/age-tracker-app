@@ -10,6 +10,7 @@ export interface State {
   errMsg: string;
   loading: boolean;
   viewedBirthday?: Birthday;
+  lastAddedBirthdayId?: number;
 }
 
 const initialState: State = {
@@ -18,6 +19,7 @@ const initialState: State = {
   searchQuery: '',
   errMsg: '',
   loading: false,
+  lastAddedBirthdayId: undefined,
 };
 
 export const birthdayReducer = createReducer(
@@ -39,6 +41,7 @@ export const birthdayReducer = createReducer(
     return {
       ...state,
       loading: true,
+      lastAddedBirthdayId: undefined,
     };
   }),
   on(BirthdayActions.birthdaySuccess, (state, action) => {
@@ -46,6 +49,7 @@ export const birthdayReducer = createReducer(
       ...state,
       errMsg: '',
       loading: false,
+      lastAddedBirthdayId: action.id,
     };
   }),
   on(BirthdayActions.addBirthdayFailed, (state, action) => {

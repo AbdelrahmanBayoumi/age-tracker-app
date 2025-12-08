@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { Subscription } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 
 import Swal from 'sweetalert2';
 
-import * as fromApp from '../../store/app.reducer';
-import * as BirthdayActions from '../../birthday/store/birthday.actions';
-import { State } from '../../birthday/store/birthday.reducer';
+import { TranslateService } from '@ngx-translate/core';
 import { map } from 'rxjs';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
-import { TranslateService } from '@ngx-translate/core';
+import * as BirthdayActions from '../../birthday/store/birthday.actions';
+import { State } from '../../birthday/store/birthday.reducer';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-add-birthday',
@@ -124,6 +124,13 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
               timer: 3000,
               position: 'center',
             });
+            if (birthdayState.lastAddedBirthdayId) {
+              this.router.navigate([
+                '/birthday',
+                birthdayState.lastAddedBirthdayId,
+              ]);
+              return;
+            }
           }
 
           this.backToHome();

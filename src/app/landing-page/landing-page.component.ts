@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
-  MoveDirection,
   ClickMode,
-  OutMode,
   Container,
   Engine,
+  MoveDirection,
+  OutMode,
 } from 'tsparticles-engine';
 //import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from 'tsparticles-slim'; // if you are going to use `loadSlim`, install the "tsparticles-slim" package too.
+import { AuthService } from '../auth/auth.service';
 import { LanguageService } from '../shared/language.service';
 
 @Component({
@@ -15,11 +17,23 @@ import { LanguageService } from '../shared/language.service';
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css'],
 })
-export class LandingPageComponent {
+export class LandingPageComponent implements OnInit {
   id = 'tsparticles';
   otherLanguage = 'عربي';
 
-  constructor(private languageService: LanguageService) {}
+  constructor(
+    private languageService: LanguageService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
+
+  ngOnInit(): void {
+    this.authService.user.subscribe((user) => {
+      if (user) {
+        this.router.navigate(['/home']);
+      }
+    });
+  }
 
   particlesOptions = {
     background: {

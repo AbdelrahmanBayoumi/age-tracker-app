@@ -38,7 +38,8 @@ export const addBirthday = createAction(
 );
 
 export const birthdaySuccess = createAction(
-  '[Birthdays] Birthday Updated Sccess'
+  '[Birthdays] Birthday Updated Success',
+  props<{ id?: number }>()
 );
 export const addBirthdayFailed = createAction(
   '[Birthdays] Add Birthday Failed'

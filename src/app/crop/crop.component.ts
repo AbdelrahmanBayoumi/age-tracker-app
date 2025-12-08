@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -16,8 +15,6 @@ export class CropComponent {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   showCropper = false;
-
-  constructor(private sanitizer: DomSanitizer) {}
 
   get imageSelected(): boolean {
     return this.showCropper;
@@ -38,8 +35,6 @@ export class CropComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     console.log('imageCropped', event);
-
-    // this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
     this.croppedImage = event.blob;
   }
 

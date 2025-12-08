@@ -1,27 +1,30 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Birthday } from 'src/app/birthday/model/birthday.model';
-import * as fromApp from '../../../store/app.reducer';
-import * as BirthdayActions from '../../../birthday/store/birthday.actions';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { map, of, switchMap } from 'rxjs';
-import { BirthdayStatistics } from 'src/app/birthday/model/birthday-statistics.model';
-import Swal from 'sweetalert2';
-import { AuthService } from 'src/app/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+import { map, of, switchMap } from 'rxjs';
+import Swal from 'sweetalert2';
+
+import { AuthService } from '../../../auth/auth.service';
+import { BirthdayStatistics } from '../../../birthday/model/birthday-statistics.model';
+import { Birthday } from '../../../birthday/model/birthday.model';
+import * as BirthdayActions from '../../../birthday/store/birthday.actions';
+import * as fromApp from '../../../store/app.reducer';
+
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-birthday-details',
   templateUrl: './birthday-details.component.html',
   styleUrls: ['./birthday-details.component.css'],
 })
-export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
+export class BirthdayDetailsComponent implements OnInit, OnDestroy {
   birthday: Birthday | undefined;
   id: number | undefined;
   birthdayStat: BirthdayStatistics | undefined;
   userPhotoUrl: string | undefined = '';
-  storeSub0: any;
-  storeSub: any;
+  storeSub0: Subscription | undefined;
+  storeSub: Subscription | undefined;
   isLoading = false;
   isMe = false;
 
@@ -89,8 +92,9 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
                         }
                       );
 
+                      // Only redirect if NOT loading and finding nothing
                       if (
-                        birthdaysState &&
+                        !birthdaysState.loading &&
                         birthdaysState.birthdays &&
                         birthdaysState.birthdays.length > 0 &&
                         !birthday
@@ -104,7 +108,9 @@ export class BirthdayDetailsCompnent implements OnInit, OnDestroy {
               })
             )
             .subscribe((birthday) => {
-              this.initBirthday(birthday!);
+              if (birthday) {
+                this.initBirthday(birthday);
+              }
             });
         }
       });

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 
 @Component({
@@ -6,12 +6,6 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
   templateUrl: './birthday-card.component.html',
   styleUrls: ['./birthday-card.component.css'],
 })
-export class BirthdayCardompnent implements OnInit, OnDestroy {
+export class BirthdayCardComponent {
   @Input() birthday: Birthday | null = null;
-
-  constructor() {}
-
-  ngOnInit(): void {}
-
-  ngOnDestroy(): void {}
 }

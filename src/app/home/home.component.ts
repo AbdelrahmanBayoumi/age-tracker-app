@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 
 import { AuthService } from '../auth/auth.service';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
 import { Store } from '@ngrx/store';
@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   @ViewChild('drawer') drawer: ElementRef | undefined;
   private userSub: Subscription | null = null;
   private storeSub: Subscription | null = null;
-  userVerified = false;
+  userVerified = true;
   startSearch = false;
   searchQuery = '';
   isLoading = true;
@@ -58,15 +58,29 @@ export class HomeComponent implements OnInit, OnDestroy {
         );
       }
     });
+
     this.storeSub = this.store
       .select('birthdays')
       .subscribe((birthdaysState) => {
-        this.isLoading = birthdaysState.loading;
+        // Stale-While-Revalidate Logic:
+        // Show loading spinner ONLY if we have NO data.
+        // If we have data, we show it immediately while fetching updates in the background.
+        this.isLoading =
+          birthdaysState.loading && birthdaysState.birthdays.length === 0;
         this.errorMessage = birthdaysState.errMsg;
       });
 
-    this.store.dispatch(BirthdayActions.fetchBirthdaysStart());
-    this.store.dispatch(BirthdayActions.fetchBirthdays());
+    // Always fetch data to ensure freshness (Background Refresh)
+    // We only dispatch if we are NOT already loading to avoid duplicate requests
+    this.store
+      .select('birthdays')
+      .pipe(take(1))
+      .subscribe((birthdaysState) => {
+        if (!birthdaysState.loading) {
+          this.store.dispatch(BirthdayActions.fetchBirthdaysStart());
+          this.store.dispatch(BirthdayActions.fetchBirthdays());
+        }
+      });
   }
 
   ngOnDestroy(): void {

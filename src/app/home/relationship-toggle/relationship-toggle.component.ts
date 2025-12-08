@@ -1,18 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BirthdayService } from 'src/app/birthday/birthday.service';
-import * as fromApp from '../../store/app.reducer';
 import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
+
+import { BirthdayService } from '../../birthday/birthday.service';
 import * as BirthdayActions from '../../birthday/store/birthday.actions';
+import { selectRelationshipSelected } from '../../birthday/store/birthday.selectors';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-relationship-toggle',
-  templateUrl: './relationshop-toggle.component.html',
-  styleUrls: ['./relationshop-toggle.component.css'],
+  templateUrl: './relationship-toggle.component.html',
+  styleUrls: ['./relationship-toggle.component.css'],
 })
 export class RelationshipToggleComponent implements OnInit, OnDestroy {
   selectedRelation: string = '-1';
   relationships: Set<string> = new Set<string>();
-  relationSub: any;
+  relationSub: Subscription | undefined;
 
   constructor(
     private birthdayService: BirthdayService,
@@ -25,10 +28,14 @@ export class RelationshipToggleComponent implements OnInit, OnDestroy {
       .subscribe((relationships) => {
         this.relationships = relationships;
       });
+
+    this.store.select(selectRelationshipSelected).subscribe((relationship) => {
+      this.selectedRelation = relationship;
+    });
   }
 
   ngOnDestroy(): void {
-    this.relationSub.unsubscribe();
+    this.relationSub?.unsubscribe();
   }
 
   onChooseRelation(relationship: string, index: number) {

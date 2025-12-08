@@ -1,4 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { Store } from '@ngrx/store';
@@ -25,8 +27,8 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   fileSizeError = false;
   isLoading = false;
   errorMessage = '';
-  storeSub: any;
-  storeSub2: any;
+  storeSub: Subscription | undefined;
+  storeSub2: Subscription | undefined;
   isEditMode = false;
   showCropModal = false;
   id: number | undefined;
@@ -35,7 +37,8 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromApp.AppState>,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private location: Location
   ) {}
 
   private initForm() {
@@ -123,7 +126,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
             });
           }
 
-          this.router.navigate(['/home']);
+          this.backToHome();
           return;
         }
         this.isLoading = birthdayState.loading;

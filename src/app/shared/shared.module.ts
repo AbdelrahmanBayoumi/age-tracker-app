@@ -6,7 +6,7 @@ import { ImageCropperComponent } from 'ngx-image-cropper';
 import { CropComponent } from '../crop/crop.component';
 import { HorizontalScrollDirective } from '../directives/horizontal-scroll.directive';
 import { DateFormatPipe } from '../pipes/date-format.pipe';
-import { LocalizedDatePipe } from '../pipes/localizedDate.pipe';
+import { LocalizedDatePipe } from '../pipes/localized-date.pipe';
 import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
 
 @NgModule({

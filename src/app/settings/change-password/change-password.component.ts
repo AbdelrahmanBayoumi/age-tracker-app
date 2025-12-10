@@ -8,9 +8,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
-  selector: 'app-change-password',
-  templateUrl: './change-password.component.html',
-  styleUrls: ['../settings.component.css', './change-password.component.css'],
+    selector: 'app-change-password',
+    templateUrl: './change-password.component.html',
+    styleUrls: ['../settings.component.css', './change-password.component.css'],
+    standalone: false
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
   isLoading = false;

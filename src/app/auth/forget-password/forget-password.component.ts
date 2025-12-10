@@ -11,9 +11,10 @@ import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './forget-password.component.html',
-  styleUrls: ['../auth.component.css'],
+    selector: 'app-login',
+    templateUrl: './forget-password.component.html',
+    styleUrls: ['../auth.component.css'],
+    standalone: false
 })
 export class ForgetPasswordComponent implements OnInit, OnDestroy {
   @ViewChild('authForm') authForm!: NgForm;

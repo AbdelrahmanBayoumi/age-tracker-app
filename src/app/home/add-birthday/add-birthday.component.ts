@@ -14,9 +14,10 @@ import { State } from '../../birthday/store/birthday.reducer';
 import * as fromApp from '../../store/app.reducer';
 
 @Component({
-  selector: 'app-add-birthday',
-  templateUrl: './add-birthday.component.html',
-  styleUrls: ['./add-birthday.component.css'],
+    selector: 'app-add-birthday',
+    templateUrl: './add-birthday.component.html',
+    styleUrls: ['./add-birthday.component.css'],
+    standalone: false
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;

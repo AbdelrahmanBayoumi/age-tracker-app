@@ -9,9 +9,10 @@ import { take } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
-  selector: 'app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
+    selector: 'app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.css'],
+    standalone: false
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   isLoading = false;

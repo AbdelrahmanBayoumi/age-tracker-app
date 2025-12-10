@@ -5,9 +5,10 @@ import { Router } from '@angular/router';
 import { SignupDto } from '../dto/signup.dto';
 
 @Component({
-  selector: 'app-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['../auth.component.css', './signup.component.css'],
+    selector: 'app-signup',
+    templateUrl: './signup.component.html',
+    styleUrls: ['../auth.component.css', './signup.component.css'],
+    standalone: false
 })
 export class SignupComponent {
   errorMessage: string = '';

@@ -1,6 +1,6 @@
-import * as fromReducer from './birthday.reducer';
-import * as BirthdayActions from './birthday.actions';
 import { Birthday } from '../model/birthday.model';
+import * as BirthdayActions from './birthday.actions';
+import * as fromReducer from './birthday.reducer';
 
 describe('BirthdayReducer', () => {
   const initialState: fromReducer.State = {
@@ -9,6 +9,7 @@ describe('BirthdayReducer', () => {
     searchQuery: '',
     errMsg: '',
     loading: false,
+    lastAddedBirthdayId: undefined,
   };
 
   it('should return default state', () => {

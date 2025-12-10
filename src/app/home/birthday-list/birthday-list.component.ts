@@ -7,9 +7,10 @@ import { selectFilteredBirthdays } from '../../birthday/store/birthday.selectors
 import * as fromApp from '../../store/app.reducer';
 
 @Component({
-  selector: 'app-birthday-list',
-  templateUrl: './birthday-list.component.html',
-  styleUrls: ['./birthday-list.component.css'],
+    selector: 'app-birthday-list',
+    templateUrl: './birthday-list.component.html',
+    styleUrls: ['./birthday-list.component.css'],
+    standalone: false
 })
 export class BirthdayListComponent implements OnInit {
   birthdays: { month: string; birthdays: Birthday[] }[] = [];

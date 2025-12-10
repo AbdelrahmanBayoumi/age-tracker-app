@@ -2,7 +2,8 @@
 import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
-  selector: '[appHorizontalScroll]',
+    selector: '[appHorizontalScroll]',
+    standalone: false
 })
 export class HorizontalScrollDirective {
   private isDragging = false;

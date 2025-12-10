@@ -11,9 +11,10 @@ import { User } from '../model/user.model';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['../auth.component.css', './login.component.css'],
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['../auth.component.css', './login.component.css'],
+    standalone: false
 })
 export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('authForm') authForm!: NgForm;

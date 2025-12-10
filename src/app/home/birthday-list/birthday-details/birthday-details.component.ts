@@ -14,9 +14,10 @@ import * as fromApp from '../../../store/app.reducer';
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-birthday-details',
-  templateUrl: './birthday-details.component.html',
-  styleUrls: ['./birthday-details.component.css'],
+    selector: 'app-birthday-details',
+    templateUrl: './birthday-details.component.html',
+    styleUrls: ['./birthday-details.component.css'],
+    standalone: false
 })
 export class BirthdayDetailsComponent implements OnInit, OnDestroy {
   birthday: Birthday | undefined;

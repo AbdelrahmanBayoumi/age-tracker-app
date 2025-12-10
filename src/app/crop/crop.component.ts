@@ -3,9 +3,10 @@ import { ImageCroppedEvent } from 'ngx-image-cropper';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-crop',
-  templateUrl: './crop.component.html',
-  styleUrls: ['./crop.component.css'],
+    selector: 'app-crop',
+    templateUrl: './crop.component.html',
+    styleUrls: ['./crop.component.css'],
+    standalone: false
 })
 export class CropComponent {
   @Output() doneImageCrop = new EventEmitter<Blob>();

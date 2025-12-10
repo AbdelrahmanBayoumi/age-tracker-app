@@ -8,9 +8,10 @@ import { selectRelationshipSelected } from '../../birthday/store/birthday.select
 import * as fromApp from '../../store/app.reducer';
 
 @Component({
-  selector: 'app-relationship-toggle',
-  templateUrl: './relationship-toggle.component.html',
-  styleUrls: ['./relationship-toggle.component.css'],
+    selector: 'app-relationship-toggle',
+    templateUrl: './relationship-toggle.component.html',
+    styleUrls: ['./relationship-toggle.component.css'],
+    standalone: false
 })
 export class RelationshipToggleComponent implements OnInit, OnDestroy {
   selectedRelation: string = '-1';

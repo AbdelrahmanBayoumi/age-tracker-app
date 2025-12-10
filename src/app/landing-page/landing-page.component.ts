@@ -13,9 +13,10 @@ import { AuthService } from '../auth/auth.service';
 import { LanguageService } from '../shared/language.service';
 
 @Component({
-  selector: 'app-landing-page',
-  templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css'],
+    selector: 'app-landing-page',
+    templateUrl: './landing-page.component.html',
+    styleUrls: ['./landing-page.component.css'],
+    standalone: false
 })
 export class LandingPageComponent implements OnInit {
   id = 'tsparticles';

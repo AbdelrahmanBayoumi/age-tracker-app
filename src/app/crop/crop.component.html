@@ -12,7 +12,7 @@
       (drop)="onDrop($event)"
       (click)="openFileInput(fileInput)"
     >
-      {{ "dropAnImageHereOrClickToChooseOne" | translate }}
+      {{ 'dropAnImageHereOrClickToChooseOne' | translate }}
     </div>
 
     <image-cropper
@@ -33,24 +33,11 @@
     ></image-cropper>
 
     <div class="image-buttons">
-      <button
-        type="button"
-        class="image-add"
-        (click)="openFileInput(fileInput)"
-      >
-        {{
-          imageSelected
-            ? ("chooseOtherImage" | translate)
-            : ("changeImage" | translate)
-        }}
+      <button type="button" class="image-add" (click)="openFileInput(fileInput)">
+        {{ imageSelected ? ('chooseOtherImage' | translate) : ('changeImage' | translate) }}
       </button>
-      <button
-        type="button"
-        class="image-remove"
-        *ngIf="imageSelected"
-        (click)="removeImage()"
-      >
-        {{ "discard" | translate }}
+      <button type="button" class="image-remove" *ngIf="imageSelected" (click)="removeImage()">
+        {{ 'discard' | translate }}
       </button>
       <input
         #fileInput
@@ -61,13 +48,8 @@
         accept="image/png, image/jpeg, image/jpg"
       />
     </div>
-    <button
-      type="button"
-      class="image-save"
-      *ngIf="imageSelected"
-      (click)="saveImage()"
-    >
-      {{ "save" | translate }}
+    <button type="button" class="image-save" *ngIf="imageSelected" (click)="saveImage()">
+      {{ 'save' | translate }}
     </button>
   </main>
 </div>

@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpErrorResponse,
-} from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
@@ -15,24 +9,19 @@ import { Tokens } from './model/user.model';
 @Injectable()
 export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(
-    null
-  );
+  private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  intercept(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     return next.handle(req).pipe(
-      catchError((error) => {
+      catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           // Exclude specific URLs from triggering the refresh token logic
-          if (
-            req.url.includes('/change-password') ||
-            req.url.includes('/forget-password')
-          ) {
+          if (req.url.includes('/change-password') || req.url.includes('/forget-password')) {
             return throwError(error);
           } else {
             return this.handle401Error(req, next);
@@ -44,13 +33,10 @@ export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
     );
   }
 
-  private handle401Error(
-    req: HttpRequest<any>,
-    next: HttpHandler
-  ): Observable<HttpEvent<any>> {
+  private handle401Error(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     if (this.isRefreshing) {
       return this.refreshTokenSubject.pipe(
-        filter((token) => token != null),
+        filter(token => token != null),
         take(1),
         switchMap(() => next.handle(this.addToken(req)))
       );
@@ -64,7 +50,7 @@ export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
           this.refreshTokenSubject.next(tokens.access_token);
           return next.handle(this.addToken(req));
         }),
-        catchError((err) => {
+        catchError(err => {
           this.isRefreshing = false;
           this.authService.logout();
           this.router.navigate(['/auth']);

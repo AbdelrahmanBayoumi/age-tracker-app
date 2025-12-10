@@ -1,54 +1,33 @@
 <header>
   <div>
-    <img
-      src="/assets/images/hamburger.svg"
-      alt="bars icon"
-      (click)="showNavbar(mobileNav)"
-      class="hamburger hidden"
-    />
+    <img src="/assets/images/hamburger.svg" alt="bars icon" (click)="showNavbar(mobileNav)" class="hamburger hidden" />
     <img src="/assets/images/logo.svg" alt="logo" class="logo-text" />
   </div>
   <nav>
-    <a
-      href="https://github.com/AbdelrahmanBayoumi/age-tracker-app"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {{ "landingPage.forDevelopers" | translate }}
+    <a href="https://github.com/AbdelrahmanBayoumi/age-tracker-app" target="_blank" rel="noopener noreferrer">
+      {{ 'landingPage.forDevelopers' | translate }}
     </a>
     <a href="mailto:abdelrahmanbayoumi1@gmail.com">
-      {{ "landingPage.contactUs" | translate }}
+      {{ 'landingPage.contactUs' | translate }}
     </a>
     <a (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</a>
     <a class="home-btn" routerLink="/home">
-      <img
-        src="assets/images/georgian-calendar.svg"
-        alt="georgian calendar"
-        class="home-btn-img"
-      />
-      {{ "landingPage.goToTheApp" | translate }}
+      <img src="assets/images/georgian-calendar.svg" alt="georgian calendar" class="home-btn-img" />
+      {{ 'landingPage.goToTheApp' | translate }}
     </a>
   </nav>
 
   <div class="mobile-nav hidden" #mobileNav>
-    <a
-      href="https://github.com/AbdelrahmanBayoumi/age-tracker-app"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {{ "landingPage.forDevelopers" | translate }}
+    <a href="https://github.com/AbdelrahmanBayoumi/age-tracker-app" target="_blank" rel="noopener noreferrer">
+      {{ 'landingPage.forDevelopers' | translate }}
     </a>
     <a href="mailto:abdelrahmanbayoumi1@gmail.com">
-      {{ "landingPage.contactUs" | translate }}
+      {{ 'landingPage.contactUs' | translate }}
     </a>
     <a (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</a>
     <a class="home-btn" routerLink="/home">
-      <img
-        src="assets/images/georgian-calendar.svg"
-        alt="georgian calendar"
-        class="home-btn-img"
-      />
-      {{ "landingPage.goToTheApp" | translate }}
+      <img src="assets/images/georgian-calendar.svg" alt="georgian calendar" class="home-btn-img" />
+      {{ 'landingPage.goToTheApp' | translate }}
     </a>
   </div>
 </header>
@@ -56,31 +35,19 @@
 <div class="hero">
   <div class="textbox-container">
     <div class="textbox">
-      <h2 dir="auto">{{ "landingPage.title" | translate }}</h2>
+      <h2 dir="auto">{{ 'landingPage.title' | translate }}</h2>
       <p dir="auto">
-        {{ "landingPage.subtitle" | translate }}
+        {{ 'landingPage.subtitle' | translate }}
       </p>
       <button class="home-btn" routerLink="/home">
-        <img
-          src="assets/images/georgian-calendar.svg"
-          alt="georgian calendar"
-          class="home-btn-img"
-        />
-        {{ "landingPage.goToTheApp" | translate }}
+        <img src="assets/images/georgian-calendar.svg" alt="georgian calendar" class="home-btn-img" />
+        {{ 'landingPage.goToTheApp' | translate }}
       </button>
     </div>
   </div>
   <div class="visuals">
-    <img
-      src="/assets/images/hero-img-l.png"
-      alt="hero"
-      class="big-screen-image"
-    />
-    <img
-      src="/assets/images/hero-img-s.png"
-      alt="hero"
-      class="small-screen-image"
-    />
+    <img src="/assets/images/hero-img-l.png" alt="hero" class="big-screen-image" />
+    <img src="/assets/images/hero-img-s.png" alt="hero" class="small-screen-image" />
   </div>
 </div>
 <!--

@@ -3,12 +3,7 @@ export class SignupDto {
   password: string;
   fullName: string;
   birthday: string;
-  constructor(
-    email: string,
-    password: string,
-    fullName: string,
-    birthday: string
-  ) {
+  constructor(email: string, password: string, fullName: string, birthday: string) {
     this.email = email;
     this.password = password;
     this.fullName = fullName;

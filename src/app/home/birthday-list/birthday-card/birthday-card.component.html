@@ -2,22 +2,16 @@
   <div class="birthday-item__image-container">
     <img
       class="birthday-item__image"
-      [src]="
-        birthday?.image && birthday?.image !== ''
-          ? birthday?.image
-          : '/assets/images/no-image.png'
-      "
+      [src]="birthday?.image && birthday?.image !== '' ? birthday?.image : '/assets/images/no-image.png'"
       alt="Birthday person"
     />
   </div>
   <div class="birthday-item__info">
     <h3 class="birthday-item__name">{{ birthday?.name }}</h3>
-    <div class="birthday-item__age" dir="auto">
-      {{ birthday?.getAgeAndBirthDate() }} {{ "yearsOld" | translate }}
-    </div>
+    <div class="birthday-item__age" dir="auto">{{ birthday?.getAgeAndBirthDate() }} {{ 'yearsOld' | translate }}</div>
   </div>
   <div class="days-remaining">
     <p>{{ birthday?.getDaysUntilNextBirthday() }}</p>
-    <p>{{ "day" | translate | lowercase }}</p>
+    <p>{{ 'day' | translate | lowercase }}</p>
   </div>
 </div>

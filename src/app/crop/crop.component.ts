@@ -6,6 +6,7 @@ import Swal from 'sweetalert2';
   selector: 'app-crop',
   templateUrl: './crop.component.html',
   styleUrls: ['./crop.component.css'],
+  standalone: false,
 })
 export class CropComponent {
   @Output() doneImageCrop = new EventEmitter<Blob>();
@@ -70,8 +71,7 @@ export class CropComponent {
   close(event: MouseEvent) {
     if (
       event.target instanceof HTMLElement &&
-      (event.target.classList.contains('crop-popup') ||
-        event.target.classList.contains('close-btn'))
+      (event.target.classList.contains('crop-popup') || event.target.classList.contains('close-btn'))
     ) {
       this.closeModal.emit();
     }
@@ -117,9 +117,7 @@ export class CropComponent {
   private handleDroppedFiles(files: FileList) {
     if (files.length > 0) {
       this.fileInput.nativeElement.files = files;
-      this.fileInput.nativeElement.dispatchEvent(
-        new Event('change', { bubbles: true })
-      );
+      this.fileInput.nativeElement.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 }

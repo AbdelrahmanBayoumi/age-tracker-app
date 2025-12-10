@@ -1,11 +1,7 @@
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  HttpClient,
-  HttpClientModule,
-  HTTP_INTERCEPTORS,
-} from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -32,18 +28,18 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
 
 @NgModule({
   declarations: [AppComponent, LandingPageComponent],
+  bootstrap: [AppComponent],
   imports: [
     BrowserModule,
     SharedModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    HttpClientModule,
     NgParticlesModule,
     StoreModule.forRoot(fromApp.appReducer, {
       metaReducers: [hydrationMetaReducer],
     }),
     EffectsModule.forRoot([BirthdayEffects]),
-    StoreDevtoolsModule.instrument({ logOnly: environment.production }),
+    StoreDevtoolsModule.instrument({ logOnly: environment.production, connectInZone: true }),
     StoreRouterConnectingModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -69,7 +65,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       useClass: CheckAuthAfterRequestInterceptor,
       multi: true,
     },
+    provideHttpClient(withInterceptorsFromDi()),
   ],
-  bootstrap: [AppComponent],
 })
 export class AppModule {}

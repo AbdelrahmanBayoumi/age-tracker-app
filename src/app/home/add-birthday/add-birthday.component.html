@@ -1,20 +1,14 @@
 <header dir="{{ 'direction' | translate }}">
   <h1 dir="auto">
-    {{ isEditMode ? ("edit" | translate) : ("add" | translate) }}
-    {{ "birthday" | translate }}
+    {{ isEditMode ? ('edit' | translate) : ('add' | translate) }}
+    {{ 'birthday' | translate }}
   </h1>
   <button class="dark-icon-btn" (click)="backToHome()">
     <img src="/assets/images/arrow.svg" alt="arrow icon" />
   </button>
 </header>
 <div
-  style="
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    padding-top: 50px;
-  "
+  style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px"
   *ngIf="isLoading"
 >
   <div class="loader"></div>
@@ -26,36 +20,22 @@
         <img class="person-image" [src]="userPhotoUrl" alt="person image" />
         <div class="image-buttons">
           <button type="button" class="image-add" (click)="openCropPopup()">
-            {{
-              hasImage
-                ? ("edit" | translate | titlecase)
-                : ("upload" | translate | titlecase)
-            }}
+            {{ hasImage ? ('edit' | translate | titlecase) : ('upload' | translate | titlecase) }}
           </button>
-          <button
-            type="button"
-            class="image-remove"
-            *ngIf="hasImage"
-            (click)="removePhoto()"
-          >
-            {{ "remove" | translate }}
+          <button type="button" class="image-remove" *ngIf="hasImage" (click)="removePhoto()">
+            {{ 'remove' | translate }}
           </button>
         </div>
         <p class="error" *ngIf="fileSizeError" dir="auto">
-          {{ "imageSizeMustBeLessThan2MB" | translate }}
+          {{ 'imageSizeMustBeLessThan2MB' | translate }}
         </p>
 
         <label for="name" dir="{{ 'direction' | translate }}">
-          {{ "Name" | translate }}
+          {{ 'Name' | translate }}
         </label>
-        <input
-          type="text"
-          name="name"
-          placeholder="{{ 'Name' | translate }}"
-          formControlName="name"
-        />
+        <input type="text" name="name" placeholder="{{ 'Name' | translate }}" formControlName="name" />
         <label for="relationship" dir="{{ 'direction' | translate }}">
-          {{ "Relationship" | translate }}
+          {{ 'Relationship' | translate }}
         </label>
         <input
           type="text"
@@ -67,43 +47,27 @@
           dir="auto"
         />
         <datalist id="relationshipOptionsList">
-          <option
-            *ngFor="let relation of relationshipOptions"
-            [value]="relation"
-          ></option>
+          <option *ngFor="let relation of relationshipOptions" [value]="relation"></option>
         </datalist>
         <label for="date" dir="{{ 'direction' | translate }}">
-          {{ "BirthDate" | translate }}
+          {{ 'BirthDate' | translate }}
         </label>
-        <input
-          type="date"
-          name="birthday"
-          placeholder="1999-08-24"
-          formControlName="birthday"
-        />
+        <input type="date" name="birthday" placeholder="1999-08-24" formControlName="birthday" />
         <!-- get error (birthdayNotValid) of birthday field -->
-        <p
-          class="error"
-          *ngIf="birthdayForm?.get('birthday')?.errors?.['birthdayNotValid']"
-          dir="auto"
-        >
-          {{ "birthdateMustBeInThePast" | translate }}
+        <p class="error" *ngIf="birthdayForm?.get('birthday')?.errors?.['birthdayNotValid']" dir="auto">
+          {{ 'birthdateMustBeInThePast' | translate }}
         </p>
 
-        <p
-          class="error"
-          *ngIf="birthdayForm?.invalid && birthdayForm?.touched"
-          dir="auto"
-        >
-          {{ "pleaseEnterValidData" | translate }}
+        <p class="error" *ngIf="birthdayForm?.invalid && birthdayForm?.touched" dir="auto">
+          {{ 'pleaseEnterValidData' | translate }}
         </p>
         <p class="error" *ngIf="errorMessage">
           {{ errorMessage }}
         </p>
 
         <button type="submit" [disabled]="!birthdayForm?.valid">
-          {{ isEditMode ? ("edit" | translate) : ("add" | translate) }}
-          {{ "birthday" | translate }}
+          {{ isEditMode ? ('edit' | translate) : ('add' | translate) }}
+          {{ 'birthday' | translate }}
         </button>
       </form>
     </div>

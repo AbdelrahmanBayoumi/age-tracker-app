@@ -18,16 +18,8 @@
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest",
-              "src/robots.txt"
-            ],
-            "styles": [
-              "src/styles.css",
-              "node_modules/sweetalert2/src/sweetalert2.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest", "src/robots.txt"],
+            "styles": ["src/styles.css", "node_modules/sweetalert2/src/sweetalert2.scss"],
             "scripts": [],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
@@ -63,10 +55,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "age-tracker-app:build:production"
+              "buildTarget": "age-tracker-app:build:production"
             },
             "development": {
-              "browserTarget": "age-tracker-app:build:development"
+              "buildTarget": "age-tracker-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +66,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "age-tracker-app:build"
+            "buildTarget": "age-tracker-app:build"
           }
         },
         "test": {
@@ -82,12 +74,7 @@
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest",
-              "src/robots.txt"
-            ],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest", "src/robots.txt"],
             "styles": ["src/styles.css"],
             "scripts": []
           }

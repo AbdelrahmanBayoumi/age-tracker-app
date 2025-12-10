@@ -14,11 +14,9 @@ Age Tracker App is a flexible tool that helps users keep track of important birt
 
 <div align=center>
 
-
 ![Open Source](https://img.shields.io/badge/Open%20Source-%E2%9D%A4-red?style=flat) ![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FAbdelrahmanBayoumi%2Fage-tracker-app&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=Visitors+%5Btoday%2Fall+time%5D&edge_flat=false) [![license](https://img.shields.io/github/license/AbdelrahmanBayoumi/age-tracker-app)](https://github.com/AbdelrahmanBayoumi/age-tracker-app/blob/master/LICENSE)
 
 </div>
-
 
 ## 🚀 How to Run
 
@@ -41,12 +39,15 @@ To run the front-end repository that uses Angular, follow these steps:
    ```bash
    cd age-tracker-app
    ```
+
 4. Install the project dependencies:
 
    ```bash
    npm install
    ```
-    or if you encounter any errors, try:
+
+   or if you encounter any errors, try:
+
    ```bash
     npm install --legacy-peer-deps
    ```

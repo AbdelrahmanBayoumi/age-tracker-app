@@ -3,7 +3,8 @@ import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
   name: 'dateFormat',
-  pure: false // Make the pipe impure to watch the language changes
+  pure: false, // Make the pipe impure to watch the language changes
+  standalone: false,
 })
 export class DateFormatPipe implements PipeTransform {
   constructor(private translate: TranslateService) {}

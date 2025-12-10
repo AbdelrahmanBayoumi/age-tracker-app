@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
@@ -14,6 +8,7 @@ import Swal from 'sweetalert2';
   selector: 'app-login',
   templateUrl: './forget-password.component.html',
   styleUrls: ['../auth.component.css'],
+  standalone: false,
 })
 export class ForgetPasswordComponent implements OnInit, OnDestroy {
   @ViewChild('authForm') authForm!: NgForm;
@@ -22,10 +17,13 @@ export class ForgetPasswordComponent implements OnInit, OnDestroy {
   private loadingSub: any;
   private userSub: any;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.loadingSub = this.authService.isLoading.subscribe((isLoading) => {
+    this.loadingSub = this.authService.isLoading.subscribe(isLoading => {
       this.isLoading = isLoading;
     });
   }
@@ -38,7 +36,7 @@ export class ForgetPasswordComponent implements OnInit, OnDestroy {
   onSubmit(form: NgForm) {
     console.log(form.value);
     this.userSub = this.authService.forgetPassword(form.value.email).subscribe({
-      next: (res) => {
+      next: res => {
         Swal.fire({
           title: 'We send temp password to your email',
           text: 'Please use it to login and change your password',
@@ -47,7 +45,7 @@ export class ForgetPasswordComponent implements OnInit, OnDestroy {
         });
         this.authService.isLoading.next(false);
       },
-      error: (errorRes) => {
+      error: errorRes => {
         console.log(errorRes);
         Swal.fire({
           title: 'Error!',

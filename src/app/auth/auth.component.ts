@@ -9,6 +9,7 @@ import { LanguageService } from '../shared/language.service';
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css'],
+  standalone: false,
 })
 export class AuthComponent implements OnDestroy, OnInit {
   version = environment.version;
@@ -24,7 +25,7 @@ export class AuthComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe((user) => {
+    this.userSub = this.authService.user.subscribe(user => {
       if (user) {
         this.router.navigate(['/home']);
       }

@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  ClickMode,
-  Container,
-  Engine,
-  MoveDirection,
-  OutMode,
-} from 'tsparticles-engine';
+import { ClickMode, Container, Engine, MoveDirection, OutMode } from 'tsparticles-engine';
 //import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
 import { loadSlim } from 'tsparticles-slim'; // if you are going to use `loadSlim`, install the "tsparticles-slim" package too.
 import { AuthService } from '../auth/auth.service';
@@ -16,6 +10,7 @@ import { LanguageService } from '../shared/language.service';
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
   styleUrls: ['./landing-page.component.css'],
+  standalone: false,
 })
 export class LandingPageComponent implements OnInit {
   id = 'tsparticles';
@@ -28,7 +23,7 @@ export class LandingPageComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.authService.user.subscribe((user) => {
+    this.authService.user.subscribe(user => {
       if (user) {
         this.router.navigate(['/home']);
       }

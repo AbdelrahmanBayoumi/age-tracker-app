@@ -8,6 +8,7 @@ import { SignupDto } from '../dto/signup.dto';
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['../auth.component.css', './signup.component.css'],
+  standalone: false,
 })
 export class SignupComponent {
   errorMessage: string = '';
@@ -15,10 +16,13 @@ export class SignupComponent {
   private loadingSub: any;
   private userSub: any;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.loadingSub = this.authService.isLoading.subscribe((isLoading) => {
+    this.loadingSub = this.authService.isLoading.subscribe(isLoading => {
       this.isLoading = isLoading;
     });
   }
@@ -30,20 +34,13 @@ export class SignupComponent {
 
   onSubmit(form: NgForm) {
     this.userSub = this.authService
-      .signup(
-        new SignupDto(
-          form.value.email,
-          form.value.password,
-          form.value.fullName,
-          form.value.birthdate
-        )
-      )
+      .signup(new SignupDto(form.value.email, form.value.password, form.value.fullName, form.value.birthdate))
       .subscribe({
         next: (user: any) => {
           this.router.navigate(['/home']);
           this.errorMessage = '';
         },
-        error: (errorRes) => {
+        error: errorRes => {
           console.log(errorRes);
           this.errorMessage = errorRes;
         },

@@ -17,6 +17,7 @@ import * as fromApp from '../../store/app.reducer';
   selector: 'app-add-birthday',
   templateUrl: './add-birthday.component.html',
   styleUrls: ['./add-birthday.component.css'],
+  standalone: false,
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;
@@ -43,10 +44,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   private initForm() {
     this.birthdayForm = new FormGroup({
       name: new FormControl('', Validators.required),
-      birthday: new FormControl(null, [
-        Validators.required,
-        this.validBirthday,
-      ]),
+      birthday: new FormControl(null, [Validators.required, this.validBirthday]),
       relationship: new FormControl('', Validators.required),
     });
 
@@ -54,13 +52,13 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
       this.storeSub2 = this.store
         .select('birthdays')
         .pipe(
-          map((birthdayState) => {
+          map(birthdayState => {
             return birthdayState.birthdays.find((birthday, index) => {
               return birthday.id === this.id;
             });
           })
         )
-        .subscribe((birthday) => {
+        .subscribe(birthday => {
           console.log('birthday', birthday);
           console.log('this.birthdayForm', this.birthdayForm);
           if (birthday && birthday.image) {
@@ -88,70 +86,55 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.params.subscribe((params) => {
+    this.route.params.subscribe(params => {
       this.id = +params['id'];
       this.isEditMode = params['id'] != null;
       this.initForm();
     });
 
-    this.storeSub = this.store
-      .select('birthdays')
-      .subscribe(async (birthdayState) => {
-        if (this.isAddSuccess(birthdayState)) {
-          this.isLoading = birthdayState.loading;
-          this.errorMessage = birthdayState.errMsg;
-
-          if (this.isEditMode) {
-            const translatedTitle = this.translate.instant(
-              'BIRTHDAY_UPDATED_SUCCESS_MESSAGE'
-            );
-            await Swal.fire({
-              title: translatedTitle,
-              icon: 'success',
-              showConfirmButton: false,
-              timer: 3000,
-              position: 'center',
-            });
-          } else {
-            const translatedTitle = this.translate.instant(
-              'BIRTHDAY_ADDED_SUCCESS_MESSAGE'
-            );
-            await Swal.fire({
-              title: translatedTitle,
-              icon: 'success',
-              showConfirmButton: false,
-              timer: 3000,
-              position: 'center',
-            });
-            if (birthdayState.lastAddedBirthdayId) {
-              this.router.navigate([
-                '/birthday',
-                birthdayState.lastAddedBirthdayId,
-              ]);
-              return;
-            }
-          }
-
-          this.backToHome();
-          return;
-        }
+    this.storeSub = this.store.select('birthdays').subscribe(async birthdayState => {
+      if (this.isAddSuccess(birthdayState)) {
         this.isLoading = birthdayState.loading;
         this.errorMessage = birthdayState.errMsg;
 
-        // Extract unique relationships
-        const relationships = birthdayState.birthdays.map(
-          (b) => b.relationship
-        );
-        this.relationshipOptions = [...new Set(relationships)];
-      });
+        if (this.isEditMode) {
+          const translatedTitle = this.translate.instant('BIRTHDAY_UPDATED_SUCCESS_MESSAGE');
+          await Swal.fire({
+            title: translatedTitle,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000,
+            position: 'center',
+          });
+        } else {
+          const translatedTitle = this.translate.instant('BIRTHDAY_ADDED_SUCCESS_MESSAGE');
+          await Swal.fire({
+            title: translatedTitle,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000,
+            position: 'center',
+          });
+          if (birthdayState.lastAddedBirthdayId) {
+            this.router.navigate(['/birthday', birthdayState.lastAddedBirthdayId]);
+            return;
+          }
+        }
+
+        this.backToHome();
+        return;
+      }
+      this.isLoading = birthdayState.loading;
+      this.errorMessage = birthdayState.errMsg;
+
+      // Extract unique relationships
+      const relationships = birthdayState.birthdays.map(b => b.relationship);
+      this.relationshipOptions = [...new Set(relationships)];
+    });
   }
 
   private isAddSuccess(birthdayState: State): boolean {
-    return (
-      this.isLoading === true &&
-      birthdayState.errMsg === '' &&
-      birthdayState.loading === false
-    );
+    return this.isLoading === true && birthdayState.errMsg === '' && birthdayState.loading === false;
   }
 
   ngOnDestroy(): void {
@@ -198,10 +181,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   // ------ Handle photo ------
   get hasImage() {
     return (
-      this.image &&
-      this.image?.fileURL !== '' &&
-      this.image?.fileURL !== null &&
-      this.image?.fileURL !== undefined
+      this.image && this.image?.fileURL !== '' && this.image?.fileURL !== null && this.image?.fileURL !== undefined
     );
   }
 

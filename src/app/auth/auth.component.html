@@ -1,10 +1,5 @@
 <header>
-  <img
-    src="assets/images/Notification_Bell_Calendar.svg"
-    alt="logo"
-    class="logo-img"
-    routerLink="/"
-  />
+  <img src="assets/images/Notification_Bell_Calendar.svg" alt="logo" class="logo-img" routerLink="/" />
   <h1 routerLink="/">
     <img src="/assets/images/logo.svg" alt="logo" class="logo-text" />
   </h1>
@@ -15,15 +10,13 @@
     <router-outlet></router-outlet>
   </main>
   <p class="footer-text">
-    <a
-      href="https://abdelrahmanbayoumi.github.io/"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      {{ "MadeWithLoveBy" | translate }} |
+    <a href="https://abdelrahmanbayoumi.github.io/" target="_blank" rel="noopener noreferrer">
+      {{ 'MadeWithLoveBy' | translate }} |
       <span>{{ version }}</span>
     </a>
   </p>
 
-  <a style="text-decoration: none; cursor: pointer;user-select: none; padding-top: 10px;" (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</a>
+  <a style="text-decoration: none; cursor: pointer; user-select: none; padding-top: 10px" (click)="onChangeLanguage()"
+    >🌐 {{ otherLanguage }}</a
+  >
 </div>

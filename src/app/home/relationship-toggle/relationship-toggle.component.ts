@@ -11,6 +11,7 @@ import * as fromApp from '../../store/app.reducer';
   selector: 'app-relationship-toggle',
   templateUrl: './relationship-toggle.component.html',
   styleUrls: ['./relationship-toggle.component.css'],
+  standalone: false,
 })
 export class RelationshipToggleComponent implements OnInit, OnDestroy {
   selectedRelation: string = '-1';
@@ -23,13 +24,11 @@ export class RelationshipToggleComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.relationSub = this.birthdayService
-      .getRelationships()
-      .subscribe((relationships) => {
-        this.relationships = relationships;
-      });
+    this.relationSub = this.birthdayService.getRelationships().subscribe(relationships => {
+      this.relationships = relationships;
+    });
 
-    this.store.select(selectRelationshipSelected).subscribe((relationship) => {
+    this.store.select(selectRelationshipSelected).subscribe(relationship => {
       this.selectedRelation = relationship;
     });
   }

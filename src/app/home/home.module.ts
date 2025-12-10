@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ImageCropperModule } from 'ngx-image-cropper';
-
 import { SharedModule } from '../shared/shared.module';
 import { AddBirthdayComponent } from './add-birthday/add-birthday.component';
 import { BirthdayCardComponent } from './birthday-list/birthday-card/birthday-card.component';
@@ -25,14 +23,6 @@ import { RelationshipToggleComponent } from './relationship-toggle/relationship-
     AddBirthdayComponent,
     BirthdayDetailsComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    ImageCropperModule,
-    SharedModule,
-    HomeRoutingModule,
-  ],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, TranslateModule, SharedModule, HomeRoutingModule],
 })
 export class HomeModule {}

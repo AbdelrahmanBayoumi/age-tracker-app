@@ -6,6 +6,7 @@ import { Birthday } from 'src/app/birthday/model/birthday.model';
   selector: 'app-birthday-group',
   templateUrl: './birthday-group.component.html',
   styleUrls: ['./birthday-group.component.css'],
+  standalone: false,
 })
 export class BirthdayGroupComponent {
   @Input() birthdaysGroup: { month: string; birthdays: Birthday[] } = {

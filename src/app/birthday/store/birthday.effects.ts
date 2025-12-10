@@ -18,8 +18,8 @@ export class BirthdayEffects {
       switchMap(() => {
         return this.http.get<Birthday[]>(environment.apiUrl + this.END_POINT);
       }),
-      map((birthdays) => {
-        return birthdays.map((birthday) => {
+      map(birthdays => {
+        return birthdays.map(birthday => {
           return new Birthday(
             birthday.id,
             birthday.name,
@@ -30,17 +30,17 @@ export class BirthdayEffects {
           );
         });
       }),
-      map((birthdays) => {
+      map(birthdays => {
         console.log('birthdays', birthdays);
         if (!birthdays) {
           return [];
         }
         return birthdays;
       }),
-      map((birthdays) => {
+      map(birthdays => {
         return BirthdaysActions.setBirthdays({ birthdays });
       }),
-      catchError((_error) => {
+      catchError(_error => {
         return of(BirthdaysActions.fetchBirthdaysFailed());
       })
     )
@@ -49,40 +49,31 @@ export class BirthdayEffects {
   addBirthday = createEffect(() =>
     this.actions$.pipe(
       ofType(BirthdaysActions.addBirthday),
-      switchMap((action) => {
-        return this.http
-          .post<Birthday>(environment.apiUrl + this.END_POINT, action.birthday)
-          .pipe(
-            switchMap((res) => {
-              return this.uploadImage(res.id, action.image).pipe(
-                switchMap(() => {
-                  return of(res.id);
-                })
-              );
-            })
-          );
+      switchMap(action => {
+        return this.http.post<Birthday>(environment.apiUrl + this.END_POINT, action.birthday).pipe(
+          switchMap(res => {
+            return this.uploadImage(res.id, action.image).pipe(
+              switchMap(() => {
+                return of(res.id);
+              })
+            );
+          })
+        );
       }),
       map((id: number) => {
         return BirthdaysActions.birthdaySuccess({ id });
       }),
-      catchError((_error) => {
+      catchError(_error => {
         return of(BirthdaysActions.addBirthdayFailed());
       })
     )
   );
 
-  private uploadImage(
-    id: number,
-    image: { fileURL: string; fileObject?: File }
-  ): Observable<any> {
+  private uploadImage(id: number, image: { fileURL: string; fileObject?: File }): Observable<any> {
     const formData = new FormData();
-    const isNewImage: boolean =
-      image.fileObject != null || image.fileObject != undefined;
+    const isNewImage: boolean = image.fileObject != null || image.fileObject != undefined;
     const isOldImage: boolean =
-      image.fileURL != null &&
-      image.fileURL != undefined &&
-      image.fileURL != '' &&
-      !isNewImage;
+      image.fileURL != null && image.fileURL != undefined && image.fileURL != '' && !isNewImage;
 
     if (isNewImage) {
       // image changed => upload new image
@@ -92,35 +83,29 @@ export class BirthdayEffects {
       return of(null);
     }
 
-    return this.http.post(
-      environment.apiUrl + this.END_POINT + '/' + id + '/upload-image',
-      formData
-    );
+    return this.http.post(environment.apiUrl + this.END_POINT + '/' + id + '/upload-image', formData);
   }
 
   updateBirthday = createEffect(() =>
     this.actions$.pipe(
       ofType(BirthdaysActions.updateBirthday),
-      switchMap((action) => {
+      switchMap(action => {
         console.log('action.newBirthday', action.newBirthday);
 
         return this.http
-          .patch<Birthday>(
-            environment.apiUrl + this.END_POINT + '/' + action.id,
-            action.newBirthday
-          )
+          .patch<Birthday>(environment.apiUrl + this.END_POINT + '/' + action.id, action.newBirthday)
           .pipe(
             switchMap(() => {
               return this.uploadImage(action.id, action.image);
             })
           );
       }),
-      map((res) => {
+      map(res => {
         console.log('res', res);
 
         return BirthdaysActions.fetchBirthdays();
       }),
-      catchError((_error) => {
+      catchError(_error => {
         return of(BirthdaysActions.updateBirthdayFailed());
       })
     )
@@ -129,19 +114,20 @@ export class BirthdayEffects {
   deleteBirthday = createEffect(() =>
     this.actions$.pipe(
       ofType(BirthdaysActions.deleteBirthday),
-      switchMap((action) => {
-        return this.http.delete<Birthday>(
-          environment.apiUrl + this.END_POINT + '/' + action.id
-        );
+      switchMap(action => {
+        return this.http.delete<Birthday>(environment.apiUrl + this.END_POINT + '/' + action.id);
       }),
       map(() => {
         return BirthdaysActions.fetchBirthdays();
       }),
-      catchError((_error) => {
+      catchError(_error => {
         return of(BirthdaysActions.deleteBirthdayFailed());
       })
     )
   );
 
-  constructor(private actions$: Actions, private http: HttpClient) {}
+  constructor(
+    private actions$: Actions,
+    private http: HttpClient
+  ) {}
 }

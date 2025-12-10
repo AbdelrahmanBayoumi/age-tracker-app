@@ -1,13 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LocalizedDatePipe } from '../pipes/localizedDate.pipe';
+import { TranslateModule } from '@ngx-translate/core';
+import { ImageCropperComponent } from 'ngx-image-cropper';
+import { CropComponent } from '../crop/crop.component';
 import { HorizontalScrollDirective } from '../directives/horizontal-scroll.directive';
 import { DateFormatPipe } from '../pipes/date-format.pipe';
+import { LocalizedDatePipe } from '../pipes/localizedDate.pipe';
 import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
-import { CropComponent } from '../crop/crop.component';
-import { ImageCropperModule } from 'ngx-image-cropper';
-import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -17,7 +17,7 @@ import { TranslateModule } from '@ngx-translate/core';
     HorizontalScrollDirective,
     CropComponent,
   ],
-  imports: [CommonModule, FormsModule, ImageCropperModule, TranslateModule],
+  imports: [CommonModule, FormsModule, ImageCropperComponent, TranslateModule],
   exports: [
     CommonModule,
     FormsModule,
@@ -26,6 +26,7 @@ import { TranslateModule } from '@ngx-translate/core';
     NumberWithCommasPipe,
     HorizontalScrollDirective,
     CropComponent,
+    ImageCropperComponent,
   ],
   providers: [],
 })

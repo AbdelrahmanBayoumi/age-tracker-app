@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { ImageCropperModule } from 'ngx-image-cropper';
-
 import { SharedModule } from '../shared/shared.module';
 import { AddBirthdayComponent } from './add-birthday/add-birthday.component';
 import { BirthdayCardComponent } from './birthday-list/birthday-card/birthday-card.component';
@@ -30,7 +28,6 @@ import { RelationshipToggleComponent } from './relationship-toggle/relationship-
     RouterModule,
     ReactiveFormsModule,
     TranslateModule,
-    ImageCropperModule,
     SharedModule,
     HomeRoutingModule,
   ],

@@ -1,16 +1,16 @@
 <header>
   <button class="dark-icon-btn close-btn" (click)="backToHome()">X</button>
   <div>
-    <button class="dark-icon-btn" (click)="onEditBirthday()" [disabled]="isLoading || isMe">
+    <button class="dark-icon-btn" (click)="onEditBirthday()" [disabled]="isLoading() || isMe">
       <img src="/assets/images/edit.svg" alt="edit icon" />
     </button>
-    <button class="dark-icon-btn" (click)="onDeleteBirthday()" [disabled]="isLoading || isMe">
+    <button class="dark-icon-btn" (click)="onDeleteBirthday()" [disabled]="isLoading() || isMe">
       <img src="/assets/images/trash.svg" alt="trash icon" />
     </button>
   </div>
 </header>
 
-@if (isLoading) {
+@if (isLoading()) {
   <div style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px">
     <div class="loader"></div>
   </div>

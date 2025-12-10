@@ -42,3 +42,5 @@ export const updateBirthdayFailed = createAction('[Birthdays] Update Birthday Fa
 
 export const deleteBirthday = createAction('[Birthday] Delete Birthday', props<{ id: number }>());
 export const deleteBirthdayFailed = createAction('[Birthdays] Delete Birthday Failed');
+
+export const resetBirthdays = createAction('[Birthdays] Reset State');

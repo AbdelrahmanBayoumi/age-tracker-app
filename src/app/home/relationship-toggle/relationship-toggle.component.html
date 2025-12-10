@@ -2,7 +2,7 @@
   @if (relationships && relationships.size > 0) {
     <button
       class="relation-btn relation-btn-all"
-      [class.relation-btn-selected]="selectedRelation === '-1'"
+      [class.relation-btn-selected]="selectedRelation() === '-1'"
       (click)="onChooseRelation('-1', -1)"
     >
       {{ 'All' | translate }}
@@ -12,7 +12,7 @@
     <button
       class="relation-btn"
       (click)="onChooseRelation(relationship, i)"
-      [class.relation-btn-selected]="selectedRelation === relationship"
+      [class.relation-btn-selected]="selectedRelation() === relationship"
     >
       {{ relationship }}
     </button>

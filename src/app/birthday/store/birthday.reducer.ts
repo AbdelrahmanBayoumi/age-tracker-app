@@ -59,6 +59,12 @@ export const birthdayReducer = createReducer(
       loading: false,
     };
   }),
+  on(BirthdayActions.updateBirthday, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
   on(BirthdayActions.updateBirthdayFailed, (state, action) => {
     return {
       ...state,
@@ -66,6 +72,10 @@ export const birthdayReducer = createReducer(
       loading: false,
     };
   }),
+  on(BirthdayActions.resetBirthdays, () => {
+    return initialState;
+  }),
+
   on(BirthdayActions.setBirthdays, (state, action) => {
     return {
       ...state,

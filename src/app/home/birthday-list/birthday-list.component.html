@@ -1,5 +1,5 @@
 <div class="main-container">
-  @if (birthdays.length === 0) {
+  @if (birthdays().length === 0) {
     <div style="text-align: center">
       <h2 style="margin-bottom: 30px" dir="auto">
         {{ 'thereIsNoBirthdaysYet' | translate }}
@@ -14,7 +14,7 @@
     </div>
   } @else {
     <div>
-      @for (birthday of birthdays; track birthday.month) {
+      @for (birthday of birthdays(); track birthday.month) {
         <app-birthday-group [birthdaysGroup]="birthday"></app-birthday-group>
       }
     </div>

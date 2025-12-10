@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, WritableSignal } from '@angular/core';
+import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import * as BirthdayActions from '../birthday/store/birthday.actions';
 import { SignupDto } from './dto/signup.dto';
 import { Tokens, User } from './model/user.model';
 
@@ -13,7 +15,8 @@ export class AuthService {
 
   isLoading: WritableSignal<boolean> = signal<boolean>(false);
 
-  constructor(private http: HttpClient) {}
+  private http = inject(HttpClient);
+  private store = inject(Store);
 
   login(email: string, password: string) {
     this.isLoading.set(true);
@@ -91,6 +94,7 @@ export class AuthService {
     localStorage.removeItem('user');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
+    this.store.dispatch(BirthdayActions.resetBirthdays());
   }
 
   resendVerificationEmail() {

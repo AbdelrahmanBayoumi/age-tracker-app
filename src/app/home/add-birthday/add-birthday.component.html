@@ -8,7 +8,7 @@
   </button>
 </header>
 
-@if (isLoading) {
+@if (isLoading()) {
   <div style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px">
     <div class="loader"></div>
   </div>
@@ -71,9 +71,9 @@
               {{ 'pleaseEnterValidData' | translate }}
             </p>
           }
-          @if (errorMessage) {
+          @if (errorMessage()) {
             <p class="error">
-              {{ errorMessage }}
+              {{ errorMessage() }}
             </p>
           }
 

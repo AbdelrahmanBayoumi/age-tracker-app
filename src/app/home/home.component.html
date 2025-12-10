@@ -24,7 +24,7 @@
   }
 </header>
 
-@if (userVerified() && !isLoading && !errorMessage) {
+@if (userVerified() && !isLoading() && !errorMessage()) {
   <main>
     <!-- current user birthday stat -->
     <div class="birthday-group">
@@ -39,16 +39,16 @@
   </main>
 }
 
-@if (isLoading) {
+@if (isLoading()) {
   <div style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px">
     <div class="loader"></div>
   </div>
 }
 
 <div class="verifyAccountBox">
-  @if (errorMessage) {
+  @if (errorMessage()) {
     <p class="error">
-      {{ errorMessage }}
+      {{ errorMessage() }}
     </p>
   }
 </div>

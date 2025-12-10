@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -7,12 +7,15 @@ import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { TranslateService } from '@ngx-translate/core';
-import { map } from 'rxjs';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 import * as BirthdayActions from '../../birthday/store/birthday.actions';
-import { State } from '../../birthday/store/birthday.reducer';
-import { ImageFile, blobToFile, createEmptyImage, getImageUrl, hasImage } from '../../core/utils/image.utils';
-import * as fromApp from '../../store/app.reducer';
+import {
+  selectBirthdays,
+  selectErrorMessage,
+  selectLastAddedBirthdayId,
+  selectLoading,
+} from '../../birthday/store/birthday.selectors';
+import { blobToFile, createEmptyImage, getImageUrl, hasImage, ImageFile } from '../../core/utils/image.utils';
 
 @Component({
   selector: 'app-add-birthday',
@@ -24,21 +27,67 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;
   image: ImageFile = createEmptyImage();
   fileSizeError = false;
-  isLoading = false;
-  errorMessage = '';
-  storeSub: Subscription | undefined;
   storeSub2: Subscription | undefined;
   isEditMode = false;
   showCropModal = false;
   id: number | undefined;
   relationshipOptions: string[] = [];
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private store: Store<fromApp.AppState>,
-    private translate: TranslateService
-  ) {}
+  private store = inject(Store);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private translate = inject(TranslateService);
+
+  isLoading = this.store.selectSignal(selectLoading);
+  errorMessage = this.store.selectSignal(selectErrorMessage);
+  private birthdays = this.store.selectSignal(selectBirthdays);
+  private lastAddedBirthdayId = this.store.selectSignal(selectLastAddedBirthdayId);
+
+  private wasLoading = false;
+
+  constructor() {
+    // Extract unique relationships reactively
+    effect(() => {
+      const relationships = this.birthdays().map(b => b.relationship);
+      this.relationshipOptions = [...new Set(relationships)];
+    });
+
+    // Handle success navigation
+    effect(async () => {
+      const loading = this.isLoading();
+      const errMsg = this.errorMessage();
+
+      // Detect when loading goes from true to false with no error
+      if (this.wasLoading && !loading && errMsg === '') {
+        if (this.isEditMode) {
+          const translatedTitle = this.translate.instant('BIRTHDAY_UPDATED_SUCCESS_MESSAGE');
+          await Swal.fire({
+            title: translatedTitle,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000,
+            position: 'center',
+          });
+        } else {
+          const translatedTitle = this.translate.instant('BIRTHDAY_ADDED_SUCCESS_MESSAGE');
+          await Swal.fire({
+            title: translatedTitle,
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 3000,
+            position: 'center',
+          });
+          const lastId = this.lastAddedBirthdayId();
+          if (lastId) {
+            this.router.navigate(['/birthday', lastId]);
+            return;
+          }
+        }
+        this.backToHome();
+      }
+      this.wasLoading = loading;
+    });
+  }
 
   private initForm() {
     this.birthdayForm = new FormGroup({
@@ -48,29 +97,17 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
     });
 
     if (this.isEditMode) {
-      this.storeSub2 = this.store
-        .select('birthdays')
-        .pipe(
-          map(birthdayState => {
-            return birthdayState.birthdays.find((birthday, index) => {
-              return birthday.id === this.id;
-            });
-          })
-        )
-        .subscribe(birthday => {
-          console.log('birthday', birthday);
-          console.log('this.birthdayForm', this.birthdayForm);
-          if (birthday && birthday.image) {
-            this.image = {
-              fileURL: birthday.image,
-            };
-          }
-          this.birthdayForm?.patchValue({
-            name: birthday?.name,
-            birthday: birthday?.birthday,
-            relationship: birthday?.relationship,
-          });
+      const birthday = this.birthdays().find(b => b.id === this.id);
+      if (birthday) {
+        if (birthday.image) {
+          this.image = { fileURL: birthday.image };
+        }
+        this.birthdayForm.patchValue({
+          name: birthday.name,
+          birthday: birthday.birthday,
+          relationship: birthday.relationship,
         });
+      }
     }
   }
 
@@ -90,54 +127,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
       this.isEditMode = params['id'] != null;
       this.initForm();
     });
-
-    this.storeSub = this.store.select('birthdays').subscribe(async birthdayState => {
-      if (this.isAddSuccess(birthdayState)) {
-        this.isLoading = birthdayState.loading;
-        this.errorMessage = birthdayState.errMsg;
-
-        if (this.isEditMode) {
-          const translatedTitle = this.translate.instant('BIRTHDAY_UPDATED_SUCCESS_MESSAGE');
-          await Swal.fire({
-            title: translatedTitle,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 3000,
-            position: 'center',
-          });
-        } else {
-          const translatedTitle = this.translate.instant('BIRTHDAY_ADDED_SUCCESS_MESSAGE');
-          await Swal.fire({
-            title: translatedTitle,
-            icon: 'success',
-            showConfirmButton: false,
-            timer: 3000,
-            position: 'center',
-          });
-          if (birthdayState.lastAddedBirthdayId) {
-            this.router.navigate(['/birthday', birthdayState.lastAddedBirthdayId]);
-            return;
-          }
-        }
-
-        this.backToHome();
-        return;
-      }
-      this.isLoading = birthdayState.loading;
-      this.errorMessage = birthdayState.errMsg;
-
-      // Extract unique relationships
-      const relationships = birthdayState.birthdays.map(b => b.relationship);
-      this.relationshipOptions = [...new Set(relationships)];
-    });
-  }
-
-  private isAddSuccess(birthdayState: State): boolean {
-    return this.isLoading === true && birthdayState.errMsg === '' && birthdayState.loading === false;
   }
 
   ngOnDestroy(): void {
-    this.storeSub?.unsubscribe();
     this.storeSub2?.unsubscribe();
   }
 
@@ -146,7 +138,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    this.isLoading = true;
+    this.wasLoading = true; // Mark that we started loading
     console.log(this.birthdayForm?.value);
 
     if (this.isEditMode) {

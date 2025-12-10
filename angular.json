@@ -21,6 +21,7 @@
             "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest", "src/robots.txt"],
             "styles": ["src/styles.css", "node_modules/sweetalert2/src/sweetalert2.scss"],
             "scripts": [],
+            "allowedCommonJsDependencies": ["sweetalert2"],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
           },

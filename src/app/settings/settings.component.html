@@ -77,7 +77,7 @@
           formControlName="birthday"
           [readOnly]="!isEditMode"
         />
-        @if (userForm?.invalid && userForm?.touched) {
+        @if (userForm.invalid && userForm.touched) {
           <p class="error" dir="auto">
             {{ 'pleaseEnterValidData' | translate }}
           </p>

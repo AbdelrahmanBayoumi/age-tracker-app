@@ -2,15 +2,18 @@
 import { Directive, ElementRef, HostListener, Renderer2 } from '@angular/core';
 
 @Directive({
-    selector: '[appHorizontalScroll]',
-    standalone: false
+  selector: '[appHorizontalScroll]',
+  standalone: false,
 })
 export class HorizontalScrollDirective {
   private isDragging = false;
   private startX: number = 0;
   private scrollLeft: number = 0;
 
-  constructor(private el: ElementRef, private renderer: Renderer2) {}
+  constructor(
+    private el: ElementRef,
+    private renderer: Renderer2
+  ) {}
 
   @HostListener('mousedown', ['$event'])
   onMousedown(event: MouseEvent): void {

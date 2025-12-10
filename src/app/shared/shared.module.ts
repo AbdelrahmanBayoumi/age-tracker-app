@@ -10,13 +10,7 @@ import { LocalizedDatePipe } from '../pipes/localizedDate.pipe';
 import { NumberWithCommasPipe } from '../pipes/number-with-commas.pipe';
 
 @NgModule({
-  declarations: [
-    LocalizedDatePipe,
-    DateFormatPipe,
-    NumberWithCommasPipe,
-    HorizontalScrollDirective,
-    CropComponent,
-  ],
+  declarations: [LocalizedDatePipe, DateFormatPipe, NumberWithCommasPipe, HorizontalScrollDirective, CropComponent],
   imports: [CommonModule, FormsModule, ImageCropperComponent, TranslateModule],
   exports: [
     CommonModule,

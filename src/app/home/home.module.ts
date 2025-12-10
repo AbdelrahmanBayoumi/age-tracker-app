@@ -23,13 +23,6 @@ import { RelationshipToggleComponent } from './relationship-toggle/relationship-
     AddBirthdayComponent,
     BirthdayDetailsComponent,
   ],
-  imports: [
-    CommonModule,
-    RouterModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    SharedModule,
-    HomeRoutingModule,
-  ],
+  imports: [CommonModule, RouterModule, ReactiveFormsModule, TranslateModule, SharedModule, HomeRoutingModule],
 })
 export class HomeModule {}

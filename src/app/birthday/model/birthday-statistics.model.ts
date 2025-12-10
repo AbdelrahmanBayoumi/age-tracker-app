@@ -64,7 +64,10 @@ export class BirthdayStatistics {
 
   private readonly today: Date;
   private readonly ageInMillis: number;
-  constructor(public birthdate: Date, private local: string = 'en') {
+  constructor(
+    public birthdate: Date,
+    private local: string = 'en'
+  ) {
     this.today = new Date();
     this.ageInMillis = this.today.getTime() - this.birthdate.getTime();
     this.georgianCalendarBirthday = birthdate.toISOString().split('T')[0];
@@ -89,16 +92,13 @@ export class BirthdayStatistics {
 
   getAgeDetailed(): DetailedAge {
     const years = Math.floor(this.ageInMillis / (365.25 * 24 * 60 * 60 * 1000));
-    const remainingMillis =
-      this.ageInMillis - years * (365.25 * 24 * 60 * 60 * 1000);
+    const remainingMillis = this.ageInMillis - years * (365.25 * 24 * 60 * 60 * 1000);
 
     const months = Math.floor(remainingMillis / (30.44 * 24 * 60 * 60 * 1000));
-    const remainingMillisMonths =
-      remainingMillis - months * (30.44 * 24 * 60 * 60 * 1000);
+    const remainingMillisMonths = remainingMillis - months * (30.44 * 24 * 60 * 60 * 1000);
 
     const days = Math.floor(remainingMillisMonths / (24 * 60 * 60 * 1000));
-    const remainingMillisDays =
-      remainingMillisMonths - days * (24 * 60 * 60 * 1000);
+    const remainingMillisDays = remainingMillisMonths - days * (24 * 60 * 60 * 1000);
 
     const hours = Math.floor(remainingMillisDays / (60 * 60 * 1000));
     const remainingMillisHours = remainingMillisDays - hours * (60 * 60 * 1000);
@@ -120,8 +120,7 @@ export class BirthdayStatistics {
 
   getAgeInMonths(): { months: number; days: number } {
     const months = Math.floor(this.ageInMillis / (30.44 * 24 * 60 * 60 * 1000));
-    const remainingMillis =
-      this.ageInMillis - months * (30.44 * 24 * 60 * 60 * 1000);
+    const remainingMillis = this.ageInMillis - months * (30.44 * 24 * 60 * 60 * 1000);
 
     const days = Math.floor(remainingMillis / (24 * 60 * 60 * 1000));
 
@@ -130,8 +129,7 @@ export class BirthdayStatistics {
 
   getAgeInWeeks(): { weeks: number; days: number } {
     const weeks = Math.floor(this.ageInMillis / (7 * 24 * 60 * 60 * 1000));
-    const remainingMillis =
-      this.ageInMillis - weeks * (7 * 24 * 60 * 60 * 1000);
+    const remainingMillis = this.ageInMillis - weeks * (7 * 24 * 60 * 60 * 1000);
 
     const days = Math.floor(remainingMillis / (24 * 60 * 60 * 1000));
 
@@ -159,26 +157,11 @@ export class BirthdayStatistics {
     const month = this.birthdate.getMonth() + 1;
     const day = this.birthdate.getDate();
 
-    if (
-      (month === 3 && day >= 20) ||
-      month === 4 ||
-      month === 5 ||
-      (month === 6 && day < 21)
-    ) {
+    if ((month === 3 && day >= 20) || month === 4 || month === 5 || (month === 6 && day < 21)) {
       return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Spring;
-    } else if (
-      (month === 6 && day >= 21) ||
-      month === 7 ||
-      month === 8 ||
-      (month === 9 && day < 23)
-    ) {
+    } else if ((month === 6 && day >= 21) || month === 7 || month === 8 || (month === 9 && day < 23)) {
       return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Summer;
-    } else if (
-      (month === 9 && day >= 23) ||
-      month === 10 ||
-      month === 11 ||
-      (month === 12 && day < 21)
-    ) {
+    } else if ((month === 9 && day >= 23) || month === 10 || month === 11 || (month === 12 && day < 21)) {
       return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Autumn;
     } else {
       return this.local === 'ar' ? SeasonAR.Spring : SeasonEN.Winter;
@@ -214,11 +197,8 @@ export class BirthdayStatistics {
 
     const millisToNextBirthdate = nextBirthdate.getTime() - today.getTime();
 
-    const months = Math.floor(
-      millisToNextBirthdate / (30.44 * 24 * 60 * 60 * 1000)
-    );
-    const remainingMillis =
-      millisToNextBirthdate - months * (30.44 * 24 * 60 * 60 * 1000);
+    const months = Math.floor(millisToNextBirthdate / (30.44 * 24 * 60 * 60 * 1000));
+    const remainingMillis = millisToNextBirthdate - months * (30.44 * 24 * 60 * 60 * 1000);
 
     const days = Math.floor(remainingMillis / (24 * 60 * 60 * 1000));
     const remainingMillisDays = remainingMillis - days * (24 * 60 * 60 * 1000);

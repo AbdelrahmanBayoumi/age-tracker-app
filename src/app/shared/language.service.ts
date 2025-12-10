@@ -20,16 +20,12 @@ export class LanguageService {
       if (!browserLang) {
         browserLang = LanguageCode.English;
       }
-      language = browserLang.match(/en|ar/)
-        ? browserLang
-        : LanguageCode.English;
+      language = browserLang.match(/en|ar/) ? browserLang : LanguageCode.English;
     }
 
     translate.use(language || LanguageCode.English);
     this.otherLanguage = this.getLanguageNameByCode(
-      language === LanguageCode.English
-        ? LanguageCode.Arabic
-        : LanguageCode.English
+      language === LanguageCode.English ? LanguageCode.Arabic : LanguageCode.English
     );
   }
 

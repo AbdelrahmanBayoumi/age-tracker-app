@@ -10,9 +10,9 @@ export class BirthdayService {
 
   getRelationships(): Observable<Set<string>> {
     return this.store.select('birthdays').pipe(
-      map((birthdaysState) => birthdaysState.birthdays),
+      map(birthdaysState => birthdaysState.birthdays),
       map((birthdays: Birthday[]) => {
-        return new Set(birthdays.map((birthday) => birthday.relationship));
+        return new Set(birthdays.map(birthday => birthday.relationship));
       })
     );
   }
@@ -21,7 +21,7 @@ export class BirthdayService {
     const today = new Date();
 
     const sortedBirthdays = birthdays
-      .map((birthday) => {
+      .map(birthday => {
         return new Birthday(
           birthday.id,
           birthday.name,
@@ -59,9 +59,7 @@ export class BirthdayService {
         nextBirthday.setFullYear(today.getFullYear() + 1);
       }
 
-      const birthMonthKey = `${nextBirthday.getFullYear()}-${(
-        nextBirthday.getMonth() + 1
-      )
+      const birthMonthKey = `${nextBirthday.getFullYear()}-${(nextBirthday.getMonth() + 1)
         .toString()
         .padStart(2, '0')}`;
       if (!groupedBirthdays[birthMonthKey]) {
@@ -70,7 +68,7 @@ export class BirthdayService {
       groupedBirthdays[birthMonthKey].push(birthday);
     }
 
-    const resultArray = Object.keys(groupedBirthdays).map((key) => {
+    const resultArray = Object.keys(groupedBirthdays).map(key => {
       return {
         month: key,
         birthdays: groupedBirthdays[key],

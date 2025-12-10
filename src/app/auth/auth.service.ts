@@ -1,16 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import {
-  BehaviorSubject,
-  Observable,
-  Subject,
-  catchError,
-  map,
-  of,
-  switchMap,
-  tap,
-  throwError,
-} from 'rxjs';
+import { BehaviorSubject, Observable, Subject, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
 import { Tokens, User } from './model/user.model';
 import { environment } from 'src/environments/environment';
 import { SignupDto } from './dto/signup.dto';
@@ -34,20 +24,20 @@ export class AuthService {
         password: password,
       })
       .pipe(
-        map((resData) => {
+        map(resData => {
           console.log(resData);
           // save tokens to local storage
           localStorage.setItem('access_token', resData.access_token);
           localStorage.setItem('refresh_token', resData.refresh_token);
           return resData;
         }),
-        switchMap((resData) => {
+        switchMap(resData => {
           return this.checkToken(resData.access_token);
         }),
         tap(() => {
           this.isLoading.next(false);
         }),
-        catchError((errorRes) => {
+        catchError(errorRes => {
           this.isLoading.next(false);
           return throwError(() => this.handleErrorMsg(errorRes));
         })
@@ -57,27 +47,25 @@ export class AuthService {
   signup(signupDto: SignupDto) {
     this.isLoading.next(true);
 
-    return this.http
-      .post<Tokens>(environment.apiUrl + '/auth/signup', signupDto)
-      .pipe(
-        map((resData) => {
-          console.log(resData);
-          // save tokens to local storage
-          localStorage.setItem('access_token', resData.access_token);
-          localStorage.setItem('refresh_token', resData.refresh_token);
-          return resData;
-        }),
-        switchMap((resData) => {
-          return this.checkToken(resData.access_token);
-        }),
-        tap(() => {
-          this.isLoading.next(false);
-        }),
-        catchError((errorRes) => {
-          this.isLoading.next(false);
-          return throwError(() => this.handleErrorMsg(errorRes));
-        })
-      );
+    return this.http.post<Tokens>(environment.apiUrl + '/auth/signup', signupDto).pipe(
+      map(resData => {
+        console.log(resData);
+        // save tokens to local storage
+        localStorage.setItem('access_token', resData.access_token);
+        localStorage.setItem('refresh_token', resData.refresh_token);
+        return resData;
+      }),
+      switchMap(resData => {
+        return this.checkToken(resData.access_token);
+      }),
+      tap(() => {
+        this.isLoading.next(false);
+      }),
+      catchError(errorRes => {
+        this.isLoading.next(false);
+        return throwError(() => this.handleErrorMsg(errorRes));
+      })
+    );
   }
 
   logout() {
@@ -89,7 +77,7 @@ export class AuthService {
         tap(() => {
           this.afterLogoutRequest();
         }),
-        catchError((errorRes) => {
+        catchError(errorRes => {
           return throwError(() => {
             console.log(errorRes);
             this.afterLogoutRequest();
@@ -137,13 +125,9 @@ export class AuthService {
       map(() => {
         console.log('image', image);
         const formData = new FormData();
-        const isNewImage: boolean =
-          image.fileObject != null || image.fileObject != undefined;
+        const isNewImage: boolean = image.fileObject != null || image.fileObject != undefined;
         const isOldImage: boolean =
-          image.fileURL != null &&
-          image.fileURL != undefined &&
-          image.fileURL != '' &&
-          !isNewImage;
+          image.fileURL != null && image.fileURL != undefined && image.fileURL != '' && !isNewImage;
         // const isImageRemoved =
         //   image.fileURL == null ||
         //   image.fileURL == undefined ||
@@ -157,18 +141,15 @@ export class AuthService {
           return of(null);
         }
         // use the formData to upload image
-        return this.http.post<{ url: string }>(
-          environment.apiUrl + '/users/upload-profile-image',
-          formData
-        );
+        return this.http.post<{ url: string }>(environment.apiUrl + '/users/upload-profile-image', formData);
       }),
-      switchMap((resData) => {
+      switchMap(resData => {
         if (resData == null) {
           return of(null);
         }
         return resData;
       }),
-      map((resData) => {
+      map(resData => {
         console.log('resData', resData);
 
         return this.http.patch<User>(environment.apiUrl + '/users/' + id, {
@@ -177,10 +158,10 @@ export class AuthService {
           birthday: birthday,
         });
       }),
-      switchMap((resData) => {
+      switchMap(resData => {
         return resData;
       }),
-      tap((user) => {
+      tap(user => {
         // save user object to local storage
         localStorage.setItem('user', JSON.stringify(user));
         // send updated user object to subscribers
@@ -189,21 +170,15 @@ export class AuthService {
     );
   }
 
-  changePassword(
-    currentPassword: string,
-    newPassword: string
-  ): Observable<any> {
+  changePassword(currentPassword: string, newPassword: string): Observable<any> {
     const id = this.user.value?.id;
     if (!id) {
       throw new Error('User id is not found');
     }
-    return this.http.patch<User>(
-      environment.apiUrl + '/users/' + id + '/change-password',
-      {
-        currentPassword: currentPassword,
-        newPassword: newPassword,
-      }
-    );
+    return this.http.patch<User>(environment.apiUrl + '/users/' + id + '/change-password', {
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+    });
   }
 
   deleteAccount(): Observable<any> {
@@ -211,9 +186,7 @@ export class AuthService {
     if (!id) {
       throw new Error('User id is not found');
     }
-    return this.http
-      .delete(environment.apiUrl + '/users/' + id)
-      .pipe(tap(() => this.afterLogoutRequest()));
+    return this.http.delete(environment.apiUrl + '/users/' + id).pipe(tap(() => this.afterLogoutRequest()));
   }
 
   forgetPassword(email: string): Observable<any> {
@@ -231,14 +204,14 @@ export class AuthService {
         },
       })
       .pipe(
-        tap((user) => {
+        tap(user => {
           console.log("checkToken's user: ", user);
           // save user object to local storage
           localStorage.setItem('user', JSON.stringify(user));
           // send updated user object to subscribers
           this.user.next(user);
         }),
-        catchError((errorRes) => {
+        catchError(errorRes => {
           return throwError(() => {
             console.log(errorRes);
             this.user.next(null);
@@ -275,15 +248,15 @@ export class AuthService {
         }
       )
       .pipe(
-        map((resData) => {
+        map(resData => {
           localStorage.setItem('access_token', resData.access_token);
           localStorage.setItem('refresh_token', resData.refresh_token);
           return resData;
         }),
-        switchMap((resData) => {
+        switchMap(resData => {
           return this.checkToken(resData.access_token);
         }),
-        catchError((errorRes) => {
+        catchError(errorRes => {
           return throwError(() => {
             this.afterLogoutRequest();
           });

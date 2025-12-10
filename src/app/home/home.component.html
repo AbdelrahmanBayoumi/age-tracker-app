@@ -24,10 +24,7 @@
 <main *ngIf="userVerified && !isLoading && !errorMessage">
   <!-- current user birthday stat -->
   <div class="birthday-group">
-    <app-birthday-card
-      [birthday]="currentUserBirthday"
-      routerLink="/birthday/me"
-    ></app-birthday-card>
+    <app-birthday-card [birthday]="currentUserBirthday" routerLink="/birthday/me"></app-birthday-card>
   </div>
 
   <!-- toggle relationship of birthdays -->
@@ -38,13 +35,7 @@
 </main>
 
 <div
-  style="
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    padding-top: 50px;
-  "
+  style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px"
   *ngIf="isLoading"
 >
   <div class="loader"></div>
@@ -58,13 +49,10 @@
 
 <div class="verifyAccountBox" *ngIf="!userVerified">
   <p>
-    {{ "pleaseVerifyEmail" | translate }}
+    {{ 'pleaseVerifyEmail' | translate }}
   </p>
-  <button
-    (click)="sendVerificationEmail(verificationButton)"
-    #verificationButton
-  >
-    {{ "resendVerificationEmail" | translate }}
+  <button (click)="sendVerificationEmail(verificationButton)" #verificationButton>
+    {{ 'resendVerificationEmail' | translate }}
   </button>
 </div>
 
@@ -87,35 +75,24 @@
     <button class="dark-icon-btn" (click)="onCloseDrawer()">X</button>
   </div>
   <div class="drawer__about">
-    <img
-      src="assets/images/Notification_Bell_Calendar.svg"
-      alt="logo"
-      class="logo-img"
-      routerLink="/"
-    />
+    <img src="assets/images/Notification_Bell_Calendar.svg" alt="logo" class="logo-img" routerLink="/" />
     <h1 routerLink="/">
       <img src="/assets/images/logo.svg" alt="logo" class="logo-text" />
     </h1>
     <p>
-      {{ "APP_DESCRIPTION" | translate }}
+      {{ 'APP_DESCRIPTION' | translate }}
     </p>
     <p class="footer-text">
-      <a
-        href="https://abdelrahmanbayoumi.github.io/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {{ "MadeWithLoveBy" | translate }} |
+      <a href="https://abdelrahmanbayoumi.github.io/" target="_blank" rel="noopener noreferrer">
+        {{ 'MadeWithLoveBy' | translate }} |
         <span>{{ version }}</span>
       </a>
     </p>
   </div>
   <hr />
   <div class="drawer__links">
-    <button routerLink="/settings" dir="auto">
-      {{ "Settings" | translate }} ⚙️
-    </button>
+    <button routerLink="/settings" dir="auto">{{ 'Settings' | translate }} ⚙️</button>
     <button (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</button>
-    <button (click)="logout()">{{ "auth.Logout" | translate }}</button>
+    <button (click)="logout()">{{ 'auth.Logout' | translate }}</button>
   </div>
 </div>

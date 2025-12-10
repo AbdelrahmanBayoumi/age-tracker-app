@@ -1,27 +1,18 @@
 <div class="main-container">
   <div *ngIf="birthdays.length === 0" style="text-align: center">
     <h2 style="margin-bottom: 30px" dir="auto">
-      {{ "thereIsNoBirthdaysYet" | translate }}
+      {{ 'thereIsNoBirthdaysYet' | translate }}
     </h2>
     <div
-      style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-      "
+      style="display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer"
       routerLink="/birthday/add-birthday"
     >
       <img src="/assets/images/calendar-add.svg" alt="add birthday" />
-      <p>{{ "clickHereToAddNewBirthday" | translate }}</p>
+      <p>{{ 'clickHereToAddNewBirthday' | translate }}</p>
     </div>
   </div>
 
   <div *ngIf="birthdays.length > 0">
-    <app-birthday-group
-      *ngFor="let birthday of birthdays"
-      [birthdaysGroup]="birthday"
-    ></app-birthday-group>
+    <app-birthday-group *ngFor="let birthday of birthdays" [birthdaysGroup]="birthday"></app-birthday-group>
   </div>
 </div>

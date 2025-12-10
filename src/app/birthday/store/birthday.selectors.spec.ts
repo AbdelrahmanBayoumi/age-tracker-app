@@ -17,56 +17,35 @@ describe('Birthday Selectors', () => {
   };
 
   it('should select the feature state', () => {
-    const result =
-      BirthdaySelectors.selectBirthdayState.projector(initialState);
+    const result = BirthdaySelectors.selectBirthdayState.projector(initialState);
     expect(result).toEqual(initialState);
   });
 
   it('should return all birthdays when no filter is applied', () => {
-    const result = BirthdaySelectors.selectFilteredBirthdays.projector(
-      initialState.birthdays,
-      '',
-      '-1'
-    );
+    const result = BirthdaySelectors.selectFilteredBirthdays.projector(initialState.birthdays, '', '-1');
     expect(result.length).toBe(3);
   });
 
   it('should filter birthdays by name (case insensitive)', () => {
-    const result = BirthdaySelectors.selectFilteredBirthdays.projector(
-      initialState.birthdays,
-      'john',
-      '-1'
-    );
+    const result = BirthdaySelectors.selectFilteredBirthdays.projector(initialState.birthdays, 'john', '-1');
     expect(result.length).toBe(1);
     expect(result[0].name).toBe('John Doe');
   });
 
   it('should filter birthdays by relationship', () => {
-    const result = BirthdaySelectors.selectFilteredBirthdays.projector(
-      initialState.birthdays,
-      '',
-      'Family'
-    );
+    const result = BirthdaySelectors.selectFilteredBirthdays.projector(initialState.birthdays, '', 'Family');
     expect(result.length).toBe(1);
     expect(result[0].name).toBe('Jane Doe');
   });
 
   it('should filter birthdays by name AND relationship', () => {
-    const result = BirthdaySelectors.selectFilteredBirthdays.projector(
-      initialState.birthdays,
-      'test',
-      'Friend'
-    );
+    const result = BirthdaySelectors.selectFilteredBirthdays.projector(initialState.birthdays, 'test', 'Friend');
     expect(result.length).toBe(1);
     expect(result[0].name).toBe('Test User');
   });
 
   it('should return empty array if no matches found', () => {
-    const result = BirthdaySelectors.selectFilteredBirthdays.projector(
-      initialState.birthdays,
-      'NonExistent',
-      '-1'
-    );
+    const result = BirthdaySelectors.selectFilteredBirthdays.projector(initialState.birthdays, 'NonExistent', '-1');
     expect(result.length).toBe(0);
   });
 });

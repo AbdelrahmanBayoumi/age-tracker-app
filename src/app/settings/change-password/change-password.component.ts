@@ -8,10 +8,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { AuthService } from '../../auth/auth.service';
 
 @Component({
-    selector: 'app-change-password',
-    templateUrl: './change-password.component.html',
-    styleUrls: ['../settings.component.css', './change-password.component.css'],
-    standalone: false
+  selector: 'app-change-password',
+  templateUrl: './change-password.component.html',
+  styleUrls: ['../settings.component.css', './change-password.component.css'],
+  standalone: false,
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {
   isLoading = false;
@@ -52,32 +52,27 @@ export class ChangePasswordComponent implements OnInit, OnDestroy {
 
   onSubmit() {
     this.isLoading = true;
-    this.authService
-      .changePassword(
-        this.userForm.value.currentPassword,
-        this.userForm.value.newPassowrd
-      )
-      .subscribe({
-        next: (user: any) => {
-          this.isLoading = false;
-          this.errorMessage = '';
-          Swal.fire({
-            title: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_TITLE'),
-            text: this.translate.instant('UPDATE_PASSWORD_SUCCESS_TITLE'),
-            icon: 'success',
-            confirmButtonText: this.translate.instant('ok'),
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this.router.navigate(['/settings']);
-            }
-          });
-        },
-        error: (errorRes) => {
-          console.log(errorRes);
+    this.authService.changePassword(this.userForm.value.currentPassword, this.userForm.value.newPassowrd).subscribe({
+      next: (user: any) => {
+        this.isLoading = false;
+        this.errorMessage = '';
+        Swal.fire({
+          title: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_TITLE'),
+          text: this.translate.instant('UPDATE_PASSWORD_SUCCESS_TITLE'),
+          icon: 'success',
+          confirmButtonText: this.translate.instant('ok'),
+        }).then(result => {
+          if (result.isConfirmed) {
+            this.router.navigate(['/settings']);
+          }
+        });
+      },
+      error: errorRes => {
+        console.log(errorRes);
 
-          this.isLoading = false;
-          this.errorMessage = errorRes.error.message;
-        },
-      });
+        this.isLoading = false;
+        this.errorMessage = errorRes.error.message;
+      },
+    });
   }
 }

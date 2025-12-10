@@ -9,10 +9,10 @@ import { take } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
 
 @Component({
-    selector: 'app-settings',
-    templateUrl: './settings.component.html',
-    styleUrls: ['./settings.component.css'],
-    standalone: false
+  selector: 'app-settings',
+  templateUrl: './settings.component.html',
+  styleUrls: ['./settings.component.css'],
+  standalone: false,
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   isLoading = false;
@@ -41,10 +41,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
 
   get hasImage() {
     return (
-      this.image &&
-      this.image?.fileURL !== '' &&
-      this.image?.fileURL !== null &&
-      this.image?.fileURL !== undefined
+      this.image && this.image?.fileURL !== '' && this.image?.fileURL !== null && this.image?.fileURL !== undefined
     );
   }
 
@@ -64,7 +61,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   private initFormWithUser() {
-    this.authSub = this.authService.user.subscribe((user) => {
+    this.authSub = this.authService.user.subscribe(user => {
       this.currentUser = user;
       this.userForm?.patchValue({
         name: this.currentUser?.fullName,
@@ -92,14 +89,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     console.log('this.userForm.value', this.userForm.value);
 
     this.authService
-      .updateUser(
-        this.userForm.value.name,
-        this.userForm.value.email,
-        this.userForm.value.birthday,
-        this.image
-      )
+      .updateUser(this.userForm.value.name, this.userForm.value.email, this.userForm.value.birthday, this.image)
       .pipe(take(1))
-      .subscribe((e) => {
+      .subscribe(e => {
         console.log('e', e);
         this.isLoading = false;
 

@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 
 import { AuthService } from '../auth/auth.service';
 import { Subscription, take } from 'rxjs';
@@ -17,10 +11,10 @@ import { environment } from 'src/environments/environment';
 import { Birthday } from '../birthday/model/birthday.model';
 import { LanguageService } from '../shared/language.service';
 @Component({
-    selector: 'app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.css'],
-    standalone: false
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css'],
+  standalone: false,
 })
 export class HomeComponent implements OnInit, OnDestroy {
   version = environment.version;
@@ -46,37 +40,27 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe((user) => {
+    this.userSub = this.authService.user.subscribe(user => {
       if (user) {
         this.userVerified = user.isVerified;
-        this.currentUserBirthday = new Birthday(
-          -1,
-          user.fullName,
-          user.birthday,
-          'Me',
-          '',
-          user.image
-        );
+        this.currentUserBirthday = new Birthday(-1, user.fullName, user.birthday, 'Me', '', user.image);
       }
     });
 
-    this.storeSub = this.store
-      .select('birthdays')
-      .subscribe((birthdaysState) => {
-        // Stale-While-Revalidate Logic:
-        // Show loading spinner ONLY if we have NO data.
-        // If we have data, we show it immediately while fetching updates in the background.
-        this.isLoading =
-          birthdaysState.loading && birthdaysState.birthdays.length === 0;
-        this.errorMessage = birthdaysState.errMsg;
-      });
+    this.storeSub = this.store.select('birthdays').subscribe(birthdaysState => {
+      // Stale-While-Revalidate Logic:
+      // Show loading spinner ONLY if we have NO data.
+      // If we have data, we show it immediately while fetching updates in the background.
+      this.isLoading = birthdaysState.loading && birthdaysState.birthdays.length === 0;
+      this.errorMessage = birthdaysState.errMsg;
+    });
 
     // Always fetch data to ensure freshness (Background Refresh)
     // We only dispatch if we are NOT already loading to avoid duplicate requests
     this.store
       .select('birthdays')
       .pipe(take(1))
-      .subscribe((birthdaysState) => {
+      .subscribe(birthdaysState => {
         if (!birthdaysState.loading) {
           this.store.dispatch(BirthdayActions.fetchBirthdaysStart());
           this.store.dispatch(BirthdayActions.fetchBirthdays());
@@ -120,9 +104,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onSearch() {
     console.log('searchQuery', this.searchQuery);
-    this.store.dispatch(
-      BirthdayActions.searchByName({ name: this.searchQuery })
-    );
+    this.store.dispatch(BirthdayActions.searchByName({ name: this.searchQuery }));
   }
 
   onCancelSearch() {

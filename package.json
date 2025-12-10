@@ -30,9 +30,9 @@
     "@umalqura/core": "^0.0.7",
     "ng-particles": "^3.12.0",
     "ngx-image-cropper": "^7.0.2",
-    "rxjs": "~7.8.1",
-    "sweetalert2": "^11.7.28",
-    "tslib": "^2.6.2",
+    "rxjs": "~7.8.2",
+    "sweetalert2": "^11.26.4",
+    "tslib": "^2.8.1",
     "tsparticles-engine": "^2.12.0",
     "tsparticles-slim": "^2.12.0",
     "zone.js": "~0.15.1",
@@ -42,13 +42,13 @@
     "@angular-devkit/build-angular": "^20.3.13",
     "@angular/cli": "^20.3.13",
     "@angular/compiler-cli": "^20.3.15",
-    "@types/jasmine": "~4.3.6",
-    "jasmine-core": "~5.1.1",
-    "karma": "~6.4.2",
+    "@types/jasmine": "~5.1.13",
+    "jasmine-core": "~5.13.0",
+    "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
     "karma-coverage": "~2.2.1",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
-    "typescript": "5.8.3"
+    "typescript": "5.9.3"
   }
 }

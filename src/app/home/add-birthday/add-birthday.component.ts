@@ -11,6 +11,7 @@ import { map } from 'rxjs';
 import { Birthday } from 'src/app/birthday/model/birthday.model';
 import * as BirthdayActions from '../../birthday/store/birthday.actions';
 import { State } from '../../birthday/store/birthday.reducer';
+import { ImageFile, blobToFile, createEmptyImage, getImageUrl, hasImage } from '../../core/utils/image.utils';
 import * as fromApp from '../../store/app.reducer';
 
 @Component({
@@ -21,9 +22,7 @@ import * as fromApp from '../../store/app.reducer';
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {
   birthdayForm: FormGroup | undefined;
-  image: { fileURL: string; fileObject?: File } = {
-    fileURL: '',
-  };
+  image: ImageFile = createEmptyImage();
   fileSizeError = false;
   isLoading = false;
   errorMessage = '';
@@ -179,49 +178,30 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   }
 
   // ------ Handle photo ------
-  get hasImage() {
-    return (
-      this.image && this.image?.fileURL !== '' && this.image?.fileURL !== null && this.image?.fileURL !== undefined
-    );
+  get hasImageValue(): boolean {
+    return hasImage(this.image);
   }
 
-  get userPhotoUrl() {
-    if (this.hasImage) {
-      return this.image?.fileURL;
-    }
-    return '/assets/images/no-image.png';
+  get userPhotoUrl(): string {
+    return getImageUrl(this.image);
   }
 
-  private blobToFile(blob: Blob, fileName: string): File {
-    // Create a new File object from the Blob
-    const file = new File([blob], fileName, { type: blob.type });
-    return file;
-  }
-
-  onDoneCropImage(croppedImage: Blob) {
-    console.log('croppedImage', croppedImage);
-    // type the code here to save the cropped image and update the UI
-    this.image.fileObject = this.blobToFile(croppedImage, 'croppedImage.png');
+  onDoneCropImage(croppedImage: Blob): void {
+    this.image.fileObject = blobToFile(croppedImage, 'croppedImage.png');
     this.image.fileURL = URL.createObjectURL(this.image.fileObject);
-
     this.showCropModal = false;
   }
 
-  openCropPopup() {
+  openCropPopup(): void {
     this.showCropModal = true;
-    console.log('openCropPopup');
   }
 
-  onCloseCropPopup() {
+  onCloseCropPopup(): void {
     this.showCropModal = false;
-    console.log('onCloseCropPopup');
   }
 
-  removePhoto() {
-    this.image = {
-      fileURL: '',
-      fileObject: undefined,
-    };
+  removePhoto(): void {
+    this.image = createEmptyImage();
     this.fileSizeError = false;
   }
 }

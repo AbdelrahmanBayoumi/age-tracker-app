@@ -20,9 +20,9 @@
         <img class="person-image" [src]="userPhotoUrl" alt="person image" />
         <div class="image-buttons">
           <button type="button" class="image-add" (click)="openCropPopup()">
-            {{ hasImage ? ('edit' | translate | titlecase) : ('upload' | translate | titlecase) }}
+            {{ hasImageValue ? ('edit' | translate | titlecase) : ('upload' | translate | titlecase) }}
           </button>
-          <button type="button" class="image-remove" *ngIf="hasImage" (click)="removePhoto()">
+          <button type="button" class="image-remove" *ngIf="hasImageValue" (click)="removePhoto()">
             {{ 'remove' | translate }}
           </button>
         </div>

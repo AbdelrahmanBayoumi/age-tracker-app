@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { ImageFile, createEmptyImage, getImageUrl, hasImage, isFileSizeValid } from '../core/utils/image.utils';
 
 @Component({
   selector: 'app-settings',
@@ -21,9 +22,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   userForm: FormGroup;
   private currentUser: any;
   fileSizeError = false;
-  image: { fileURL: string; fileObject?: File } = {
-    fileURL: '',
-  };
+  image: ImageFile = createEmptyImage();
 
   constructor(
     private router: Router,
@@ -39,17 +38,12 @@ export class SettingsComponent implements OnInit, OnDestroy {
     });
   }
 
-  get hasImage() {
-    return (
-      this.image && this.image?.fileURL !== '' && this.image?.fileURL !== null && this.image?.fileURL !== undefined
-    );
+  get hasImageValue(): boolean {
+    return hasImage(this.image);
   }
 
-  get userPhotoUrl() {
-    if (this.hasImage) {
-      return this.image?.fileURL;
-    }
-    return '/assets/images/no-image.png';
+  get userPhotoUrl(): string {
+    return getImageUrl(this.image);
   }
 
   ngOnInit(): void {
@@ -140,33 +134,29 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   // ------ Handle photo ------
-  openFileInput(fileInput: HTMLInputElement) {
+  openFileInput(fileInput: HTMLInputElement): void {
     fileInput.click();
   }
 
-  addPhoto(event: any) {
-    this.image.fileObject = <File>event.target.files[0];
-    if (!this.image.fileObject) {
+  addPhoto(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
       return;
     }
-    console.log('this.image.fileObject', this.image.fileObject);
 
-    if (this.image.fileObject.size > 2 * 1024 * 1024) {
+    if (!isFileSizeValid(file)) {
       this.fileSizeError = true;
-      console.log('this.fileSizeError', this.fileSizeError);
-
-      this.image.fileObject = undefined;
       return;
     }
-    this.image.fileURL = URL.createObjectURL(event.target.files[0]);
+
+    this.image.fileObject = file;
+    this.image.fileURL = URL.createObjectURL(file);
     this.fileSizeError = false;
   }
 
-  removePhoto() {
-    this.image = {
-      fileURL: '',
-      fileObject: undefined,
-    };
+  removePhoto(): void {
+    this.image = createEmptyImage();
     this.fileSizeError = false;
   }
 }

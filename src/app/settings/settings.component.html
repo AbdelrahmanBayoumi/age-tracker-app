@@ -24,9 +24,9 @@
       <img class="person-image" [src]="userPhotoUrl" alt="person image" />
       <div class="image-buttons" *ngIf="isEditMode">
         <button type="button" class="image-add" (click)="openFileInput(fileInput)">
-          {{ hasImage ? ('edit' | translate) : ('upload' | translate) }}
+          {{ hasImageValue ? ('edit' | translate) : ('upload' | translate) }}
         </button>
-        <button type="button" class="image-remove" *ngIf="hasImage" (click)="removePhoto()">
+        <button type="button" class="image-remove" *ngIf="hasImageValue" (click)="removePhoto()">
           {{ 'remove' | translate }}
         </button>
         <input

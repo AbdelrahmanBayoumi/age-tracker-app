@@ -54,14 +54,22 @@ export class BirthdayEffects {
           switchMap(res => {
             return this.uploadImage(res.id, action.image).pipe(
               switchMap(() => {
-                return of(res.id);
+                const newBirthday = new Birthday(
+                  res.id,
+                  res.name,
+                  res.birthday,
+                  res.relationship,
+                  res.notes,
+                  action.image.fileURL || res.image
+                );
+                return of(newBirthday);
               })
             );
           })
         );
       }),
-      map((id: number) => {
-        return BirthdaysActions.birthdaySuccess({ id });
+      map((birthday: Birthday) => {
+        return BirthdaysActions.birthdaySuccess({ birthday });
       }),
       catchError(_error => {
         return of(BirthdaysActions.addBirthdayFailed());

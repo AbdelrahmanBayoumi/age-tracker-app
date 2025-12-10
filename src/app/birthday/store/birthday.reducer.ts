@@ -49,7 +49,8 @@ export const birthdayReducer = createReducer(
       ...state,
       errMsg: '',
       loading: false,
-      lastAddedBirthdayId: action.id,
+      lastAddedBirthdayId: action.birthday.id,
+      birthdays: [...state.birthdays, action.birthday],
     };
   }),
   on(BirthdayActions.addBirthdayFailed, (state, action) => {

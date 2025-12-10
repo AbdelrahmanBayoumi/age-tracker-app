@@ -17,7 +17,7 @@ import * as fromApp from '../../store/app.reducer';
 @Component({
   selector: 'app-add-birthday',
   templateUrl: './add-birthday.component.html',
-  styleUrls: ['./add-birthday.component.css'],
+  styleUrls: ['./add-birthday.component.scss'],
   standalone: false,
 })
 export class AddBirthdayComponent implements OnInit, OnDestroy {

@@ -24,11 +24,11 @@
   }
 </header>
 
-@if (userVerified && !isLoading && !errorMessage) {
+@if (userVerified() && !isLoading && !errorMessage) {
   <main>
     <!-- current user birthday stat -->
     <div class="birthday-group">
-      <app-birthday-card [birthday]="currentUserBirthday" routerLink="/birthday/me"></app-birthday-card>
+      <app-birthday-card [birthday]="currentUserBirthday()" routerLink="/birthday/me"></app-birthday-card>
     </div>
 
     <!-- toggle relationship of birthdays -->
@@ -53,7 +53,7 @@
   }
 </div>
 
-@if (!userVerified) {
+@if (!userVerified()) {
   <div class="verifyAccountBox">
     <p>
       {{ 'pleaseVerifyEmail' | translate }}

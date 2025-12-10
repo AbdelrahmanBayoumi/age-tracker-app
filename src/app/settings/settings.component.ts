@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,17 +7,16 @@ import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
-import { ImageFile, createEmptyImage, getImageUrl, hasImage, isFileSizeValid } from '../core/utils/image.utils';
+import { createEmptyImage, getImageUrl, hasImage, ImageFile, isFileSizeValid } from '../core/utils/image.utils';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
+  styleUrls: ['./settings.component.scss'],
   standalone: false,
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent implements OnInit {
   isLoading = false;
-  authSub: any;
   isEditMode = false;
   userForm: FormGroup;
   private currentUser: any;
@@ -36,6 +35,22 @@ export class SettingsComponent implements OnInit, OnDestroy {
       email: ['', Validators.required],
       birthday: [null, Validators.required],
     });
+
+    // Use effect() to reactively update form when user signal changes
+    effect(() => {
+      const user = this.authService.user();
+      if (user) {
+        this.currentUser = user;
+        this.userForm.patchValue({
+          name: user.fullName,
+          email: user.email,
+          birthday: user.birthday,
+        });
+        this.image = {
+          fileURL: user.image,
+        };
+      }
+    });
   }
 
   get hasImageValue(): boolean {
@@ -47,25 +62,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.initFormWithUser();
-  }
-
-  ngOnDestroy(): void {
-    this.authSub?.unsubscribe();
-  }
-
-  private initFormWithUser() {
-    this.authSub = this.authService.user.subscribe(user => {
-      this.currentUser = user;
-      this.userForm?.patchValue({
-        name: this.currentUser?.fullName,
-        email: this.currentUser?.email,
-        birthday: this.currentUser?.birthday,
-      });
-      this.image = {
-        fileURL: this.currentUser?.image,
-      };
-    });
+    // Form initialization now handled in effect()
   }
 
   backToHome() {

@@ -10,7 +10,7 @@ import { AuthService } from '../../auth/auth.service';
 @Component({
   selector: 'app-change-password',
   templateUrl: './change-password.component.html',
-  styleUrls: ['../settings.component.css', './change-password.component.css'],
+  styleUrls: ['../settings.component.scss', './change-password.component.scss'],
   standalone: false,
 })
 export class ChangePasswordComponent implements OnInit, OnDestroy {

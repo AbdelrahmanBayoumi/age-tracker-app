@@ -10,7 +10,7 @@ import * as fromApp from '../../store/app.reducer';
 @Component({
   selector: 'app-relationship-toggle',
   templateUrl: './relationship-toggle.component.html',
-  styleUrls: ['./relationship-toggle.component.css'],
+  styleUrls: ['./relationship-toggle.component.scss'],
   standalone: false,
 })
 export class RelationshipToggleComponent implements OnInit, OnDestroy {

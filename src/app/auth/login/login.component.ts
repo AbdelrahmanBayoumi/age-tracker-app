@@ -1,33 +1,31 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { User } from '../model/user.model';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../auth.component.css', './login.component.css'],
+  styleUrls: ['../auth.component.scss', './login.component.scss'],
   standalone: false,
 })
-export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
+export class LoginComponent implements OnDestroy, AfterViewInit {
   @ViewChild('authForm') authForm!: NgForm;
 
   errorMessage: string = '';
-  isLoading: boolean = false;
-  private loadingSub: any;
-  private userSub: any;
+  private userSub: Subscription | null = null;
+
+  // Expose the isLoading signal from authService for template binding
+  get isLoading() {
+    return this.authService.isLoading();
+  }
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
-
-  ngOnInit(): void {
-    this.loadingSub = this.authService.isLoading.subscribe(isLoading => {
-      this.isLoading = isLoading;
-    });
-  }
 
   ngAfterViewInit(): void {
     if (this.authForm) {
@@ -46,7 +44,6 @@ export class LoginComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.loadingSub?.unsubscribe();
     this.userSub?.unsubscribe();
   }
 

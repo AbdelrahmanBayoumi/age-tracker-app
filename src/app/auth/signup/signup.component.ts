@@ -1,34 +1,31 @@
-import { AuthService } from './../auth.service';
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { SignupDto } from '../dto/signup.dto';
+import { AuthService } from './../auth.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['../auth.component.css', './signup.component.css'],
+  styleUrls: ['../auth.component.scss', './signup.component.scss'],
   standalone: false,
 })
-export class SignupComponent {
+export class SignupComponent implements OnDestroy {
   errorMessage: string = '';
-  isLoading: boolean = false;
-  private loadingSub: any;
-  private userSub: any;
+  private userSub: Subscription | null = null;
+
+  // Expose the isLoading signal from authService for template binding
+  get isLoading() {
+    return this.authService.isLoading();
+  }
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.loadingSub = this.authService.isLoading.subscribe(isLoading => {
-      this.isLoading = isLoading;
-    });
-  }
-
   ngOnDestroy(): void {
-    this.loadingSub?.unsubscribe();
     this.userSub?.unsubscribe();
   }
 

@@ -9,7 +9,7 @@ import * as fromApp from '../../store/app.reducer';
 @Component({
   selector: 'app-birthday-list',
   templateUrl: './birthday-list.component.html',
-  styleUrls: ['./birthday-list.component.css'],
+  styleUrls: ['./birthday-list.component.scss'],
   standalone: false,
 })
 export class BirthdayListComponent implements OnInit {

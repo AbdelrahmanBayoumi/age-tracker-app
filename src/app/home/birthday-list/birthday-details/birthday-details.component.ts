@@ -16,7 +16,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-birthday-details',
   templateUrl: './birthday-details.component.html',
-  styleUrls: ['./birthday-details.component.css'],
+  styleUrls: ['./birthday-details.component.scss'],
   standalone: false,
 })
 export class BirthdayDetailsComponent implements OnInit, OnDestroy {
@@ -62,7 +62,7 @@ export class BirthdayDetailsComponent implements OnInit, OnDestroy {
             switchMap(params => {
               if (params['id'] === 'me') {
                 this.isMe = true;
-                const user = this.authService.user.value;
+                const user = this.authService.user();
                 if (!user) {
                   return of(null);
                 }

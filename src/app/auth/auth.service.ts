@@ -1,22 +1,22 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, catchError, map, of, switchMap, tap, throwError } from 'rxjs';
-import { Tokens, User } from './model/user.model';
+import { Injectable, signal, WritableSignal } from '@angular/core';
+import { catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { SignupDto } from './dto/signup.dto';
+import { Tokens, User } from './model/user.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  user = new BehaviorSubject<User | null>(null);
+  user: WritableSignal<User | null> = signal<User | null>(null);
 
-  isLoading = new Subject<boolean>();
+  isLoading: WritableSignal<boolean> = signal<boolean>(false);
 
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
-    this.isLoading.next(true);
+    this.isLoading.set(true);
 
     return this.http
       .post<Tokens>(environment.apiUrl + '/auth/login', {
@@ -35,17 +35,17 @@ export class AuthService {
           return this.checkToken(resData.access_token);
         }),
         tap(() => {
-          this.isLoading.next(false);
+          this.isLoading.set(false);
         }),
         catchError(errorRes => {
-          this.isLoading.next(false);
+          this.isLoading.set(false);
           return throwError(() => this.handleErrorMsg(errorRes));
         })
       );
   }
 
   signup(signupDto: SignupDto) {
-    this.isLoading.next(true);
+    this.isLoading.set(true);
 
     return this.http.post<Tokens>(environment.apiUrl + '/auth/signup', signupDto).pipe(
       map(resData => {
@@ -59,10 +59,10 @@ export class AuthService {
         return this.checkToken(resData.access_token);
       }),
       tap(() => {
-        this.isLoading.next(false);
+        this.isLoading.set(false);
       }),
       catchError(errorRes => {
-        this.isLoading.next(false);
+        this.isLoading.set(false);
         return throwError(() => this.handleErrorMsg(errorRes));
       })
     );
@@ -87,7 +87,7 @@ export class AuthService {
   }
 
   private afterLogoutRequest() {
-    this.user.next(null);
+    this.user.set(null);
     localStorage.removeItem('user');
     localStorage.removeItem('access_token');
     localStorage.removeItem('refresh_token');
@@ -95,7 +95,7 @@ export class AuthService {
 
   resendVerificationEmail() {
     return this.http.post(environment.apiUrl + '/auth/resend-verification', {
-      email: this.user.value?.email,
+      email: this.user()?.email,
     });
   }
 
@@ -116,7 +116,7 @@ export class AuthService {
     birthday: string,
     image: { fileURL: string; fileObject?: File }
   ): Observable<any> {
-    const id = this.user.value?.id;
+    const id = this.user()?.id;
     if (!id) {
       throw new Error('User id is not found');
     }
@@ -165,13 +165,13 @@ export class AuthService {
         // save user object to local storage
         localStorage.setItem('user', JSON.stringify(user));
         // send updated user object to subscribers
-        this.user.next(user);
+        this.user.set(user);
       })
     );
   }
 
   changePassword(currentPassword: string, newPassword: string): Observable<any> {
-    const id = this.user.value?.id;
+    const id = this.user()?.id;
     if (!id) {
       throw new Error('User id is not found');
     }
@@ -182,7 +182,7 @@ export class AuthService {
   }
 
   deleteAccount(): Observable<any> {
-    const id = this.user.value?.id;
+    const id = this.user()?.id;
     if (!id) {
       throw new Error('User id is not found');
     }
@@ -190,7 +190,7 @@ export class AuthService {
   }
 
   forgetPassword(email: string): Observable<any> {
-    this.isLoading.next(true);
+    this.isLoading.set(true);
     return this.http.post(environment.apiUrl + '/auth/forget-password', {
       email: email,
     });
@@ -209,12 +209,12 @@ export class AuthService {
           // save user object to local storage
           localStorage.setItem('user', JSON.stringify(user));
           // send updated user object to subscribers
-          this.user.next(user);
+          this.user.set(user);
         }),
         catchError(errorRes => {
           return throwError(() => {
             console.log(errorRes);
-            this.user.next(null);
+            this.user.set(null);
           });
         })
       );

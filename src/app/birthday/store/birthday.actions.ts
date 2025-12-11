@@ -22,12 +22,13 @@ export const addBirthday = createAction(
       name: string;
       birthday: string;
       relationship: string;
+      notes?: string;
     };
     image: { fileURL: string; fileObject?: File };
   }>()
 );
 
-export const birthdaySuccess = createAction('[Birthdays] Birthday Updated Success', props<{ id?: number }>());
+export const birthdaySuccess = createAction('[Birthdays] Birthday Updated Success', props<{ birthday: Birthday }>());
 export const addBirthdayFailed = createAction('[Birthdays] Add Birthday Failed');
 
 export const updateBirthday = createAction(
@@ -39,6 +40,12 @@ export const updateBirthday = createAction(
   }>()
 );
 export const updateBirthdayFailed = createAction('[Birthdays] Update Birthday Failed');
+export const updateBirthdaySuccess = createAction(
+  '[Birthdays] Update Birthday Success',
+  props<{ birthday: Birthday }>()
+);
 
 export const deleteBirthday = createAction('[Birthday] Delete Birthday', props<{ id: number }>());
 export const deleteBirthdayFailed = createAction('[Birthdays] Delete Birthday Failed');
+
+export const resetBirthdays = createAction('[Birthdays] Reset State');

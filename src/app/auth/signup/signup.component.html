@@ -1,38 +1,44 @@
-<div style="display: flex; width: 100%; align-items: center; justify-content: center" *ngIf="isLoading">
-  <div class="loader"></div>
-</div>
+@if (isLoading) {
+  <div style="display: flex; width: 100%; align-items: center; justify-content: center">
+    <div class="loader"></div>
+  </div>
+} @else {
+  <div class="signup-container">
+    <h2 dir="auto">{{ 'auth.signupNow' | translate }}</h2>
+    <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
+      <input type="text" name="fullName" id="fullName" placeholder="{{ 'Name' | translate }}" ngModel required />
+      <input type="date" name="birthdate" id="birthdate" placeholder="dd/mm/yyyy" ngModel required />
+      <input type="text" name="email" id="email" placeholder="{{ 'auth.Email' | translate }}" ngModel required email />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="{{ 'auth.Password' | translate }}"
+        ngModel
+        required
+        minlength="6"
+      />
+      @if (authForm.invalid && authForm.touched) {
+        <p class="error" dir="auto">
+          {{ 'pleaseEnterValidData' | translate }}
+        </p>
+      }
+      @if (errorMessage) {
+        <p class="error">
+          {{ errorMessage }}
+        </p>
+      }
 
-<div class="signup-container" *ngIf="!isLoading">
-  <h2 dir="auto">{{ 'auth.signupNow' | translate }}</h2>
-  <form #authForm="ngForm" (ngSubmit)="onSubmit(authForm)">
-    <input type="text" name="fullName" id="fullName" placeholder="{{ 'Name' | translate }}" ngModel required />
-    <input type="date" name="birthdate" id="birthdate" placeholder="dd/mm/yyyy" ngModel required />
-    <input type="text" name="email" id="email" placeholder="{{ 'auth.Email' | translate }}" ngModel required email />
-    <input
-      type="password"
-      name="password"
-      id="password"
-      placeholder="{{ 'auth.Password' | translate }}"
-      ngModel
-      required
-      minlength="6"
-    />
-    <p class="error" *ngIf="authForm.invalid && authForm.touched" dir="auto">
-      {{ 'pleaseEnterValidData' | translate }}
+      <button type="submit" [disabled]="!authForm.valid">
+        {{ 'Continue' | translate }}
+      </button>
+    </form>
+
+    <p dir="auto">
+      {{ 'auth.alreadyRegistered' | translate }}
+      <a routerLink="/auth/login" class="has-acc">
+        {{ 'auth.Login' | translate }}
+      </a>
     </p>
-    <p class="error" *ngIf="errorMessage">
-      {{ errorMessage }}
-    </p>
-
-    <button type="submit" [disabled]="!authForm.valid">
-      {{ 'Continue' | translate }}
-    </button>
-  </form>
-
-  <p dir="auto">
-    {{ 'auth.alreadyRegistered' | translate }}
-    <a routerLink="/auth/login" class="has-acc">
-      {{ 'auth.Login' | translate }}
-    </a>
-  </p>
-</div>
+  </div>
+}

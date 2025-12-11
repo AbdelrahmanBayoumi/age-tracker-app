@@ -1,35 +1,32 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import Swal from 'sweetalert2';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './forget-password.component.html',
-  styleUrls: ['../auth.component.css'],
+  styleUrls: ['../auth.component.scss'],
   standalone: false,
 })
-export class ForgetPasswordComponent implements OnInit, OnDestroy {
+export class ForgetPasswordComponent implements OnDestroy {
   @ViewChild('authForm') authForm!: NgForm;
 
-  isLoading: boolean = false;
-  private loadingSub: any;
-  private userSub: any;
+  private userSub: Subscription | null = null;
+
+  // Expose the isLoading signal from authService for template binding
+  get isLoading() {
+    return this.authService.isLoading();
+  }
 
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
-    this.loadingSub = this.authService.isLoading.subscribe(isLoading => {
-      this.isLoading = isLoading;
-    });
-  }
-
   ngOnDestroy(): void {
-    this.loadingSub?.unsubscribe();
     this.userSub?.unsubscribe();
   }
 
@@ -43,7 +40,7 @@ export class ForgetPasswordComponent implements OnInit, OnDestroy {
           icon: 'success',
           confirmButtonText: 'Ok',
         });
-        this.authService.isLoading.next(false);
+        this.authService.isLoading.set(false);
       },
       error: errorRes => {
         console.log(errorRes);
@@ -53,7 +50,7 @@ export class ForgetPasswordComponent implements OnInit, OnDestroy {
           icon: 'error',
           confirmButtonText: 'Ok',
         });
-        this.authService.isLoading.next(false);
+        this.authService.isLoading.set(false);
       },
     });
   }

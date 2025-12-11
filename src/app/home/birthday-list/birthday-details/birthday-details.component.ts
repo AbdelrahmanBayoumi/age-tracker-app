@@ -1,22 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, inject, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { TranslateService } from '@ngx-translate/core';
-import { map, of, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { AuthService } from '../../../auth/auth.service';
 import { BirthdayStatistics } from '../../../birthday/model/birthday-statistics.model';
 import { Birthday } from '../../../birthday/model/birthday.model';
 import * as BirthdayActions from '../../../birthday/store/birthday.actions';
-import * as fromApp from '../../../store/app.reducer';
-
-import { Subscription } from 'rxjs';
+import { selectBirthdays, selectLoading, selectViewedBirthday } from '../../../birthday/store/birthday.selectors';
 
 @Component({
   selector: 'app-birthday-details',
   templateUrl: './birthday-details.component.html',
-  styleUrls: ['./birthday-details.component.css'],
+  styleUrls: ['./birthday-details.component.scss'],
   standalone: false,
 })
 export class BirthdayDetailsComponent implements OnInit, OnDestroy {
@@ -24,18 +21,45 @@ export class BirthdayDetailsComponent implements OnInit, OnDestroy {
   id: number | undefined;
   birthdayStat: BirthdayStatistics | undefined;
   userPhotoUrl: string | undefined = '';
-  storeSub0: Subscription | undefined;
-  storeSub: Subscription | undefined;
-  isLoading = false;
   isMe = false;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private authService: AuthService,
-    private store: Store<fromApp.AppState>,
-    private translate: TranslateService
-  ) {}
+  private store = inject(Store);
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+  private translate = inject(TranslateService);
+
+  private viewedBirthday = this.store.selectSignal(selectViewedBirthday);
+  private birthdays = this.store.selectSignal(selectBirthdays);
+  isLoading = this.store.selectSignal(selectLoading);
+
+  private routeSub: any;
+  private deleteWasLoading = false;
+
+  constructor() {
+    // Effect to handle viewed birthday updates
+    effect(() => {
+      const viewed = this.viewedBirthday();
+      if (viewed) {
+        console.log('viewedBirthday: ', viewed);
+        this.initBirthday(viewed);
+      }
+    });
+
+    // Effect to track loading state changes for delete operation
+    effect(async () => {
+      const loading = this.isLoading();
+      if (this.deleteWasLoading && !loading) {
+        await Swal.fire(
+          this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
+          this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
+          'success'
+        );
+        this.backToHome();
+        this.deleteWasLoading = false;
+      }
+    });
+  }
 
   private initBirthday(birthday: Birthday) {
     if (!birthday) return;
@@ -52,51 +76,28 @@ export class BirthdayDetailsComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.storeSub0 = this.store.select('birthdays').subscribe(birthdaysState => {
-      if (birthdaysState.viewedBirthday) {
-        console.log('viewedBirthday: ', birthdaysState.viewedBirthday);
-        this.initBirthday(birthdaysState.viewedBirthday);
+    this.routeSub = this.route.params.subscribe(params => {
+      if (params['id'] === 'me') {
+        this.isMe = true;
+        const user = this.authService.user();
+        if (user) {
+          const meBirthday = new Birthday(-1, user.fullName, user.birthday, 'Me', '', user.image);
+          this.initBirthday(meBirthday);
+        }
       } else {
-        this.route.params
-          .pipe(
-            switchMap(params => {
-              if (params['id'] === 'me') {
-                this.isMe = true;
-                const user = this.authService.user.value;
-                if (!user) {
-                  return of(null);
-                }
+        this.id = +params['id'];
+        this.isMe = false;
 
-                return of(new Birthday(-1, user.fullName, user.birthday, 'Me', '', user.image));
-              } else {
-                this.id = +params['id'];
-                this.isMe = false;
-                return this.store.select('birthdays').pipe(
-                  map(birthdaysState => {
-                    const birthday = birthdaysState.birthdays.find((birthday, index) => {
-                      return birthday.id === this.id;
-                    });
+        // Find birthday from current state
+        const birthdaysList = this.birthdays();
+        const birthday = birthdaysList.find(b => b.id === this.id);
 
-                    // Only redirect if NOT loading and finding nothing
-                    if (
-                      !birthdaysState.loading &&
-                      birthdaysState.birthdays &&
-                      birthdaysState.birthdays.length > 0 &&
-                      !birthday
-                    ) {
-                      this.backToHome();
-                    }
-                    return birthday;
-                  })
-                );
-              }
-            })
-          )
-          .subscribe(birthday => {
-            if (birthday) {
-              this.initBirthday(birthday);
-            }
-          });
+        if (birthday) {
+          this.initBirthday(birthday);
+        } else if (!this.isLoading() && birthdaysList.length > 0) {
+          // Only redirect if NOT loading and finding nothing
+          this.backToHome();
+        }
       }
     });
   }
@@ -117,20 +118,8 @@ export class BirthdayDetailsComponent implements OnInit, OnDestroy {
       cancelButtonText: this.translate.instant('DELETE_BIRTHDAY_CANCEL'),
     });
     if (result.value) {
+      this.deleteWasLoading = true;
       this.store.dispatch(BirthdayActions.deleteBirthday({ id: this.id! }));
-
-      this.storeSub = this.store.select('birthdays').subscribe(async birthdaysState => {
-        this.isLoading = birthdaysState.loading;
-
-        if (!this.isLoading) {
-          await Swal.fire(
-            this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
-            this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
-            'success'
-          );
-          this.backToHome();
-        }
-      });
     }
   }
 
@@ -139,7 +128,6 @@ export class BirthdayDetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.storeSub0?.unsubscribe();
-    this.storeSub?.unsubscribe();
+    this.routeSub?.unsubscribe();
   }
 }

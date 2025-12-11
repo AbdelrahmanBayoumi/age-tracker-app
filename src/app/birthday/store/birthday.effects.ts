@@ -54,14 +54,22 @@ export class BirthdayEffects {
           switchMap(res => {
             return this.uploadImage(res.id, action.image).pipe(
               switchMap(() => {
-                return of(res.id);
+                const newBirthday = new Birthday(
+                  res.id,
+                  res.name,
+                  res.birthday,
+                  res.relationship,
+                  res.notes,
+                  action.image.fileURL || res.image
+                );
+                return of(newBirthday);
               })
             );
           })
         );
       }),
-      map((id: number) => {
-        return BirthdaysActions.birthdaySuccess({ id });
+      map((birthday: Birthday) => {
+        return BirthdaysActions.birthdaySuccess({ birthday });
       }),
       catchError(_error => {
         return of(BirthdaysActions.addBirthdayFailed());
@@ -95,15 +103,24 @@ export class BirthdayEffects {
         return this.http
           .patch<Birthday>(environment.apiUrl + this.END_POINT + '/' + action.id, action.newBirthday)
           .pipe(
-            switchMap(() => {
-              return this.uploadImage(action.id, action.image);
+            switchMap(res => {
+              return this.uploadImage(action.id, action.image).pipe(
+                map(() => {
+                  return new Birthday(
+                    res.id,
+                    res.name,
+                    res.birthday,
+                    res.relationship,
+                    res.notes,
+                    action.image.fileURL || res.image
+                  );
+                })
+              );
             })
           );
       }),
-      map(res => {
-        console.log('res', res);
-
-        return BirthdaysActions.fetchBirthdays();
+      map(birthday => {
+        return BirthdaysActions.updateBirthdaySuccess({ birthday });
       }),
       catchError(_error => {
         return of(BirthdaysActions.updateBirthdayFailed());

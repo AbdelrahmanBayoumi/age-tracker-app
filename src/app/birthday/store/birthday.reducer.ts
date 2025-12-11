@@ -49,7 +49,8 @@ export const birthdayReducer = createReducer(
       ...state,
       errMsg: '',
       loading: false,
-      lastAddedBirthdayId: action.id,
+      lastAddedBirthdayId: action.birthday.id,
+      birthdays: [...state.birthdays, action.birthday],
     };
   }),
   on(BirthdayActions.addBirthdayFailed, (state, action) => {
@@ -59,6 +60,12 @@ export const birthdayReducer = createReducer(
       loading: false,
     };
   }),
+  on(BirthdayActions.updateBirthday, (state, action) => {
+    return {
+      ...state,
+      loading: true,
+    };
+  }),
   on(BirthdayActions.updateBirthdayFailed, (state, action) => {
     return {
       ...state,
@@ -66,6 +73,19 @@ export const birthdayReducer = createReducer(
       loading: false,
     };
   }),
+  on(BirthdayActions.updateBirthdaySuccess, (state, action) => {
+    const updatedBirthdays = state.birthdays.map(b => (b.id === action.birthday.id ? action.birthday : b));
+    return {
+      ...state,
+      loading: false,
+      errMsg: '',
+      birthdays: updatedBirthdays,
+    };
+  }),
+  on(BirthdayActions.resetBirthdays, () => {
+    return initialState;
+  }),
+
   on(BirthdayActions.setBirthdays, (state, action) => {
     return {
       ...state,

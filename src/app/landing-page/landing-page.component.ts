@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { ClickMode, Container, Engine, MoveDirection, OutMode } from 'tsparticles-engine';
 //import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
@@ -9,10 +9,10 @@ import { LanguageService } from '../shared/language.service';
 @Component({
   selector: 'app-landing-page',
   templateUrl: './landing-page.component.html',
-  styleUrls: ['./landing-page.component.css'],
+  styleUrls: ['./landing-page.component.scss'],
   standalone: false,
 })
-export class LandingPageComponent implements OnInit {
+export class LandingPageComponent {
   id = 'tsparticles';
   otherLanguage = 'عربي';
 
@@ -20,10 +20,10 @@ export class LandingPageComponent implements OnInit {
     private languageService: LanguageService,
     private authService: AuthService,
     private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    this.authService.user.subscribe(user => {
+  ) {
+    // Use effect() to navigate when user signal changes
+    effect(() => {
+      const user = this.authService.user();
       if (user) {
         this.router.navigate(['/home']);
       }

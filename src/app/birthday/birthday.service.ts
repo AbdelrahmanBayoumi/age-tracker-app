@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
-import { Birthday } from './model/birthday.model';
-import * as fromApp from '../store/app.reducer';
+import { inject, Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable, map } from 'rxjs';
+import { map, Observable } from 'rxjs';
+import { Birthday } from './model/birthday.model';
+import { selectBirthdays } from './store/birthday.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class BirthdayService {
-  constructor(private store: Store<fromApp.AppState>) {}
+  private store = inject(Store);
 
   getRelationships(): Observable<Set<string>> {
-    return this.store.select('birthdays').pipe(
-      map(birthdaysState => birthdaysState.birthdays),
+    return this.store.select(selectBirthdays).pipe(
       map((birthdays: Birthday[]) => {
         return new Set(birthdays.map(birthday => birthday.relationship));
       })

@@ -1,6 +1,6 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { State } from './birthday.reducer';
 import { Birthday } from '../model/birthday.model';
+import { State } from './birthday.reducer';
 
 export const selectBirthdayState = createFeatureSelector<State>('birthdays');
 
@@ -11,6 +11,17 @@ export const selectSearchQuery = createSelector(selectBirthdayState, (state: Sta
 export const selectRelationshipSelected = createSelector(
   selectBirthdayState,
   (state: State) => state.relationshipSelected
+);
+
+export const selectLoading = createSelector(selectBirthdayState, (state: State) => state.loading);
+
+export const selectErrorMessage = createSelector(selectBirthdayState, (state: State) => state.errMsg);
+
+export const selectViewedBirthday = createSelector(selectBirthdayState, (state: State) => state.viewedBirthday);
+
+export const selectLastAddedBirthdayId = createSelector(
+  selectBirthdayState,
+  (state: State) => state.lastAddedBirthdayId
 );
 
 export const selectFilteredBirthdays = createSelector(
@@ -24,4 +35,11 @@ export const selectFilteredBirthdays = createSelector(
       return matchesRelationship && matchesSearch;
     });
   }
+);
+
+// Computed selector for loading with stale-while-revalidate logic
+export const selectIsInitialLoading = createSelector(
+  selectLoading,
+  selectBirthdays,
+  (loading: boolean, birthdays: Birthday[]) => loading && birthdays.length === 0
 );

@@ -5,7 +5,7 @@ import Swal from 'sweetalert2';
 @Component({
   selector: 'app-crop',
   templateUrl: './crop.component.html',
-  styleUrls: ['./crop.component.css'],
+  styleUrls: ['./crop.component.scss'],
   standalone: false,
 })
 export class CropComponent {

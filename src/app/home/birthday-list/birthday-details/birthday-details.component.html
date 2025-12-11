@@ -1,202 +1,188 @@
 <header>
   <button class="dark-icon-btn close-btn" (click)="backToHome()">X</button>
   <div>
-    <button class="dark-icon-btn" (click)="onEditBirthday()" [disabled]="isLoading || isMe">
+    <button class="dark-icon-btn" (click)="onEditBirthday()" [disabled]="isLoading() || isMe">
       <img src="/assets/images/edit.svg" alt="edit icon" />
     </button>
-    <button class="dark-icon-btn" (click)="onDeleteBirthday()" [disabled]="isLoading || isMe">
+    <button class="dark-icon-btn" (click)="onDeleteBirthday()" [disabled]="isLoading() || isMe">
       <img src="/assets/images/trash.svg" alt="trash icon" />
     </button>
   </div>
 </header>
 
-<div
-  style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px"
-  *ngIf="isLoading"
->
-  <div class="loader"></div>
-</div>
-
-<main *ngIf="!isLoading">
-  <div class="title-box">
-    <img
-      [src]="userPhotoUrl && userPhotoUrl !== '' ? userPhotoUrl : '/assets/images/no-image.png'"
-      alt="user"
-      class="person-image"
-    />
-
-    <h2>{{ birthday?.name }}</h2>
-
-    <p class="relationship">{{ birthday?.relationship }}</p>
+@if (isLoading()) {
+  <div style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px">
+    <div class="loader"></div>
   </div>
+} @else {
+  <main>
+    <div class="title-box">
+      <img
+        [src]="userPhotoUrl && userPhotoUrl !== '' ? userPhotoUrl : '/assets/images/no-image.png'"
+        alt="user"
+        class="person-image"
+      />
 
-  <div class="detials-box" dir="{{ 'direction' | translate }}">
-    <div>
-      <img class="calendar-icon" src="/assets/images/georgian-calendar.svg" alt="georgian calendar icon" />
-      <h3 dir="auto">
-        {{ 'GregorianCalendar' | translate | titlecase }}
-      </h3>
+      <h2>{{ birthday?.name }}</h2>
+
+      <p class="relationship">{{ birthday?.relationship }}</p>
     </div>
 
-    <p>
-      {{ 'BirthDate' | translate }}:
-      <span class="semi-bold">{{ birthday?.birthDate | localizedDate: 'dd MMMM yyyy' }}</span>
-    </p>
-    <div style="display: flex; align-items: flex-start; gap: 10px">
-      <img class="tart-icon" src="/assets/images/tart.svg" alt="tart calendar icon" />
-      <div style="display: block" dir="auto">
-        <p>
-          {{ 'theAge' | translate }}:
-          <span class="semi-bold">
-            {{ birthdayStat?.ageDetailed?.years }}
-            {{ 'year' | translate | lowercase }},
-            {{ birthdayStat?.ageDetailed?.remainingMonths }}
-            {{ 'month' | translate | lowercase }},
-            {{ birthdayStat?.ageDetailed?.remainingDays }}
-            {{ 'day' | translate | lowercase }},
-            {{ birthdayStat?.ageDetailed?.remainingHours }}
-            {{ 'hour' | translate | lowercase }},
-            {{ birthdayStat?.ageDetailed?.remainingMinutes }}
-            {{ 'minute' | translate | lowercase }} {{ 'and' | translate }}
-            {{ birthdayStat?.ageDetailed?.remainingSeconds }}
-            {{ 'second' | translate | lowercase }}
-          </span>
-        </p>
-        <p dir="auto">
-          {{ 'theNextBirthdayIsAfter' | translate }}
-          <span class="semi-bold">
-            {{ birthdayStat?.toNextBirthdayStr?.months }}
-            {{ 'month' | translate | lowercase }},
-            {{ birthdayStat?.toNextBirthdayStr?.days }}
-            {{ 'day' | translate | lowercase }},
-            {{ birthdayStat?.toNextBirthdayStr?.minutes }}
-            {{ 'minute' | translate | lowercase }}
-            {{ 'and' | translate | lowercase }}
-            {{ birthdayStat?.toNextBirthdayStr?.seconds }}
-            {{ 'second' | translate | lowercase }}
-          </span>
-          {{ 'on' | translate }}
-          {{ birthdayStat?.nextBirthdayDayOfWeek }}
-          {{ birthdayStat?.nextBirthdateString }}
-        </p>
+    <div class="detials-box" dir="{{ 'direction' | translate }}">
+      <div>
+        <img class="calendar-icon" src="/assets/images/georgian-calendar.svg" alt="georgian calendar icon" />
+        <h3 dir="auto">
+          {{ 'GregorianCalendar' | translate | titlecase }}
+        </h3>
+      </div>
+
+      <p>
+        {{ 'BirthDate' | translate }}:
+        <span class="semi-bold">{{ birthday?.birthDate | localizedDate: 'dd MMMM yyyy' }}</span>
+      </p>
+      <div style="display: flex; align-items: flex-start; gap: 10px">
+        <img class="tart-icon" src="/assets/images/tart.svg" alt="tart calendar icon" />
+        <div style="display: block" dir="auto">
+          <p>
+            {{ 'theAge' | translate }}:
+            <span class="semi-bold">
+              {{ birthdayStat?.ageDetailed?.years }}
+              {{ 'year' | translate | lowercase }},
+              {{ birthdayStat?.ageDetailed?.remainingMonths }}
+              {{ 'month' | translate | lowercase }},
+              {{ birthdayStat?.ageDetailed?.remainingDays }}
+              {{ 'day' | translate | lowercase }},
+              {{ birthdayStat?.ageDetailed?.remainingHours }}
+              {{ 'hour' | translate | lowercase }},
+              {{ birthdayStat?.ageDetailed?.remainingMinutes }}
+              {{ 'minute' | translate | lowercase }} {{ 'and' | translate }}
+              {{ birthdayStat?.ageDetailed?.remainingSeconds }}
+              {{ 'second' | translate | lowercase }}
+            </span>
+          </p>
+          <p dir="auto">
+            {{ 'theNextBirthdayIsAfter' | translate }}
+            <span class="semi-bold">
+              {{ birthdayStat?.toNextBirthdayStr?.months }}
+              {{ 'month' | translate | lowercase }},
+              {{ birthdayStat?.toNextBirthdayStr?.days }}
+              {{ 'day' | translate | lowercase }},
+              {{ birthdayStat?.toNextBirthdayStr?.minutes }}
+              {{ 'minute' | translate | lowercase }}
+              {{ 'and' | translate | lowercase }}
+              {{ birthdayStat?.toNextBirthdayStr?.seconds }}
+              {{ 'second' | translate | lowercase }}
+            </span>
+            {{ 'on' | translate }}
+            {{ birthdayStat?.nextBirthdayDayOfWeek }}
+            {{ birthdayStat?.nextBirthdateString }}
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="detials-box" dir="{{ 'direction' | translate }}">
-    <div>
-      <img class="calendar-icon" src="/assets/images/hijri-calendar.png" alt="georgian calendar icon" />
-      <h3>{{ 'HijriCalendar' | translate | titlecase }}</h3>
-    </div>
+    <div class="detials-box" dir="{{ 'direction' | translate }}">
+      <div>
+        <img class="calendar-icon" src="/assets/images/hijri-calendar.png" alt="georgian calendar icon" />
+        <h3>{{ 'HijriCalendar' | translate | titlecase }}</h3>
+      </div>
 
-    <p dir="auto">
-      {{ 'BirthDate' | translate }}:
-      <span class="semi-bold">
-        {{ birthdayStat?.hjiriDate?.fullDate }} ({{ birthdayStat?.hjiriDate?.monthName }})
-      </span>
-    </p>
-    <div style="display: flex; align-items: stretch; gap: 10px">
-      <img class="tart-icon" src="/assets/images/tart.svg" alt="tart calendar icon" />
-      <div style="display: flex">
-        <p>
-          {{ 'theAge' | translate }}:
-          <!-- <span class="semi-bold"> 24 years, 7 months and 20 days </span> -->
-          <span class="semi-bold">
-            {{ birthdayStat?.ageInHijri?.years }}
-            {{ 'year' | translate | lowercase }},
-            {{ birthdayStat?.ageInHijri?.remainingMonths }}
-            {{ 'month' | translate | lowercase }} {{ 'and' | translate }}
-            {{ birthdayStat?.ageInHijri?.remainingDays }}
-            {{ 'day' | translate | lowercase }}
-          </span>
-        </p>
+      <p dir="auto">
+        {{ 'BirthDate' | translate }}:
+        <span class="semi-bold">
+          {{ birthdayStat?.hjiriDate?.fullDate }} ({{ birthdayStat?.hjiriDate?.monthName }})
+        </span>
+      </p>
+      <div style="display: flex; align-items: stretch; gap: 10px">
+        <img class="tart-icon" src="/assets/images/tart.svg" alt="tart calendar icon" />
+        <div style="display: flex">
+          <p>
+            {{ 'theAge' | translate }}:
+            <span class="semi-bold">
+              {{ birthdayStat?.ageInHijri?.years }}
+              {{ 'year' | translate | lowercase }},
+              {{ birthdayStat?.ageInHijri?.remainingMonths }}
+              {{ 'month' | translate | lowercase }} {{ 'and' | translate }}
+              {{ birthdayStat?.ageInHijri?.remainingDays }}
+              {{ 'day' | translate | lowercase }}
+            </span>
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="detials-box" dir="{{ 'direction' | translate }}">
-    <div>
-      <img class="calendar-icon" src="/assets/images/sand-watch.svg" alt="sand watch icon" />
-      <h3>{{ 'ageInDifferentFormats' | translate }}</h3>
+    <div class="detials-box" dir="{{ 'direction' | translate }}">
+      <div>
+        <img class="calendar-icon" src="/assets/images/sand-watch.svg" alt="sand watch icon" />
+        <h3>{{ 'ageInDifferentFormats' | translate }}</h3>
+      </div>
+
+      <p>
+        {{ 'inMonths' | translate }}:
+        <span class="semi-bold">
+          {{ birthdayStat?.ageInMonths?.months }} {{ 'month' | translate }} {{ 'and' | translate }}
+          {{ birthdayStat?.ageInMonths?.days }}
+          {{ 'day' | translate }}
+        </span>
+      </p>
+      <p>
+        {{ 'inWeeks' | translate }}:
+        <span class="semi-bold">
+          {{ birthdayStat?.ageInWeeks?.weeks }} {{ 'week' | translate }} {{ 'and' | translate }}
+          {{ birthdayStat?.ageInWeeks?.days }}
+          {{ 'day' | translate }}
+        </span>
+      </p>
+      <p>
+        {{ 'inDays' | translate }}:
+        <span class="semi-bold"> {{ birthdayStat?.ageInDays | numberWithCommas }} {{ 'day' | translate }} </span>
+      </p>
+      <p>
+        {{ 'inHours' | translate }}: {{ 'about' | translate }}
+        <span class="semi-bold">
+          {{ birthdayStat?.ageInHours | numberWithCommas }}
+          {{ 'hour' | translate }}</span
+        >
+      </p>
+      <p>
+        {{ 'inMinutes' | translate }}: {{ 'about' | translate }}
+        <span class="semi-bold">
+          {{ birthdayStat?.ageInMinutes | numberWithCommas }}
+          {{ 'minute' | translate }}</span
+        >
+      </p>
+      <p>
+        {{ 'inSeconds' | translate }}: {{ 'about' | translate }}
+        <span class="semi-bold">
+          {{ birthdayStat?.ageInSeconds | numberWithCommas }}
+          {{ 'second' | translate }}</span
+        >
+      </p>
     </div>
 
-    <p>
-      {{ 'inMonths' | translate }}:
-      <span class="semi-bold">
-        {{ birthdayStat?.ageInMonths?.months }} {{ 'month' | translate }} {{ 'and' | translate }}
-        {{ birthdayStat?.ageInMonths?.days }}
-        {{ 'day' | translate }}
-      </span>
-    </p>
-    <p>
-      {{ 'inWeeks' | translate }}:
-      <span class="semi-bold">
-        {{ birthdayStat?.ageInWeeks?.weeks }} {{ 'week' | translate }} {{ 'and' | translate }}
-        {{ birthdayStat?.ageInWeeks?.days }}
-        {{ 'day' | translate }}
-      </span>
-    </p>
-    <p>
-      {{ 'inDays' | translate }}:
-      <span class="semi-bold"> {{ birthdayStat?.ageInDays | numberWithCommas }} {{ 'day' | translate }} </span>
-    </p>
-    <p>
-      {{ 'inHours' | translate }}: {{ 'about' | translate }}
-      <span class="semi-bold">
-        {{ birthdayStat?.ageInHours | numberWithCommas }}
-        {{ 'hour' | translate }}</span
-      >
-    </p>
-    <p>
-      {{ 'inMinutes' | translate }}: {{ 'about' | translate }}
-      <span class="semi-bold">
-        {{ birthdayStat?.ageInMinutes | numberWithCommas }}
-        {{ 'minute' | translate }}</span
-      >
-    </p>
-    <p>
-      {{ 'inSeconds' | translate }}: {{ 'about' | translate }}
-      <span class="semi-bold">
-        {{ birthdayStat?.ageInSeconds | numberWithCommas }}
-        {{ 'second' | translate }}</span
-      >
-    </p>
-  </div>
+    <div class="detials-box" dir="{{ 'direction' | translate }}">
+      <div>
+        <img class="calendar-icon" src="/assets/images/chart.svg" alt="chart icon" />
+        <h3>{{ 'moreInfo' | translate }}</h3>
+      </div>
 
-  <div class="detials-box" dir="{{ 'direction' | translate }}">
-    <div>
-      <img class="calendar-icon" src="/assets/images/chart.svg" alt="chart icon" />
-      <h3>{{ 'moreInfo' | translate }}</h3>
+      <p>
+        {{ 'bornOn' | translate }}
+        <span class="semi-bold">{{ birthday?.birthDate | localizedDate: 'EEEE' }}</span>
+      </p>
+      <p>
+        {{ 'itWasInThe' | translate }}
+        <span class="semi-bold">{{ birthdayStat?.yearSeason | titlecase }}</span>
+      </p>
     </div>
 
-    <p>
-      {{ 'bornOn' | translate }}
-      <span class="semi-bold">{{ birthday?.birthDate | localizedDate: 'EEEE' }}</span>
-    </p>
-    <p>
-      {{ 'itWasInThe' | translate }}
-      <span class="semi-bold">{{ birthdayStat?.yearSeason | titlecase }}</span>
-    </p>
-    <!-- <p>You breathed about <span class="semi-bold">174,620,000 times</span></p>
-    <p>
-      Your heart beat about<span class="semi-bold"> 1,005,811,200 times </span>
-    </p>
-    <p>You laughed about <span class="semi-bold">87,310 times</span></p>
-    <p>
-      You slept about
-      <span class="semi-bold">7 years, 11 months and 18 days</span>
-    </p>
-    <p>
-      You ate about <span class="semi-bold">1 year 03 months and 9 days</span>
-    </p> -->
-  </div>
+    <hr />
 
-  <hr />
-
-  <div class="note">
-    <h5 dir="auto">{{ 'ImportantNote' | translate }}:</h5>
-    <p dir="auto">
-      {{ 'HijriNote' | translate }}
-    </p>
-  </div>
-</main>
+    <div class="note">
+      <h5 dir="auto">{{ 'ImportantNote' | translate }}:</h5>
+      <p dir="auto">
+        {{ 'HijriNote' | translate }}
+      </p>
+    </div>
+  </main>
+}

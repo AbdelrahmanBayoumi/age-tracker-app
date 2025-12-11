@@ -1,10 +1,9 @@
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, BehaviorSubject } from 'rxjs';
+import { Router } from '@angular/router';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, filter, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { Router } from '@angular/router';
-import { Tokens } from './model/user.model';
 
 @Injectable()
 export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
@@ -21,7 +20,12 @@ export class CheckAuthAfterRequestInterceptor implements HttpInterceptor {
       catchError(error => {
         if (error instanceof HttpErrorResponse && error.status === 401) {
           // Exclude specific URLs from triggering the refresh token logic
-          if (req.url.includes('/change-password') || req.url.includes('/forget-password')) {
+          if (
+            req.url.includes('/change-password') ||
+            req.url.includes('/forget-password') ||
+            req.url.includes('/auth/login') ||
+            req.url.includes('/auth/signup')
+          ) {
             return throwError(error);
           } else {
             return this.handle401Error(req, next);

@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/age-tracker-app",
+    "public": "dist/age-tracker-app/browser",
     "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {

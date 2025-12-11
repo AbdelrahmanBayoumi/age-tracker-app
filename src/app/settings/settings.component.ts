@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, effect, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -7,22 +7,21 @@ import Swal from 'sweetalert2';
 import { TranslateService } from '@ngx-translate/core';
 import { take } from 'rxjs';
 import { AuthService } from '../auth/auth.service';
+import { createEmptyImage, getImageUrl, hasImage, ImageFile, isFileSizeValid } from '../core/utils/image.utils';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.css'],
+  styleUrls: ['./settings.component.scss'],
+  standalone: false,
 })
-export class SettingsComponent implements OnInit, OnDestroy {
+export class SettingsComponent implements OnInit {
   isLoading = false;
-  authSub: any;
   isEditMode = false;
   userForm: FormGroup;
   private currentUser: any;
   fileSizeError = false;
-  image: { fileURL: string; fileObject?: File } = {
-    fileURL: '',
-  };
+  image: ImageFile = createEmptyImage();
 
   constructor(
     private router: Router,
@@ -36,44 +35,34 @@ export class SettingsComponent implements OnInit, OnDestroy {
       email: ['', Validators.required],
       birthday: [null, Validators.required],
     });
+
+    // Use effect() to reactively update form when user signal changes
+    effect(() => {
+      const user = this.authService.user();
+      if (user) {
+        this.currentUser = user;
+        this.userForm.patchValue({
+          name: user.fullName,
+          email: user.email,
+          birthday: user.birthday,
+        });
+        this.image = {
+          fileURL: user.image,
+        };
+      }
+    });
   }
 
-  get hasImage() {
-    return (
-      this.image &&
-      this.image?.fileURL !== '' &&
-      this.image?.fileURL !== null &&
-      this.image?.fileURL !== undefined
-    );
+  get hasImageValue(): boolean {
+    return hasImage(this.image);
   }
 
-  get userPhotoUrl() {
-    if (this.hasImage) {
-      return this.image?.fileURL;
-    }
-    return '/assets/images/no-image.png';
+  get userPhotoUrl(): string {
+    return getImageUrl(this.image);
   }
 
   ngOnInit(): void {
-    this.initFormWithUser();
-  }
-
-  ngOnDestroy(): void {
-    this.authSub?.unsubscribe();
-  }
-
-  private initFormWithUser() {
-    this.authSub = this.authService.user.subscribe((user) => {
-      this.currentUser = user;
-      this.userForm?.patchValue({
-        name: this.currentUser?.fullName,
-        email: this.currentUser?.email,
-        birthday: this.currentUser?.birthday,
-      });
-      this.image = {
-        fileURL: this.currentUser?.image,
-      };
-    });
+    // Form initialization now handled in effect()
   }
 
   backToHome() {
@@ -91,14 +80,9 @@ export class SettingsComponent implements OnInit, OnDestroy {
     console.log('this.userForm.value', this.userForm.value);
 
     this.authService
-      .updateUser(
-        this.userForm.value.name,
-        this.userForm.value.email,
-        this.userForm.value.birthday,
-        this.image
-      )
+      .updateUser(this.userForm.value.name, this.userForm.value.email, this.userForm.value.birthday, this.image)
       .pipe(take(1))
-      .subscribe((e) => {
+      .subscribe(e => {
         console.log('e', e);
         this.isLoading = false;
 
@@ -147,33 +131,29 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   // ------ Handle photo ------
-  openFileInput(fileInput: HTMLInputElement) {
+  openFileInput(fileInput: HTMLInputElement): void {
     fileInput.click();
   }
 
-  addPhoto(event: any) {
-    this.image.fileObject = <File>event.target.files[0];
-    if (!this.image.fileObject) {
+  addPhoto(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) {
       return;
     }
-    console.log('this.image.fileObject', this.image.fileObject);
 
-    if (this.image.fileObject.size > 2 * 1024 * 1024) {
+    if (!isFileSizeValid(file)) {
       this.fileSizeError = true;
-      console.log('this.fileSizeError', this.fileSizeError);
-
-      this.image.fileObject = undefined;
       return;
     }
-    this.image.fileURL = URL.createObjectURL(event.target.files[0]);
+
+    this.image.fileObject = file;
+    this.image.fileURL = URL.createObjectURL(file);
     this.fileSizeError = false;
   }
 
-  removePhoto() {
-    this.image = {
-      fileURL: '',
-      fileObject: undefined,
-    };
+  removePhoto(): void {
+    this.image = createEmptyImage();
     this.fileSizeError = false;
   }
 }

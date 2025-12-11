@@ -8,12 +8,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    SignupComponent,
-    LoginComponent,
-    AuthComponent,
-    ForgetPasswordComponent,
-  ],
+  declarations: [SignupComponent, LoginComponent, AuthComponent, ForgetPasswordComponent],
   imports: [
     SharedModule,
     TranslateModule.forChild(),

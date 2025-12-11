@@ -2,23 +2,13 @@ import { createAction, props } from '@ngrx/store';
 
 import { Birthday } from '../model/birthday.model';
 
-export const setBirthdays = createAction(
-  '[Birthday] Set Birthday',
-  props<{ birthdays: Birthday[] }>()
-);
+export const setBirthdays = createAction('[Birthday] Set Birthday', props<{ birthdays: Birthday[] }>());
 
-export const fetchBirthdaysStart = createAction(
-  '[Birthdays] Fetch Birthdays Start'
-);
+export const fetchBirthdaysStart = createAction('[Birthdays] Fetch Birthdays Start');
 export const fetchBirthdays = createAction('[Birthdays] Fetch Birthdays');
-export const fetchBirthdaysFailed = createAction(
-  '[Birthdays] Fetch Birthdays Failed'
-);
+export const fetchBirthdaysFailed = createAction('[Birthdays] Fetch Birthdays Failed');
 
-export const searchByName = createAction(
-  '[Birthday] Search Birthday By Name',
-  props<{ name: string }>()
-);
+export const searchByName = createAction('[Birthday] Search Birthday By Name', props<{ name: string }>());
 
 export const filterByRelationship = createAction(
   '[Birthday] Filter Birthday By Relationship',
@@ -32,17 +22,14 @@ export const addBirthday = createAction(
       name: string;
       birthday: string;
       relationship: string;
+      notes?: string;
     };
     image: { fileURL: string; fileObject?: File };
   }>()
 );
 
-export const birthdaySuccess = createAction(
-  '[Birthdays] Birthday Updated Sccess'
-);
-export const addBirthdayFailed = createAction(
-  '[Birthdays] Add Birthday Failed'
-);
+export const birthdaySuccess = createAction('[Birthdays] Birthday Updated Success', props<{ birthday: Birthday }>());
+export const addBirthdayFailed = createAction('[Birthdays] Add Birthday Failed');
 
 export const updateBirthday = createAction(
   '[Birthday] Update Birthday',
@@ -52,14 +39,13 @@ export const updateBirthday = createAction(
     image: { fileURL: string; fileObject?: File };
   }>()
 );
-export const updateBirthdayFailed = createAction(
-  '[Birthdays] Update Birthday Failed'
+export const updateBirthdayFailed = createAction('[Birthdays] Update Birthday Failed');
+export const updateBirthdaySuccess = createAction(
+  '[Birthdays] Update Birthday Success',
+  props<{ birthday: Birthday }>()
 );
 
-export const deleteBirthday = createAction(
-  '[Birthday] Delete Birthday',
-  props<{ id: number }>()
-);
-export const deleteBirthdayFailed = createAction(
-  '[Birthdays] Delete Birthday Failed'
-);
+export const deleteBirthday = createAction('[Birthday] Delete Birthday', props<{ id: number }>());
+export const deleteBirthdayFailed = createAction('[Birthdays] Delete Birthday Failed');
+
+export const resetBirthdays = createAction('[Birthdays] Reset State');

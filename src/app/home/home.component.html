@@ -1,72 +1,68 @@
 <header>
-  <div *ngIf="!startSearch">
-    <h1 dir="auto" routerLink="/">
-      <img src="/assets/images/logo.svg" alt="logo" />
-    </h1>
-    <button class="dark-icon-btn" (click)="onStartSearch()">
-      <img src="/assets/images/search.svg" alt="search icon" />
-    </button>
-  </div>
-  <div *ngIf="startSearch">
-    <button class="dark-icon-btn cancel-search-btn" (click)="onCancelSearch()">
-      <img src="/assets/images/search.svg" alt="search icon" />
-    </button>
-    <input
-      type="text"
-      name="search"
-      placeholder="{{ 'Name' | translate }}"
-      [(ngModel)]="searchQuery"
-      (keyup)="onSearch()"
-    />
-  </div>
+  @if (!startSearch) {
+    <div>
+      <h1 dir="auto" routerLink="/">
+        <img src="/assets/images/logo.svg" alt="logo" />
+      </h1>
+      <button class="dark-icon-btn" (click)="onStartSearch()">
+        <img src="/assets/images/search.svg" alt="search icon" />
+      </button>
+    </div>
+  } @else {
+    <div>
+      <button class="dark-icon-btn cancel-search-btn" (click)="onCancelSearch()">
+        <img src="/assets/images/search.svg" alt="search icon" />
+      </button>
+      <input
+        type="text"
+        name="search"
+        placeholder="{{ 'Name' | translate }}"
+        [(ngModel)]="searchQuery"
+        (keyup)="onSearch()"
+      />
+    </div>
+  }
 </header>
 
-<main *ngIf="userVerified && !isLoading && !errorMessage">
-  <!-- current user birthday stat -->
-  <div class="birthday-group">
-    <app-birthday-card
-      [birthday]="currentUserBirthday"
-      routerLink="/birthday/me"
-    ></app-birthday-card>
+@if (userVerified() && !isLoading() && !errorMessage()) {
+  <main>
+    <!-- current user birthday stat -->
+    <div class="birthday-group">
+      <app-birthday-card [birthday]="currentUserBirthday()" routerLink="/birthday/me"></app-birthday-card>
+    </div>
+
+    <!-- toggle relationship of birthdays -->
+    <app-relationship-toggle></app-relationship-toggle>
+
+    <!-- list of all birthdays -->
+    <app-birthday-list></app-birthday-list>
+  </main>
+}
+
+@if (isLoading()) {
+  <div style="display: flex; width: 100%; align-items: center; justify-content: center; padding-top: 50px">
+    <div class="loader"></div>
   </div>
-
-  <!-- toggle relationship of birthdays -->
-  <app-relationship-toggle></app-relationship-toggle>
-
-  <!-- list of all birthdays -->
-  <app-birthday-list></app-birthday-list>
-</main>
-
-<div
-  style="
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    padding-top: 50px;
-  "
-  *ngIf="isLoading"
->
-  <div class="loader"></div>
-</div>
+}
 
 <div class="verifyAccountBox">
-  <p class="error" *ngIf="errorMessage">
-    {{ errorMessage }}
-  </p>
+  @if (errorMessage()) {
+    <p class="error">
+      {{ errorMessage() }}
+    </p>
+  }
 </div>
 
-<div class="verifyAccountBox" *ngIf="!userVerified">
-  <p>
-    {{ "pleaseVerifyEmail" | translate }}
-  </p>
-  <button
-    (click)="sendVerificationEmail(verificationButton)"
-    #verificationButton
-  >
-    {{ "resendVerificationEmail" | translate }}
-  </button>
-</div>
+@if (!userVerified()) {
+  <div class="verifyAccountBox">
+    <p>
+      {{ 'pleaseVerifyEmail' | translate }}
+    </p>
+    <button (click)="sendVerificationEmail(verificationButton)" #verificationButton>
+      {{ 'resendVerificationEmail' | translate }}
+    </button>
+  </div>
+}
 
 <footer>
   <button (click)="scrollToTop()">
@@ -87,35 +83,24 @@
     <button class="dark-icon-btn" (click)="onCloseDrawer()">X</button>
   </div>
   <div class="drawer__about">
-    <img
-      src="assets/images/Notification_Bell_Calendar.svg"
-      alt="logo"
-      class="logo-img"
-      routerLink="/"
-    />
+    <img src="assets/images/Notification_Bell_Calendar.svg" alt="logo" class="logo-img" routerLink="/" />
     <h1 routerLink="/">
       <img src="/assets/images/logo.svg" alt="logo" class="logo-text" />
     </h1>
     <p>
-      {{ "APP_DESCRIPTION" | translate }}
+      {{ 'APP_DESCRIPTION' | translate }}
     </p>
     <p class="footer-text">
-      <a
-        href="https://abdelrahmanbayoumi.github.io/"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {{ "MadeWithLoveBy" | translate }} |
+      <a href="https://abdelrahmanbayoumi.github.io/" target="_blank" rel="noopener noreferrer">
+        {{ 'MadeWithLoveBy' | translate }} |
         <span>{{ version }}</span>
       </a>
     </p>
   </div>
   <hr />
   <div class="drawer__links">
-    <button routerLink="/settings" dir="auto">
-      {{ "Settings" | translate }} ⚙️
-    </button>
+    <button routerLink="/settings" dir="auto">{{ 'Settings' | translate }} ⚙️</button>
     <button (click)="onChangeLanguage()">🌐 {{ otherLanguage }}</button>
-    <button (click)="logout()">{{ "auth.Logout" | translate }}</button>
+    <button (click)="logout()">{{ 'auth.Logout' | translate }}</button>
   </div>
 </div>

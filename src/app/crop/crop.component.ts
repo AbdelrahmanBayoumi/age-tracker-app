@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
-import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper';
+import { ImageCroppedEvent } from 'ngx-image-cropper';
 import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-crop',
   templateUrl: './crop.component.html',
-  styleUrls: ['./crop.component.css'],
+  styleUrls: ['./crop.component.scss'],
+  standalone: false,
 })
 export class CropComponent {
   @Output() doneImageCrop = new EventEmitter<Blob>();
@@ -16,8 +16,6 @@ export class CropComponent {
   imageChangedEvent: any = '';
   croppedImage: any = '';
   showCropper = false;
-
-  constructor(private sanitizer: DomSanitizer) {}
 
   get imageSelected(): boolean {
     return this.showCropper;
@@ -38,8 +36,6 @@ export class CropComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     console.log('imageCropped', event);
-
-    // this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(event.objectUrl!);
     this.croppedImage = event.blob;
   }
 
@@ -75,8 +71,7 @@ export class CropComponent {
   close(event: MouseEvent) {
     if (
       event.target instanceof HTMLElement &&
-      (event.target.classList.contains('crop-popup') ||
-        event.target.classList.contains('close-btn'))
+      (event.target.classList.contains('crop-popup') || event.target.classList.contains('close-btn'))
     ) {
       this.closeModal.emit();
     }
@@ -122,9 +117,7 @@ export class CropComponent {
   private handleDroppedFiles(files: FileList) {
     if (files.length > 0) {
       this.fileInput.nativeElement.files = files;
-      this.fileInput.nativeElement.dispatchEvent(
-        new Event('change', { bubbles: true })
-      );
+      this.fileInput.nativeElement.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 }

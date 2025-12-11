@@ -1,18 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AuthService } from './auth.service';
-import { Subscription } from 'rxjs';
+import { Component, effect } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
 import { LanguageService } from '../shared/language.service';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
-  styleUrls: ['./auth.component.css'],
+  styleUrls: ['./auth.component.scss'],
+  standalone: false,
 })
-export class AuthComponent implements OnDestroy, OnInit {
+export class AuthComponent {
   version = environment.version;
-  private userSub: Subscription | undefined;
   otherLanguage;
 
   constructor(
@@ -21,18 +20,14 @@ export class AuthComponent implements OnDestroy, OnInit {
     private languageService: LanguageService
   ) {
     this.otherLanguage = this.languageService.otherLanguage;
-  }
 
-  ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe((user) => {
+    // Use effect() to navigate when user signal changes
+    effect(() => {
+      const user = this.authService.user();
       if (user) {
         this.router.navigate(['/home']);
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.userSub?.unsubscribe();
   }
 
   onChangeLanguage() {

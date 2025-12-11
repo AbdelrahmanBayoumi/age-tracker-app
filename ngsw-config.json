@@ -11,7 +11,14 @@
           "/index.html",
           "/manifest.webmanifest",
           "/*.css",
-          "/*.js"
+          "/*.js",
+          "/assets/images/logo.svg",
+          "/assets/images/search.svg",
+          "/assets/images/home.svg",
+          "/assets/images/calendar-add.svg",
+          "/assets/images/bars.svg",
+          "/assets/images/arrow.svg",
+          "/assets/images/Notification_Bell_Calendar.svg"
         ],
         "urls": [
           "https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&amp;display=swap",
@@ -26,10 +33,7 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
-        "files": [
-          "/assets/**",
-          "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"
-        ]
+        "files": ["/assets/**", "/*.(svg|cur|jpg|jpeg|png|apng|webp|avif|gif|otf|ttf|woff|woff2)"]
       }
     }
   ],

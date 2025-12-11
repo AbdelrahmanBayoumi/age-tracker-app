@@ -11,50 +11,38 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/age-tracker-app",
             "index": "src/index.html",
-            "main": "src/main.ts",
+            "browser": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest",
-              "src/robots.txt"
-            ],
-            "styles": [
-              "src/styles.css",
-              "node_modules/sweetalert2/src/sweetalert2.scss"
-            ],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest", "src/robots.txt"],
+            "styles": ["src/styles.scss", "node_modules/sweetalert2/src/sweetalert2.scss"],
             "scripts": [],
-            "serviceWorker": true,
-            "ngswConfigPath": "ngsw-config.json"
+            "allowedCommonJsDependencies": ["sweetalert2"],
+            "serviceWorker": "ngsw-config.json"
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "20kb"
                 }
               ],
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
+              "sourceMap": true
             }
           },
           "defaultConfiguration": "production"
@@ -63,10 +51,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "age-tracker-app:build:production"
+              "buildTarget": "age-tracker-app:build:production"
             },
             "development": {
-              "browserTarget": "age-tracker-app:build:development"
+              "buildTarget": "age-tracker-app:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -74,7 +62,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "age-tracker-app:build"
+            "buildTarget": "age-tracker-app:build"
           }
         },
         "test": {
@@ -82,13 +70,8 @@
           "options": {
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets",
-              "src/manifest.webmanifest",
-              "src/robots.txt"
-            ],
-            "styles": ["src/styles.css"],
+            "assets": ["src/favicon.ico", "src/assets", "src/manifest.webmanifest", "src/robots.txt"],
+            "styles": ["src/styles.scss"],
             "scripts": []
           }
         }

@@ -6,13 +6,16 @@ import { LanguageService } from './shared/language.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css'],
+  styleUrls: ['./app.component.scss'],
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
   private userSub: Subscription | undefined;
 
-  constructor(private authService: AuthService, languageService: LanguageService) {
-  }
+  constructor(
+    private authService: AuthService,
+    languageService: LanguageService
+  ) {}
 
   ngOnInit(): void {
     this.userSub = this.authService.autoLogin()?.subscribe();

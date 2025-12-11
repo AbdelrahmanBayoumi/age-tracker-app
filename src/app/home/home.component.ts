@@ -1,77 +1,58 @@
-import {
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, computed, ElementRef, inject, OnInit, ViewChild } from '@angular/core';
 
-import { AuthService } from '../auth/auth.service';
-import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
 import { ViewportScroller } from '@angular/common';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import * as fromApp from '../store/app.reducer';
-import * as BirthdayActions from '../birthday/store/birthday.actions';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
 import { Birthday } from '../birthday/model/birthday.model';
+import * as BirthdayActions from '../birthday/store/birthday.actions';
+import { selectErrorMessage, selectIsInitialLoading, selectLoading } from '../birthday/store/birthday.selectors';
 import { LanguageService } from '../shared/language.service';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css'],
+  styleUrls: ['./home.component.scss'],
+  standalone: false,
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   version = environment.version;
   @ViewChild('drawer') drawer: ElementRef | undefined;
-  private userSub: Subscription | null = null;
-  private storeSub: Subscription | null = null;
-  userVerified = false;
   startSearch = false;
   searchQuery = '';
-  isLoading = true;
-  errorMessage = '';
-  currentUserBirthday: Birthday | null = null;
   otherLanguage = 'عربي';
 
-  constructor(
-    private viewportScroller: ViewportScroller,
-    private authService: AuthService,
-    private router: Router,
-    private store: Store<fromApp.AppState>,
-    private languageService: LanguageService
-  ) {
+  private store = inject(Store);
+  private authService = inject(AuthService);
+  private router = inject(Router);
+  private viewportScroller = inject(ViewportScroller);
+  private languageService = inject(LanguageService);
+
+  isLoading = this.store.selectSignal(selectIsInitialLoading);
+  errorMessage = this.store.selectSignal(selectErrorMessage);
+
+  userVerified = computed(() => this.authService.user()?.isVerified ?? true);
+  currentUserBirthday = computed(() => {
+    const user = this.authService.user();
+    if (user) {
+      return new Birthday(-1, user.fullName, user.birthday, 'Me', '', user.image);
+    }
+    return null;
+  });
+
+  constructor() {
     this.otherLanguage = this.languageService.otherLanguage;
   }
 
   ngOnInit(): void {
-    this.userSub = this.authService.user.subscribe((user) => {
-      if (user) {
-        this.userVerified = user.isVerified;
-        this.currentUserBirthday = new Birthday(
-          -1,
-          user.fullName,
-          user.birthday,
-          'Me',
-          '',
-          user.image
-        );
-      }
-    });
-    this.storeSub = this.store
-      .select('birthdays')
-      .subscribe((birthdaysState) => {
-        this.isLoading = birthdaysState.loading;
-        this.errorMessage = birthdaysState.errMsg;
-      });
-
-    this.store.dispatch(BirthdayActions.fetchBirthdaysStart());
-    this.store.dispatch(BirthdayActions.fetchBirthdays());
-  }
-
-  ngOnDestroy(): void {
-    this.userSub?.unsubscribe();
-    this.storeSub?.unsubscribe();
+    // Always fetch data to ensure freshness (Background Refresh)
+    // We only dispatch if we are NOT already loading to avoid duplicate requests
+    const loading = this.store.selectSignal(selectLoading);
+    if (!loading()) {
+      this.store.dispatch(BirthdayActions.fetchBirthdaysStart());
+      this.store.dispatch(BirthdayActions.fetchBirthdays());
+    }
   }
 
   logout() {
@@ -105,9 +86,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onSearch() {
     console.log('searchQuery', this.searchQuery);
-    this.store.dispatch(
-      BirthdayActions.searchByName({ name: this.searchQuery })
-    );
+    this.store.dispatch(BirthdayActions.searchByName({ name: this.searchQuery }));
   }
 
   onCancelSearch() {

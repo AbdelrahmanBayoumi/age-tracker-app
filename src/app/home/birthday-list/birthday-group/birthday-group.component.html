@@ -1,10 +1,9 @@
-<h2 style="padding: 10px 0px;">
+<h2 style="padding: 10px 0px">
   {{ birthdaysGroup.month | dateFormat }}
+  <span class="birthday-count">({{ birthdaysGroup.birthdays.length }})</span>
 </h2>
 <div class="birthday-group">
-  <app-birthday-card
-    *ngFor="let birthday of birthdaysGroup.birthdays"
-    [birthday]="birthday"
-    (click)="onGoToDetails(birthday)"
-  ></app-birthday-card>
+  @for (birthday of birthdaysGroup.birthdays; track birthday.id) {
+    <app-birthday-card [birthday]="birthday" (click)="onGoToDetails(birthday)"></app-birthday-card>
+  }
 </div>

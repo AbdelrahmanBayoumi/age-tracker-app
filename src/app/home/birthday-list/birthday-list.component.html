@@ -1,27 +1,22 @@
 <div class="main-container">
-  <div *ngIf="birthdays.length === 0" style="text-align: center">
-    <h2 style="margin-bottom: 30px" dir="auto">
-      {{ "thereIsNoBirthdaysYet" | translate }}
-    </h2>
-    <div
-      style="
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-      "
-      routerLink="/birthday/add-birthday"
-    >
-      <img src="/assets/images/calendar-add.svg" alt="add birthday" />
-      <p>{{ "clickHereToAddNewBirthday" | translate }}</p>
+  @if (birthdays().length === 0) {
+    <div style="text-align: center">
+      <h2 style="margin-bottom: 30px" dir="auto">
+        {{ 'thereIsNoBirthdaysYet' | translate }}
+      </h2>
+      <div
+        style="display: flex; flex-direction: column; align-items: center; gap: 10px; cursor: pointer"
+        routerLink="/birthday/add-birthday"
+      >
+        <img src="/assets/images/calendar-add.svg" alt="add birthday" />
+        <p>{{ 'clickHereToAddNewBirthday' | translate }}</p>
+      </div>
     </div>
-  </div>
-
-  <div *ngIf="birthdays.length > 0">
-    <app-birthday-group
-      *ngFor="let birthday of birthdays"
-      [birthdaysGroup]="birthday"
-    ></app-birthday-group>
-  </div>
+  } @else {
+    <div>
+      @for (birthday of birthdays(); track birthday.month) {
+        <app-birthday-group [birthdaysGroup]="birthday"></app-birthday-group>
+      }
+    </div>
+  }
 </div>

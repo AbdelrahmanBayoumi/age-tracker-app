@@ -73,6 +73,15 @@ export const birthdayReducer = createReducer(
       loading: false,
     };
   }),
+  on(BirthdayActions.updateBirthdaySuccess, (state, action) => {
+    const updatedBirthdays = state.birthdays.map(b => (b.id === action.birthday.id ? action.birthday : b));
+    return {
+      ...state,
+      loading: false,
+      errMsg: '',
+      birthdays: updatedBirthdays,
+    };
+  }),
   on(BirthdayActions.resetBirthdays, () => {
     return initialState;
   }),

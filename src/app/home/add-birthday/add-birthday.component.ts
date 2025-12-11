@@ -113,6 +113,7 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
 
   private validBirthday(control: FormControl): { [s: string]: boolean } {
     const today = new Date();
+    today.setHours(0, 0, 0, 0); // Reset time to start of day for accurate comparison
     const birthday = new Date(control.value);
 
     if (birthday > today) {

@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 
 export enum LanguageCode {
@@ -8,53 +9,75 @@ export enum LanguageCode {
 
 @Injectable({ providedIn: 'root' })
 export class LanguageService {
-  otherLanguage: string;
+  private translate = inject(TranslateService);
+  private document = inject(DOCUMENT);
 
-  constructor(private translate: TranslateService) {
-    translate.setDefaultLang(LanguageCode.English);
+  readonly currentLanguage = signal<LanguageCode>(LanguageCode.English);
+  readonly otherLanguageSignal = computed(() =>
+    this.getLanguageNameByCode(
+      this.currentLanguage() === LanguageCode.English ? LanguageCode.Arabic : LanguageCode.English
+    )
+  );
 
-    // if not language in localStorage see browser language
-    let language = localStorage.getItem('lang');
-    if (!localStorage.getItem('lang')) {
-      let browserLang = translate.getBrowserLang();
-      if (!browserLang) {
-        browserLang = LanguageCode.English;
+  get otherLanguage(): string {
+    return this.otherLanguageSignal();
+  }
+
+  constructor() {
+    this.translate.setDefaultLang(LanguageCode.English);
+
+    let language: LanguageCode = LanguageCode.English;
+    try {
+      const savedLang = localStorage.getItem('lang') as LanguageCode;
+      if (savedLang && (savedLang === LanguageCode.Arabic || savedLang === LanguageCode.English)) {
+        language = savedLang;
+      } else {
+        const browserLang = this.translate.getBrowserLang();
+        if (browserLang && browserLang.match(/en|ar/)) {
+          language = browserLang as LanguageCode;
+        }
       }
-      language = browserLang.match(/en|ar/) ? browserLang : LanguageCode.English;
+    } catch {
+      language = LanguageCode.English;
     }
 
-    const activeLang = language || LanguageCode.English;
-    translate.use(activeLang);
-    this.updateDocumentDirection(activeLang);
-    this.otherLanguage = this.getLanguageNameByCode(
-      activeLang === LanguageCode.English ? LanguageCode.Arabic : LanguageCode.English
-    );
+    this.applyLanguage(language);
   }
 
-  switchLanguage() {
-    if (this.translate.currentLang === LanguageCode.English) {
-      this.translate.use(LanguageCode.Arabic);
-      localStorage.setItem('lang', LanguageCode.Arabic);
-      this.updateDocumentDirection(LanguageCode.Arabic);
-      this.otherLanguage = this.getLanguageNameByCode(LanguageCode.English);
-      console.log("[LanguageService] switchLanguage: 'ar'");
-    } else {
-      this.translate.use(LanguageCode.English);
-      localStorage.setItem('lang', LanguageCode.English);
-      this.updateDocumentDirection(LanguageCode.English);
-      this.otherLanguage = this.getLanguageNameByCode(LanguageCode.Arabic);
-      console.log("[LanguageService] switchLanguage: 'en'");
+  switchLanguage(): void {
+    const nextLang =
+      this.currentLanguage() === LanguageCode.English ? LanguageCode.Arabic : LanguageCode.English;
+    this.setLanguage(nextLang);
+  }
+
+  setLanguage(lang: LanguageCode): void {
+    this.applyLanguage(lang);
+  }
+
+  private applyLanguage(lang: LanguageCode): void {
+    this.translate.use(lang).subscribe({
+      next: () => {
+        this.currentLanguage.set(lang);
+        try {
+          localStorage.setItem('lang', lang);
+        } catch {}
+        this.updateDocumentDirection(lang);
+      },
+      error: () => {
+        this.currentLanguage.set(lang);
+        this.updateDocumentDirection(lang);
+      },
+    });
+  }
+
+  private updateDocumentDirection(lang: LanguageCode): void {
+    if (this.document?.documentElement) {
+      this.document.documentElement.lang = lang;
+      this.document.documentElement.dir = lang === LanguageCode.Arabic ? 'rtl' : 'ltr';
     }
   }
 
-  private updateDocumentDirection(lang: string) {
-    if (typeof document !== 'undefined') {
-      document.documentElement.lang = lang;
-      document.documentElement.dir = lang === LanguageCode.Arabic ? 'rtl' : 'ltr';
-    }
-  }
-
-  getLanguageNameByCode(code: LanguageCode) {
+  getLanguageNameByCode(code: LanguageCode): string {
     switch (code) {
       case LanguageCode.Arabic:
         return 'عربي';
@@ -65,3 +88,4 @@ export class LanguageService {
     }
   }
 }
+

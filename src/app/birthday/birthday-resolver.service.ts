@@ -7,7 +7,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 
 import { Birthday } from './model/birthday.model';
 import * as BirthdaysActions from './store/birthday.actions';
-import { selectBirthdays } from './store/birthday.selectors';
+import { selectBirthdays, selectBirthdaysLoaded } from './store/birthday.selectors';
 
 @Injectable({ providedIn: 'root' })
 export class BirthdaysResolverService implements Resolve<Birthday[]> {
@@ -15,14 +15,14 @@ export class BirthdaysResolverService implements Resolve<Birthday[]> {
   private actions$ = inject(Actions);
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.store.select(selectBirthdays).pipe(
+    return this.store.select(selectBirthdaysLoaded).pipe(
       take(1),
-      switchMap(birthdays => {
-        if (birthdays.length === 0) {
+      switchMap(loaded => {
+        if (!loaded) {
           this.store.dispatch(BirthdaysActions.fetchBirthdays());
           return this.waitForBirthdays();
         } else {
-          return of(birthdays);
+          return this.store.select(selectBirthdays).pipe(take(1));
         }
       })
     );
@@ -32,7 +32,12 @@ export class BirthdaysResolverService implements Resolve<Birthday[]> {
     return this.actions$.pipe(
       ofType(BirthdaysActions.setBirthdays, BirthdaysActions.fetchBirthdaysFailed),
       take(1),
-      map(() => [])
+      switchMap(action => {
+        if (action.type === BirthdaysActions.setBirthdays.type) {
+          return of((action as any).birthdays);
+        }
+        return of([]);
+      })
     );
   }
 }

@@ -9,6 +9,7 @@ export interface State {
   searchQuery: string;
   errMsg: string;
   loading: boolean;
+  loaded: boolean;
   viewedBirthday?: Birthday;
   lastAddedBirthdayId?: number;
 }
@@ -19,6 +20,7 @@ const initialState: State = {
   searchQuery: '',
   errMsg: '',
   loading: false,
+  loaded: false,
   lastAddedBirthdayId: undefined,
 };
 
@@ -35,6 +37,7 @@ export const birthdayReducer = createReducer(
       ...state,
       errMsg: 'Unable to Fetch birthdays. Please try again later.',
       loading: false,
+      loaded: true,
     };
   }),
   on(BirthdayActions.addBirthday, (state, action) => {
@@ -91,6 +94,7 @@ export const birthdayReducer = createReducer(
       ...state,
       errMsg: '',
       loading: false,
+      loaded: true,
       birthdays: [...action.birthdays],
     };
   }),

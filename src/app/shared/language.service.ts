@@ -23,9 +23,11 @@ export class LanguageService {
       language = browserLang.match(/en|ar/) ? browserLang : LanguageCode.English;
     }
 
-    translate.use(language || LanguageCode.English);
+    const activeLang = language || LanguageCode.English;
+    translate.use(activeLang);
+    this.updateDocumentDirection(activeLang);
     this.otherLanguage = this.getLanguageNameByCode(
-      language === LanguageCode.English ? LanguageCode.Arabic : LanguageCode.English
+      activeLang === LanguageCode.English ? LanguageCode.Arabic : LanguageCode.English
     );
   }
 
@@ -33,13 +35,22 @@ export class LanguageService {
     if (this.translate.currentLang === LanguageCode.English) {
       this.translate.use(LanguageCode.Arabic);
       localStorage.setItem('lang', LanguageCode.Arabic);
+      this.updateDocumentDirection(LanguageCode.Arabic);
       this.otherLanguage = this.getLanguageNameByCode(LanguageCode.English);
       console.log("[LanguageService] switchLanguage: 'ar'");
     } else {
       this.translate.use(LanguageCode.English);
       localStorage.setItem('lang', LanguageCode.English);
+      this.updateDocumentDirection(LanguageCode.English);
       this.otherLanguage = this.getLanguageNameByCode(LanguageCode.Arabic);
       console.log("[LanguageService] switchLanguage: 'en'");
+    }
+  }
+
+  private updateDocumentDirection(lang: string) {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === LanguageCode.Arabic ? 'rtl' : 'ltr';
     }
   }
 

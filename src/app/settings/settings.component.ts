@@ -1,4 +1,4 @@
-import { Component, effect, OnInit } from '@angular/core';
+import { Component, effect, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ import { createEmptyImage, getImageUrl, hasImage, ImageFile, isFileSizeValid } f
   styleUrls: ['./settings.component.scss'],
   standalone: false,
 })
-export class SettingsComponent implements OnInit {
+export class SettingsComponent implements OnInit, OnDestroy {
   isLoading = false;
   isEditMode = false;
   userForm: FormGroup;
@@ -29,14 +29,12 @@ export class SettingsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private translate: TranslateService
   ) {
-    // add general validation to the form
     this.userForm = this.formBuilder.group({
       name: ['', Validators.required],
-      email: ['', Validators.required],
+      email: [{ value: '', disabled: true }],
       birthday: [null, Validators.required],
     });
 
-    // Use effect() to reactively update form when user signal changes
     effect(() => {
       const user = this.authService.user();
       if (user) {
@@ -61,8 +59,12 @@ export class SettingsComponent implements OnInit {
     return getImageUrl(this.image);
   }
 
-  ngOnInit(): void {
-    // Form initialization now handled in effect()
+  ngOnInit(): void {}
+
+  ngOnDestroy(): void {
+    if (this.image.fileURL && this.image.fileURL.startsWith('blob:')) {
+      URL.revokeObjectURL(this.image.fileURL);
+    }
   }
 
   backToHome() {
@@ -77,21 +79,30 @@ export class SettingsComponent implements OnInit {
     this.fileSizeError = false;
     this.isEditMode = false;
     this.isLoading = true;
-    console.log('this.userForm.value', this.userForm.value);
+    const formVal = this.userForm.getRawValue();
 
     this.authService
-      .updateUser(this.userForm.value.name, this.userForm.value.email, this.userForm.value.birthday, this.image)
+      .updateUser(formVal.name, formVal.email, formVal.birthday, this.image)
       .pipe(take(1))
-      .subscribe(e => {
-        console.log('e', e);
-        this.isLoading = false;
-
-        Swal.fire({
-          title: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_TITLE'),
-          text: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_MESSAGE'),
-          icon: 'success',
-          confirmButtonText: 'Ok',
-        });
+      .subscribe({
+        next: () => {
+          this.isLoading = false;
+          Swal.fire({
+            title: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_TITLE'),
+            text: this.translate.instant('UPDATE_ACCOUNT_SUCCESS_MESSAGE'),
+            icon: 'success',
+            confirmButtonText: 'Ok',
+          });
+        },
+        error: err => {
+          this.isLoading = false;
+          Swal.fire({
+            title: this.translate.instant('error') || 'Error',
+            text: err?.message || 'Failed to update account',
+            icon: 'error',
+            confirmButtonText: 'Ok',
+          });
+        },
       });
   }
 
@@ -130,7 +141,6 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  // ------ Handle photo ------
   openFileInput(fileInput: HTMLInputElement): void {
     fileInput.click();
   }
@@ -147,12 +157,19 @@ export class SettingsComponent implements OnInit {
       return;
     }
 
+    if (this.image.fileURL && this.image.fileURL.startsWith('blob:')) {
+      URL.revokeObjectURL(this.image.fileURL);
+    }
+
     this.image.fileObject = file;
     this.image.fileURL = URL.createObjectURL(file);
     this.fileSizeError = false;
   }
 
   removePhoto(): void {
+    if (this.image.fileURL && this.image.fileURL.startsWith('blob:')) {
+      URL.revokeObjectURL(this.image.fileURL);
+    }
     this.image = createEmptyImage();
     this.fileSizeError = false;
   }

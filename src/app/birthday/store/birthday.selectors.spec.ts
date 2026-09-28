@@ -12,6 +12,7 @@ describe('Birthday Selectors', () => {
     searchQuery: '',
     relationshipSelected: '-1',
     loading: false,
+    loaded: false,
     errMsg: '',
     viewedBirthday: undefined,
   };

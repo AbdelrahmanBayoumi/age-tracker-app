@@ -15,6 +15,8 @@ export const selectRelationshipSelected = createSelector(
 
 export const selectLoading = createSelector(selectBirthdayState, (state: State) => state.loading);
 
+export const selectBirthdaysLoaded = createSelector(selectBirthdayState, (state: State) => state.loaded);
+
 export const selectErrorMessage = createSelector(selectBirthdayState, (state: State) => state.errMsg);
 
 export const selectViewedBirthday = createSelector(selectBirthdayState, (state: State) => state.viewedBirthday);

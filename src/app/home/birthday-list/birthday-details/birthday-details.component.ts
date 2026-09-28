@@ -8,7 +8,12 @@ import { AuthService } from '../../../auth/auth.service';
 import { BirthdayStatistics } from '../../../birthday/model/birthday-statistics.model';
 import { Birthday } from '../../../birthday/model/birthday.model';
 import * as BirthdayActions from '../../../birthday/store/birthday.actions';
-import { selectBirthdays, selectLoading, selectViewedBirthday } from '../../../birthday/store/birthday.selectors';
+import {
+  selectBirthdays,
+  selectErrorMessage,
+  selectLoading,
+  selectViewedBirthday,
+} from '../../../birthday/store/birthday.selectors';
 
 @Component({
   selector: 'app-birthday-details',
@@ -32,6 +37,7 @@ export class BirthdayDetailsComponent implements OnInit, OnDestroy {
   private viewedBirthday = this.store.selectSignal(selectViewedBirthday);
   private birthdays = this.store.selectSignal(selectBirthdays);
   isLoading = this.store.selectSignal(selectLoading);
+  errorMessage = this.store.selectSignal(selectErrorMessage);
 
   private routeSub: any;
   private deleteWasLoading = false;
@@ -49,14 +55,23 @@ export class BirthdayDetailsComponent implements OnInit, OnDestroy {
     // Effect to track loading state changes for delete operation
     effect(async () => {
       const loading = this.isLoading();
+      const error = this.errorMessage();
       if (this.deleteWasLoading && !loading) {
-        await Swal.fire(
-          this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
-          this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
-          'success'
-        );
-        this.backToHome();
         this.deleteWasLoading = false;
+        if (error) {
+          await Swal.fire({
+            title: this.translate.instant('error') || 'Error',
+            text: error,
+            icon: 'error',
+          });
+        } else {
+          await Swal.fire(
+            this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
+            this.translate.instant('DELETE_BIRTHDAY_SUCCESS_MESSAGE'),
+            'success'
+          );
+          this.backToHome();
+        }
       }
     });
   }

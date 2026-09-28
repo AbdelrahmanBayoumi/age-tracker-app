@@ -40,19 +40,17 @@ form label {
   text-align: left;
 }
 
-
-
-.image-buttons{
+.image-buttons {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-.image-buttons .image-remove{
+.image-buttons .image-remove {
   background-color: #f44336;
 }
 
-.crop-modal{
+.crop-modal {
   position: fixed;
   top: 0;
   left: 0;

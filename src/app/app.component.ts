@@ -18,6 +18,8 @@ export class AppComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    // Clear legacy serialized NgRx state if present in localStorage
+    localStorage.removeItem('state');
     this.userSub = this.authService.autoLogin()?.subscribe();
   }
 

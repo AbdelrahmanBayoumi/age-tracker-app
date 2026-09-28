@@ -1,28 +1,33 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpResponse } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { TokenStorageService } from '../core/services/token-storage.service';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
-  constructor() {}
+  private tokenStorage = inject(TokenStorageService);
 
-  intercept(req: HttpRequest<any>, next: HttpHandler) {
-    // check if access_token is in localStorage
-    const access_token = localStorage.getItem('access_token');
-    const refresh_token = localStorage.getItem('refresh_token');
-    if (!access_token && !refresh_token) {
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (!req.url.startsWith(environment.apiUrl)) {
       return next.handle(req);
     }
 
-    let modifiedReq;
-    if (req.url.includes('/refresh')) {
+    if (req.url.includes('/auth/refresh') || req.url.includes('/auth/login') || req.url.includes('/auth/signup')) {
       return next.handle(req);
-    } else {
-      modifiedReq = req.clone({
-        setHeaders: {
-          Authorization: `Bearer ${access_token}`,
-        },
-      });
     }
+
+    const accessToken = this.tokenStorage.getAccessToken();
+    if (!accessToken) {
+      return next.handle(req);
+    }
+
+    const modifiedReq = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
     return next.handle(modifiedReq);
   }
 }

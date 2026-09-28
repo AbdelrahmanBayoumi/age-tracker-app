@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from './auth/guard/auth.guard';
+import { AuthGuard, guestGuard } from './auth/guard/auth.guard';
 import { CropComponent } from './crop/crop.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
-  { path: '', component: LandingPageComponent, pathMatch: 'full' },
+  { path: '', component: LandingPageComponent, pathMatch: 'full', canActivate: [guestGuard] },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
+    canActivate: [guestGuard],
   },
   {
     path: 'settings',

@@ -132,6 +132,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.storeSub2?.unsubscribe();
+    if (this.image.fileURL && this.image.fileURL.startsWith('blob:')) {
+      URL.revokeObjectURL(this.image.fileURL);
+    }
   }
 
   backToHome() {
@@ -180,6 +183,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   }
 
   onDoneCropImage(croppedImage: Blob): void {
+    if (this.image.fileURL && this.image.fileURL.startsWith('blob:')) {
+      URL.revokeObjectURL(this.image.fileURL);
+    }
     this.image.fileObject = blobToFile(croppedImage, 'croppedImage.png');
     this.image.fileURL = URL.createObjectURL(this.image.fileObject);
     this.showCropModal = false;
@@ -194,6 +200,9 @@ export class AddBirthdayComponent implements OnInit, OnDestroy {
   }
 
   removePhoto(): void {
+    if (this.image.fileURL && this.image.fileURL.startsWith('blob:')) {
+      URL.revokeObjectURL(this.image.fileURL);
+    }
     this.image = createEmptyImage();
     this.fileSizeError = false;
   }

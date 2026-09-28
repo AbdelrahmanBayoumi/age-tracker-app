@@ -3,6 +3,7 @@ import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { catchError, map, Observable, of, switchMap, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { TokenStorageService } from '../core/services/token-storage.service';
 import * as BirthdayActions from '../birthday/store/birthday.actions';
 import { SignupDto } from './dto/signup.dto';
 import { Tokens, User } from './model/user.model';
@@ -17,6 +18,7 @@ export class AuthService {
 
   private http = inject(HttpClient);
   private store = inject(Store);
+  private tokenStorage = inject(TokenStorageService);
 
   login(email: string, password: string) {
     this.isLoading.set(true);
@@ -28,10 +30,7 @@ export class AuthService {
       })
       .pipe(
         map(resData => {
-          console.log(resData);
-          // save tokens to local storage
-          localStorage.setItem('access_token', resData.access_token);
-          localStorage.setItem('refresh_token', resData.refresh_token);
+          this.tokenStorage.saveTokens(resData);
           return resData;
         }),
         switchMap(resData => {
@@ -52,10 +51,7 @@ export class AuthService {
 
     return this.http.post<Tokens>(environment.apiUrl + '/auth/signup', signupDto).pipe(
       map(resData => {
-        console.log(resData);
-        // save tokens to local storage
-        localStorage.setItem('access_token', resData.access_token);
-        localStorage.setItem('refresh_token', resData.refresh_token);
+        this.tokenStorage.saveTokens(resData);
         return resData;
       }),
       switchMap(resData => {
@@ -72,28 +68,25 @@ export class AuthService {
   }
 
   logout() {
+    const refreshToken = this.tokenStorage.getRefreshToken();
     return this.http
       .post(environment.apiUrl + '/auth/logout', {
-        refresh_token: localStorage.getItem('refresh_token'),
+        refresh_token: refreshToken,
       })
       .pipe(
         tap(() => {
           this.afterLogoutRequest();
         }),
         catchError(errorRes => {
-          return throwError(() => {
-            console.log(errorRes);
-            this.afterLogoutRequest();
-          });
+          this.afterLogoutRequest();
+          return of(null);
         })
       );
   }
 
-  private afterLogoutRequest() {
+  afterLogoutRequest() {
     this.user.set(null);
-    localStorage.removeItem('user');
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('refresh_token');
+    this.tokenStorage.clearAll();
     this.store.dispatch(BirthdayActions.resetBirthdays());
   }
 
@@ -104,13 +97,11 @@ export class AuthService {
   }
 
   autoLogin() {
-    // get access and refresh tokens from localStorage
-    const access_token = localStorage.getItem('access_token');
-    const refresh_token = localStorage.getItem('refresh_token');
+    const access_token = this.tokenStorage.getAccessToken();
+    const refresh_token = this.tokenStorage.getRefreshToken();
     if (!access_token || !refresh_token) {
       return;
     }
-    // call check-token to validate current access token
     return this.checkToken(access_token);
   }
 
@@ -166,9 +157,7 @@ export class AuthService {
         return resData;
       }),
       tap(user => {
-        // save user object to local storage
-        localStorage.setItem('user', JSON.stringify(user));
-        // send updated user object to subscribers
+        this.tokenStorage.saveUser(user);
         this.user.set(user);
       })
     );
@@ -209,10 +198,7 @@ export class AuthService {
       })
       .pipe(
         tap(user => {
-          console.log("checkToken's user: ", user);
-          // save user object to local storage
-          localStorage.setItem('user', JSON.stringify(user));
-          // send updated user object to subscribers
+          this.tokenStorage.saveUser(user);
           this.user.set(user);
         }),
         catchError(errorRes => {
@@ -233,14 +219,13 @@ export class AuthService {
     return errorString;
   }
 
-  refreshToken() {
-    const refresh_token = localStorage.getItem('refresh_token');
+  refreshToken(): Observable<Tokens> {
+    const refresh_token = this.tokenStorage.getRefreshToken();
     if (!refresh_token) {
-      return throwError(() => {
-        this.afterLogoutRequest();
-      });
+      this.afterLogoutRequest();
+      return throwError(() => new Error('No refresh token available'));
     }
-    localStorage.removeItem('refresh_token');
+
     return this.http
       .post<Tokens>(
         environment.apiUrl + '/auth/refresh',
@@ -252,18 +237,12 @@ export class AuthService {
         }
       )
       .pipe(
-        map(resData => {
-          localStorage.setItem('access_token', resData.access_token);
-          localStorage.setItem('refresh_token', resData.refresh_token);
-          return resData;
-        }),
-        switchMap(resData => {
-          return this.checkToken(resData.access_token);
+        tap(resData => {
+          this.tokenStorage.saveTokens(resData);
         }),
         catchError(errorRes => {
-          return throwError(() => {
-            this.afterLogoutRequest();
-          });
+          this.afterLogoutRequest();
+          return throwError(() => errorRes);
         })
       );
   }

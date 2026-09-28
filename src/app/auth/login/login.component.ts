@@ -27,21 +27,7 @@ export class LoginComponent implements OnDestroy, AfterViewInit {
     private router: Router
   ) {}
 
-  ngAfterViewInit(): void {
-    if (this.authForm) {
-      setTimeout(() => {
-        if (this.authForm) {
-          try {
-            this.authForm.setValue({
-              email: 'test@example.com',
-              password: '123456',
-            });
-          } catch (error) {}
-        }
-      });
-    } else {
-    }
-  }
+  ngAfterViewInit(): void {}
 
   ngOnDestroy(): void {
     this.userSub?.unsubscribe();

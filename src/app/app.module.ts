@@ -19,7 +19,6 @@ import { AuthInterceptorService } from './auth/auth-before-interceptor.service';
 import { CheckAuthAfterRequestInterceptor } from './auth/auth-after-interceptor.service';
 import { BirthdayEffects } from './birthday/store/birthday.effects';
 import * as fromApp from './store/app.reducer';
-import { hydrationMetaReducer } from './store/hydration.reducer';
 import { environment } from 'src/environments/environment';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -35,9 +34,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     ReactiveFormsModule,
     AppRoutingModule,
     NgParticlesModule,
-    StoreModule.forRoot(fromApp.appReducer, {
-      metaReducers: [hydrationMetaReducer],
-    }),
+    StoreModule.forRoot(fromApp.appReducer),
     EffectsModule.forRoot([BirthdayEffects]),
     StoreDevtoolsModule.instrument({ logOnly: environment.production, connectInZone: true }),
     StoreRouterConnectingModule.forRoot(),

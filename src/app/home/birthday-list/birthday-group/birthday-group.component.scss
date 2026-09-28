@@ -22,7 +22,7 @@ h2 {
 /* draw a line after the content but not the last one */
 /* .birthday-group:not(:last-of-type):after { */
 .birthday-group::after {
-  content: "";
+  content: '';
   display: block;
   height: 1px;
   background-color: #ccc;

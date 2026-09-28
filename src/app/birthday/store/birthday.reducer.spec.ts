@@ -9,6 +9,7 @@ describe('BirthdayReducer', () => {
     searchQuery: '',
     errMsg: '',
     loading: false,
+    loaded: false,
     lastAddedBirthdayId: undefined,
   };
 

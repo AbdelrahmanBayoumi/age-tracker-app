@@ -43,7 +43,13 @@ export class TokenStorageService {
 
   getUser<T>(): T | null {
     const userJson = localStorage.getItem(this.USER_KEY);
-    return userJson ? JSON.parse(userJson) : null;
+    if (!userJson) return null;
+    try {
+      return JSON.parse(userJson);
+    } catch {
+      this.clearUser();
+      return null;
+    }
   }
 
   clearUser(): void {

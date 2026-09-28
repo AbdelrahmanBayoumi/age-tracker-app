@@ -1,25 +1,35 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { AuthService } from '../auth.service';
-import { Observable, take, map } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import {
+  ActivatedRouteSnapshot,
+  CanActivate,
+  CanActivateFn,
+  Router,
+  RouterStateSnapshot,
+  UrlTree,
+} from '@angular/router';
+import { TokenStorageService } from '../../core/services/token-storage.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthGuard implements CanActivate {
-  constructor(
-    private authService: AuthService,
-    private router: Router
-  ) {}
+  private router = inject(Router);
+  private tokenStorage = inject(TokenStorageService);
 
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    router: RouterStateSnapshot
-  ): boolean | UrlTree | Promise<boolean | UrlTree> | Observable<boolean | UrlTree> {
-    const access_token = localStorage.getItem('access_token');
-    if (!access_token) {
+  canActivate(route: ActivatedRouteSnapshot, router: RouterStateSnapshot): boolean | UrlTree {
+    const accessToken = this.tokenStorage.getAccessToken();
+    if (!accessToken) {
       return this.router.createUrlTree(['/auth']);
     }
     return true;
   }
 }
+
+export const guestGuard: CanActivateFn = () => {
+  const tokenStorage = inject(TokenStorageService);
+  const router = inject(Router);
+  if (tokenStorage.hasTokens()) {
+    return router.createUrlTree(['/home']);
+  }
+  return true;
+};
